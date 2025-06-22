@@ -1,12 +1,7 @@
 
-import { useState } from "react";
+import { Link } from "react-router-dom";
+import { events } from "../eventsData";
 import "./Calendar.css";
-
-const dummyEvents = [
-  { date: "2025-06-23", title: "Jazz Night at Lucy’s", genre: "Jazz" },
-  { date: "2025-06-25", title: "Rock Show @ Strummer’s", genre: "Rock" },
-  { date: "2025-06-27", title: "Open Mic @ Tower", genre: "Folk" },
-];
 
 function getMonthDates() {
   const today = new Date();
@@ -35,8 +30,10 @@ export default function Calendar() {
             {date && (
               <>
                 <div className="date-label">{new Date(date).getDate()}</div>
-                {dummyEvents.filter(e => e.date === date).map(e => (
-                  <div className="event" key={e.title}>{e.title}</div>
+                {events.filter(e => e.date === date).map(e => (
+                  <div className="event" key={e.id}>
+                    <Link to={`/event/${e.id}`}>{e.title}</Link>
+                  </div>
                 ))}
               </>
             )}
