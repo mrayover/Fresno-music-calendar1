@@ -1,0 +1,24 @@
+
+.event-page {
+  padding: 2rem;
+  font-family: sans-serif;
+  background: #fcf9f2;
+}
+.event-page h1 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+.event-page p {
+  margin: 0.5rem 0;
+}
+.event-links a {
+  display: inline-block;
+  margin-right: 1rem;
+  margin-top: 1rem;
+  text-decoration: none;
+  background: #ffe564;
+  padding: 0.4rem 0.6rem;
+  border-radius: 4px;
+  color: #000;
+  font-weight: bold;
+}
