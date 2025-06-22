@@ -1,0 +1,25 @@
+
+.review-dashboard {
+  padding: 2rem;
+  font-family: sans-serif;
+  background: #f6faff;
+}
+.pending-event {
+  border: 1px solid #ccc;
+  background: #ffffff;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  border-radius: 6px;
+}
+.review-buttons {
+  margin-top: 1rem;
+}
+.review-buttons button {
+  margin-right: 1rem;
+  padding: 0.4rem 0.8rem;
+  border: none;
+  background: #ffe564;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 4px;
+}
