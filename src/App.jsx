@@ -1,3 +1,5 @@
+import LandingPage from './components/LandingPage';
+
 export default function App() {
-  return <h1>Welcome to Fresno Music Calendar!</h1>;
+  return <LandingPage />;
 }
