@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import FilterPanel from "./FilterPanel";
 import events from "./eventsData";
+import AddToCalendarButton from "./components/AddToCalendarButton";
 
 function App() {
   const allGenres = [...new Set(events.map(e => e.genre))];
@@ -45,6 +46,7 @@ function App() {
             <p><strong>Time:</strong> {event.time}</p>
             <p><strong>Genre:</strong> {event.genre}</p>
             <p>{event.description}</p>
+            <AddToCalendarButton event={event} />
           </div>
         ))}
       </main>
