@@ -1,31 +1,28 @@
 
 const eventsData = [
   {
-    id: 1,
-    title: "Jazz Night at Tower Theatre",
-    start: new Date(2025, 6, 25, 19, 0),
-    end: new Date(2025, 6, 25, 21, 0),
-    genre: "Jazz",
-    venue: "Tower Theatre",
-    description: "A smooth evening of live jazz with local and touring acts.",
+    id: "1",
+    title: "Jazz Night at Fulton",
+    start: "2025-06-25T19:00:00-07:00",
+    end: "2025-06-25T21:00:00-07:00",
+    venue: "Fulton Street Pub",
+    description: "An evening of smooth jazz featuring local artists."
   },
   {
-    id: 2,
-    title: "Indie Rock Show at Strummer's",
-    start: new Date(2025, 6, 27, 20, 0),
-    end: new Date(2025, 6, 27, 23, 0),
-    genre: "Indie Rock",
-    venue: "Strummer's",
-    description: "High-energy indie performances from regional bands.",
+    id: "2",
+    title: "Open Mic @ Tower Café",
+    start: "2025-06-27T20:00:00-07:00",
+    end: "2025-06-27T22:00:00-07:00",
+    venue: "Tower Café",
+    description: "Share your talent at our weekly open mic night."
   },
   {
-    id: 3,
-    title: "Open Mic at Fulton Street Coffee",
-    start: new Date(2025, 6, 29, 18, 0),
-    end: new Date(2025, 6, 29, 20, 30),
-    genre: "Mixed",
-    venue: "Fulton Street Coffee",
-    description: "All are welcome to perform! Sign-ups start at 5:30 PM.",
+    id: "3",
+    title: "Symphony in the Park",
+    start: "2025-06-30T18:00:00-07:00",
+    end: "2025-06-30T20:30:00-07:00",
+    venue: "Roeding Park",
+    description: "Outdoor performance by the Fresno Philharmonic."
   }
 ];
 
