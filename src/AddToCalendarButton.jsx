@@ -1,29 +1,19 @@
 import React from "react";
 
 export default function AddToCalendarButton({ event }) {
-  if (!event || !event.name || !event.time || !event.venue) return null;
+  const createCalendarLink = () => {
+    const title = encodeURIComponent(event.name);
+    const details = encodeURIComponent(event.description || "");
+    const location = encodeURIComponent(event.venue || "");
+    const start = new Date(event.start).toISOString().replace(/-|:|\.\d+/g, "");
+    const end = new Date(event.end).toISOString().replace(/-|:|\.\d+/g, "");
 
-  const startTime = encodeURIComponent(new Date(event.time).toISOString());
-  const endTime = encodeURIComponent(new Date(new Date(event.time).getTime() + 60 * 60 * 1000).toISOString());
-  const title = encodeURIComponent(event.name);
-  const location = encodeURIComponent(event.venue);
-  const details = encodeURIComponent(event.description || "");
-
-  const url = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${startTime}/${endTime}&details=${details}&location=${location}&sf=true&output=xml`;
-
+    return \`https://www.google.com/calendar/render?action=TEMPLATE&text=\${title}&dates=\${start}/\${end}&details=\${details}&location=\${location}&sf=true&output=xml\`;
+  };
 
   return (
-    <div style={{ marginTop: "0.5rem" }}>
-      <a href={url} target="_blank" rel="noopener noreferrer" style={{
-        padding: "0.5rem 1rem",
-        backgroundColor: "#000",
-        color: "#fff",
-        textDecoration: "none",
-        borderRadius: "4px",
-        display: "inline-block"
-      }}>
-        Add to Google Calendar
-      </a>
-    </div>
+    <a href={createCalendarLink()} target="_blank" rel="noopener noreferrer">
+      <button style={{ marginTop: "0.5rem" }}>Add to Google Calendar</button>
+    </a>
   );
 }
