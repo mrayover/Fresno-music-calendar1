@@ -1,9 +1,7 @@
-
 import React, { useState } from "react";
 import eventsData from "./eventsData";
 import AddToCalendarButton from "./AddToCalendarButton";
 import "./style.css";
-
 
 export default function App() {
   const [selectedGenres, setSelectedGenres] = useState([]);
@@ -39,45 +37,43 @@ export default function App() {
 
   return (
     <div className="App">
-      <h1>DEBUG: App is Rendering!</h1>
-    <div className="app-container">
-      <header className="header">
+      <header>
         <h1>Fresno Music Calendar</h1>
       </header>
-      <aside className="sidebar">
+      <aside style={{ float: "left", width: "20%", padding: "1rem" }}>
         <h2>Filters</h2>
-        <div className="filter-group">
+        <div>
           <h3>Genres</h3>
           <button onClick={() => selectAll("genre")}>Select All</button>
           {allGenres.map((genre, index) => (
-            <label key={index}>
+            <div key={index}>
               <input
                 type="checkbox"
                 checked={selectedGenres.includes(genre)}
                 onChange={() => toggleFilter("genre", genre)}
               />
               {genre}
-            </label>
+            </div>
           ))}
         </div>
-        <div className="filter-group">
+        <div>
           <h3>Venues</h3>
           <button onClick={() => selectAll("venue")}>Select All</button>
           {allVenues.map((venue, index) => (
-            <label key={index}>
+            <div key={index}>
               <input
                 type="checkbox"
                 checked={selectedVenues.includes(venue)}
                 onChange={() => toggleFilter("venue", venue)}
               />
               {venue}
-            </label>
+            </div>
           ))}
         </div>
       </aside>
-      <main className="main-content">
+      <main style={{ marginLeft: "22%", padding: "1rem" }}>
         {filteredEvents.map((event, index) => (
-          <div className="event-card" key={index}>
+          <div key={index} style={{ marginBottom: "1rem", padding: "1rem", border: "1px solid #ccc" }}>
             <h2>{event.name}</h2>
             <p><strong>Venue:</strong> {event.venue}</p>
             <p><strong>Time:</strong> {event.time}</p>
