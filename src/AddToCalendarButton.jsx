@@ -11,6 +11,7 @@ export default function AddToCalendarButton({ event }) {
     return \`https://www.google.com/calendar/render?action=TEMPLATE&text=\${title}&dates=\${start}/\${end}&details=\${details}&location=\${location}&sf=true&output=xml\`;
   };
 
+  
   return (
     <a href={createCalendarLink()} target="_blank" rel="noopener noreferrer">
       <button style={{ marginTop: "0.5rem" }}>Add to Google Calendar</button>
