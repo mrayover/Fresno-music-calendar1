@@ -1,22 +1,25 @@
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #1a1a1a;
+  color: #f8f8f8;
+  margin: 0;
+  padding: 0;
+}
 
-.app-container {
-  font-family: 'Arial Black', sans-serif;
-  background-color: #fffaf0;
-  color: #333;
+.App {
+  text-align: center;
+}
+
+.header {
+  background-color: #e60026;
   padding: 20px;
 }
 
-.app-header {
-  display: flex;
-  align-items: center;
-  background-color: #32004f;
-  padding: 1rem;
-  color: white;
-  margin-bottom: 2rem;
-  border-radius: 12px;
+.logo {
+  height: 50px;
+  margin-bottom: 10px;
 }
 
-.app-logo {
-  height: 60px;
-  margin-right: 1rem;
+.main {
+  padding: 20px;
 }

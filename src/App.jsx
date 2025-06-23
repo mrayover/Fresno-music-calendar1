@@ -1,50 +1,38 @@
-
-import React, { useState } from "react";
-import { Calendar, dateFnsLocalizer } from "react-big-calendar";
-import format from "date-fns/format";
-import parse from "date-fns/parse";
-import startOfWeek from "date-fns/startOfWeek";
-import getDay from "date-fns/getDay";
+import React from "react";
+import { Calendar, momentLocalizer } from "react-big-calendar";
+import moment from "moment";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import "./style.css";
-import eventsData from "./eventsData.jsx";
 import logo from "/logo.png";
-import { useNavigate } from "react-router-dom";
 
-const locales = {
-  "en-US": require("date-fns/locale/en-US"),
-};
+const localizer = momentLocalizer(moment);
 
-const localizer = dateFnsLocalizer({
-  format,
-  parse,
-  startOfWeek,
-  getDay,
-  locales,
-});
+const events = [
+  {
+    id: 1,
+    title: "Jazz Night at Tower",
+    start: new Date(2025, 5, 28, 19, 0),
+    end: new Date(2025, 5, 28, 21, 0),
+    venue: "Tower Theatre",
+    genre: "Jazz",
+    description: "Live jazz performance."
+  },
+];
 
 export default function App() {
-  const [events] = useState(eventsData);
-  const navigate = useNavigate();
-
-  const handleSelectEvent = (event) => {
-    navigate(`/event/${event.id}`);
-  };
-
   return (
-    <div className="app-container">
-      <header className="app-header">
-        <img src={logo} alt="Fresno Music Calendar" className="app-logo" />
+    <div className="App">
+      <header className="header">
+        <img src={logo} alt="Fresno Music Calendar Logo" className="logo" />
         <h1>Fresno Music Calendar</h1>
       </header>
-      <main>
+      <main className="main">
         <Calendar
           localizer={localizer}
           events={events}
           startAccessor="start"
           endAccessor="end"
-          style={{ height: 600 }}
-          onSelectEvent={handleSelectEvent}
+          style={{ height: 500 }}
         />
       </main>
     </div>
