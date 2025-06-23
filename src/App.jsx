@@ -1,41 +1,61 @@
+
 import React from "react";
-import { Calendar, momentLocalizer } from "react-big-calendar";
-import moment from "moment";
+import { Calendar, dateFnsLocalizer } from "react-big-calendar";
+import format from "date-fns/format";
+import parse from "date-fns/parse";
+import startOfWeek from "date-fns/startOfWeek";
+import getDay from "date-fns/getDay";
+import enUS from "date-fns/locale/en-US";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import "./style.css";
-import logo from "/logo.png";
 
+const locales = {
+  "en-US": enUS,
+};
 
-const localizer = momentLocalizer(moment);
+const localizer = dateFnsLocalizer({
+  format,
+  parse,
+  startOfWeek,
+  getDay,
+  locales,
+});
 
 const events = [
   {
-    id: 1,
-    title: "Jazz Night at Tower",
-    start: new Date(2025, 5, 28, 19, 0),
-    end: new Date(2025, 5, 28, 21, 0),
-    venue: "Tower Theatre",
-    genre: "Jazz",
-    description: "Live jazz performance."
+    "title": "Jazz Night at Fulton",
+    "start": "2025-06-25T19:00:00-07:00",
+    "end": "2025-06-25T21:00:00-07:00"
   },
+  {
+    "title": "Open Mic @ Tower Caf\u00e9",
+    "start": "2025-06-27T20:00:00-07:00",
+    "end": "2025-06-27T22:00:00-07:00"
+  },
+  {
+    "title": "Symphony in the Park",
+    "start": "2025-06-30T18:00:00-07:00",
+    "end": "2025-06-30T20:30:00-07:00"
+  }
 ];
 
 export default function App() {
+  const parsedEvents = events.map(event => ({
+    ...event,
+    start: new Date(event.start),
+    end: new Date(event.end),
+  }));
+
   return (
-    <div className="App">
-      <header className="header">
-        <img src={logo} alt="Fresno Music Calendar Logo" className="logo" />
-        <h1>Fresno Music Calendar</h1>
-      </header>
-      <main className="main">
-        <Calendar
-          localizer={localizer}
-          events={events}
-          startAccessor="start"
-          endAccessor="end"
-          style={{ height: 500 }}
-        />
-      </main>
+    <div className="App" style={{ height: "100vh", padding: "1rem" }}>
+      <h1>Fresno Music Calendar</h1>
+      <Calendar
+        localizer={localizer}
+        events={parsedEvents}
+        startAccessor="start"
+        endAccessor="end"
+        style={{ height: 600 }}
+      />
     </div>
   );
 }
