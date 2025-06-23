@@ -37,6 +37,8 @@ export default function App() {
   );
 
   return (
+    <div className="App">
+      <h1>DEBUG: App is Rendering!</h1>
     <div className="app-container">
       <header className="header">
         <h1>Fresno Music Calendar</h1>
