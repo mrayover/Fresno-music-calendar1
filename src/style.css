@@ -1,65 +1,79 @@
 
+/* Tower District-inspired Calendar Styles */
+
 body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #1a1a1a;
-  color: #f4f4f4;
+  font-family: 'Arial', sans-serif;
+  background-color: #fef3c7;
+  color: #1e293b;
   margin: 0;
   padding: 0;
 }
 
 header {
-  background-color: #8B0000; /* Deep red */
+  background-color: #7c2d12;
+  color: #fef3c7;
   padding: 1rem;
   display: flex;
   align-items: center;
-  justify-content: flex-start;
-  gap: 1rem;
+  justify-content: space-between;
 }
 
 header img {
-  height: 50px;
-  width: auto;
+  height: 120px;
+  margin-right: 1rem;
 }
 
-header h1 {
+h1 {
   font-size: 2rem;
-  margin: 0;
-  color: #fff;
 }
 
-aside {
-  background-color: #2e2e2e;
+.calendar-container {
   padding: 1rem;
-  color: #fff;
-  height: 100vh;
-  overflow-y: auto;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
-main {
-  padding: 2rem;
+.event-title {
+  font-weight: bold;
+  color: #f97316;
 }
 
 .event-card {
-  background-color: #333;
-  border-left: 6px solid #FF4500;
+  background-color: #fff7ed;
+  border: 1px solid #fcd34d;
   padding: 1rem;
-  margin-bottom: 1rem;
-  border-radius: 6px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.3);
-}
-
-.event-card h2 {
-  margin: 0;
-  font-size: 1.4rem;
-  color: #ffcc00;
-}
-
-.event-card p {
   margin: 0.5rem 0;
+  border-radius: 8px;
+}
+
+/* Genre color tags */
+.genre-rock {
+  background-color: #e11d48;
+  color: white;
+}
+
+.genre-jazz {
+  background-color: #0e7490;
+  color: white;
+}
+
+.genre-classical {
+  background-color: #9333ea;
+  color: white;
+}
+
+.genre-hiphop {
+  background-color: #4f46e5;
+  color: white;
+}
+
+.genre-electronic {
+  background-color: #10b981;
+  color: white;
 }
 
 a {
-  color: #00BFFF;
+  color: #7c2d12;
   text-decoration: none;
 }
 
@@ -68,19 +82,22 @@ a:hover {
 }
 
 button {
-  background-color: #8B0000;
+  background-color: #f97316;
   color: white;
-  border: none;
   padding: 0.5rem 1rem;
-  margin: 0.3rem 0;
-  border-radius: 4px;
+  border: none;
+  margin-top: 0.5rem;
+  border-radius: 5px;
   cursor: pointer;
 }
 
 button:hover {
-  background-color: #a60000;
+  background-color: #ea580c;
 }
 
-input[type="checkbox"] {
-  margin-right: 0.5rem;
+/* Larger calendar view */
+.rbc-calendar {
+  margin-left: 220px;
+  font-size: 1rem;
+  height: 90vh;
 }
