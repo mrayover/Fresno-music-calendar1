@@ -5,6 +5,7 @@ import "react-big-calendar/lib/css/react-big-calendar.css";
 import "./style.css";
 import logo from "/logo.png";
 
+
 const localizer = momentLocalizer(moment);
 
 const events = [
