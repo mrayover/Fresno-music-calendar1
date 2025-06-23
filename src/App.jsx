@@ -6,6 +6,7 @@ import EventPage from './components/EventPage';
 import SubmitEvent from './components/SubmitEvent';
 import ReviewDashboard from './components/ReviewDashboard';
 import Join from './components/Join';
+import Footer from './components/Footer';
 
 export default function App() {
   return (
@@ -20,3 +21,12 @@ export default function App() {
     </BrowserRouter>
   );
 }
+function App() {
+  return (
+    <>
+      {/* Other site content like Navbar, Routes, etc. */}
+      <Footer />
+    </>
+  );
+}
+
