@@ -9,7 +9,8 @@ export default function AddToCalendarButton({ event }) {
   const location = encodeURIComponent(event.venue);
   const details = encodeURIComponent(event.description || "");
 
-  const url = \`https://calendar.google.com/calendar/render?action=TEMPLATE&text=\${title}&dates=\${startTime}/\${endTime}&details=\${details}&location=\${location}&sf=true&output=xml\`;
+  const url = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${startTime}/${endTime}&details=${details}&location=${location}&sf=true&output=xml`;
+
 
   return (
     <div style={{ marginTop: "0.5rem" }}>
