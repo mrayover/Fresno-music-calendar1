@@ -3,7 +3,6 @@ import eventsData from "./eventsData";
 import AddToCalendarButton from "./AddToCalendarButton";
 import "./style.css";
 
-
 export default function App() {
   const [selectedGenres, setSelectedGenres] = useState([]);
   const [selectedVenues, setSelectedVenues] = useState([]);
