@@ -1,103 +1,104 @@
 
-/* Tower District-inspired Calendar Styles */
-
 body {
-  font-family: 'Arial', sans-serif;
-  background-color: #fef3c7;
-  color: #1e293b;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   margin: 0;
   padding: 0;
+  background-color: #f7f4f0;
+  color: #333;
 }
 
 header {
-  background-color: #7c2d12;
-  color: #fef3c7;
-  padding: 1rem;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
+  padding: 1rem 2rem;
+  background-color: #ffecd2;
+  border-bottom: 3px solid #d45d5d;
 }
 
 header img {
-  height: 120px;
+  height: 80px;
   margin-right: 1rem;
 }
 
-h1 {
-  font-size: 2rem;
+header h1 {
+  font-size: 2.5rem;
+  color: #b02e2e;
+  margin: 0;
 }
 
-.calendar-container {
+.container {
+  display: flex;
   padding: 1rem;
-  max-width: 1200px;
-  margin: 0 auto;
 }
 
-.event-title {
-  font-weight: bold;
-  color: #f97316;
-}
-
-.event-card {
-  background-color: #fff7ed;
-  border: 1px solid #fcd34d;
+aside {
+  width: 200px;
+  margin-right: 1rem;
   padding: 1rem;
-  margin: 0.5rem 0;
-  border-radius: 8px;
+  background-color: #fff7f0;
+  border-right: 1px solid #ddd;
 }
 
-/* Genre color tags */
-.genre-rock {
-  background-color: #e11d48;
+main {
+  flex: 1;
+  padding: 1rem;
+}
+
+.event-type-rock {
+  background-color: #f94144;
   color: white;
 }
 
-.genre-jazz {
-  background-color: #0e7490;
+.event-type-jazz {
+  background-color: #577590;
   color: white;
 }
 
-.genre-classical {
-  background-color: #9333ea;
+.event-type-classical {
+  background-color: #f9c74f;
+  color: black;
+}
+
+.event-type-hiphop {
+  background-color: #43aa8b;
   color: white;
 }
 
-.genre-hiphop {
-  background-color: #4f46e5;
+.event-type-electronic {
+  background-color: #f3722c;
   color: white;
 }
 
-.genre-electronic {
-  background-color: #10b981;
+.event-type-pop {
+  background-color: #9a8c98;
   color: white;
 }
 
-a {
-  color: #7c2d12;
-  text-decoration: none;
-}
-
-a:hover {
-  text-decoration: underline;
-}
-
-button {
-  background-color: #f97316;
-  color: white;
-  padding: 0.5rem 1rem;
-  border: none;
-  margin-top: 0.5rem;
-  border-radius: 5px;
+.event-box {
+  padding: 0.5rem;
+  border-radius: 6px;
+  margin-bottom: 0.5rem;
   cursor: pointer;
+  transition: transform 0.2s ease;
 }
 
-button:hover {
-  background-color: #ea580c;
+.event-box:hover {
+  transform: scale(1.03);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
 }
 
-/* Larger calendar view */
-.rbc-calendar {
-  margin-left: 220px;
-  font-size: 1rem;
-  height: 90vh;
+.add-to-calendar-button {
+  display: inline-block;
+  margin-top: 0.5rem;
+  padding: 0.3rem 0.6rem;
+  background-color: #b02e2e;
+  color: white;
+  border-radius: 4px;
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+.add-to-calendar-button:hover {
+  background-color: #d45d5d;
 }
