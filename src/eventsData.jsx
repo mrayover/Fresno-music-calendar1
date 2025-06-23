@@ -1,44 +1,32 @@
+
 const eventsData = [
   {
-    id: "1",
-    name: "Jazz Night at Goldstein's",
-    venue: "Goldstein's",
-    datetime: "2025-06-25T20:00:00",
+    id: 1,
+    title: "Jazz Night at Tower Theatre",
+    start: new Date(2025, 6, 25, 19, 0),
+    end: new Date(2025, 6, 25, 21, 0),
     genre: "Jazz",
-    description: "Smooth local jazz sets every Wednesday night."
+    venue: "Tower Theatre",
+    description: "A smooth evening of live jazz with local and touring acts.",
   },
   {
-    id: "2",
-    name: "Punk Show at CYC",
-    venue: "Fresno Community Youth Center",
-    datetime: "2025-06-27T19:00:00",
-    genre: "Punk",
-    description: "All-ages punk and hardcore show. $5 cover."
+    id: 2,
+    title: "Indie Rock Show at Strummer's",
+    start: new Date(2025, 6, 27, 20, 0),
+    end: new Date(2025, 6, 27, 23, 0),
+    genre: "Indie Rock",
+    venue: "Strummer's",
+    description: "High-energy indie performances from regional bands.",
   },
   {
-    id: "3",
-    name: "Poetry and Music Night at Mia Cuppa",
-    venue: "Mia Cuppa Cafe",
-    datetime: "2025-06-26T19:00:00",
-    genre: "Acoustic",
-    description: "Local poets and singer-songwriters in an intimate setting."
-  },
-  {
-    id: "4",
-    name: "DJ Set at Fulton 55",
-    venue: "Fulton 55",
-    datetime: "2025-06-28T21:00:00",
-    genre: "Electronic",
-    description: "Late-night DJ set featuring local electronic artists. 21+."
-  },
-  {
-    id: "5",
-    name: "Latin Night at Fab",
-    venue: "FAB Fresno",
-    datetime: "2025-06-29T22:00:00",
-    genre: "Latin",
-    description: "Dance night with salsa, reggaeton, and more. Drink specials all night."
-  },
+    id: 3,
+    title: "Open Mic at Fulton Street Coffee",
+    start: new Date(2025, 6, 29, 18, 0),
+    end: new Date(2025, 6, 29, 20, 30),
+    genre: "Mixed",
+    venue: "Fulton Street Coffee",
+    description: "All are welcome to perform! Sign-ups start at 5:30 PM.",
+  }
 ];
 
 export default eventsData;
