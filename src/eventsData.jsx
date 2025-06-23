@@ -1,3 +1,44 @@
-const eventsData = [{'id': '1', 'name': 'Live Music Night at Tower Theatre', 'venue': 'Tower Theatre', 'time': '2025-06-23T19:00', 'cover': '$10', 'genre': 'Rock', 'description': 'Enjoy an evening of Rock music at Tower Theatre!'}, {'id': '2', 'name': "Live Music Night at Strummer's", 'venue': "Strummer's", 'time': '2025-06-24T19:00', 'cover': '$11', 'genre': 'Jazz', 'description': "Enjoy an evening of Jazz music at Strummer's!"}, {'id': '3', 'name': 'Live Music Night at Fulton 55', 'venue': 'Fulton 55', 'time': '2025-06-25T19:00', 'cover': '$12', 'genre': 'Folk', 'description': 'Enjoy an evening of Folk music at Fulton 55!'}, {'id': '4', 'name': 'Live Music Night at Tioga-Sequoia Beer Garden', 'venue': 'Tioga-Sequoia Beer Garden', 'time': '2025-06-26T19:00', 'cover': '$13', 'genre': 'Hip-Hop', 'description': 'Enjoy an evening of Hip-Hop music at Tioga-Sequoia Beer Garden!'}, {'id': '5', 'name': 'Live Music Night at The Starline', 'venue': 'The Starline', 'time': '2025-06-27T19:00', 'cover': '$14', 'genre': 'Classical', 'description': 'Enjoy an evening of Classical music at The Starline!'}, {'id': '6', 'name': 'Live Music Night at Full Circle Brewing Co.', 'venue': 'Full Circle Brewing Co.', 'time': '2025-06-28T19:00', 'cover': '$15', 'genre': 'Indie', 'description': 'Enjoy an evening of Indie music at Full Circle Brewing Co.!'}, {'id': '7', 'name': 'Live Music Night at Sequoia Brewing Company', 'venue': 'Sequoia Brewing Company', 'time': '2025-06-29T19:00', 'cover': '$16', 'genre': 'Funk', 'description': 'Enjoy an evening of Funk music at Sequoia Brewing Company!'}, {'id': '8', 'name': 'Live Music Night at Vineyard Farmers Market Stage', 'venue': 'Vineyard Farmers Market Stage', 'time': '2025-06-30T19:00', 'cover': '$17', 'genre': 'Electronic', 'description': 'Enjoy an evening of Electronic music at Vineyard Farmers Market Stage!'}];
+const eventsData = [
+  {
+    id: "1",
+    name: "Jazz Night at Goldstein's",
+    venue: "Goldstein's",
+    datetime: "2025-06-25T20:00:00",
+    genre: "Jazz",
+    description: "Smooth local jazz sets every Wednesday night."
+  },
+  {
+    id: "2",
+    name: "Punk Show at CYC",
+    venue: "Fresno Community Youth Center",
+    datetime: "2025-06-27T19:00:00",
+    genre: "Punk",
+    description: "All-ages punk and hardcore show. $5 cover."
+  },
+  {
+    id: "3",
+    name: "Poetry and Music Night at Mia Cuppa",
+    venue: "Mia Cuppa Cafe",
+    datetime: "2025-06-26T19:00:00",
+    genre: "Acoustic",
+    description: "Local poets and singer-songwriters in an intimate setting."
+  },
+  {
+    id: "4",
+    name: "DJ Set at Fulton 55",
+    venue: "Fulton 55",
+    datetime: "2025-06-28T21:00:00",
+    genre: "Electronic",
+    description: "Late-night DJ set featuring local electronic artists. 21+."
+  },
+  {
+    id: "5",
+    name: "Latin Night at Fab",
+    venue: "FAB Fresno",
+    datetime: "2025-06-29T22:00:00",
+    genre: "Latin",
+    description: "Dance night with salsa, reggaeton, and more. Drink specials all night."
+  },
+];
 
 export default eventsData;
