@@ -1,25 +1,46 @@
 body {
-  font-family: 'Arial', sans-serif;
-  background-color: #1a1a1a;
-  color: #f8f8f8;
   margin: 0;
-  padding: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #fdf6ec;
+  color: #2c1e1e;
 }
 
-.App {
-  text-align: center;
-}
-
-.header {
-  background-color: #e60026;
-  padding: 20px;
+.app-header {
+  display: flex;
+  align-items: center;
+  background-color: #6b1f1f;
+  padding: 1rem 2rem;
+  color: #fff;
 }
 
 .logo {
-  height: 50px;
-  margin-bottom: 10px;
+  height: 80px;
+  margin-right: 1rem;
 }
 
-.main {
-  padding: 20px;
+.site-title {
+  font-size: 2rem;
+  color: #ffe4b5;
+}
+
+.calendar-main {
+  display: flex;
+}
+
+.sidebar {
+  width: 220px;
+  padding: 1rem;
+  background-color: #ffefe3;
+  border-right: 1px solid #ddd;
+  color: #4a2c2a;
+}
+
+.calendar-wrapper {
+  flex: 1;
+}
+
+.rbc-event {
+  background-color: #ce4b4b !important;
+  border: none;
+  color: white !important;
 }

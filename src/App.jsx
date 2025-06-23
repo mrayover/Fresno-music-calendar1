@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Calendar, dateFnsLocalizer } from "react-big-calendar";
 import { useNavigate } from "react-router-dom";
@@ -37,7 +36,7 @@ export default function App() {
       </header>
       <main className="calendar-main">
         <aside className="sidebar">
-          {/* Placeholder for filters */}
+          {/* Filters placeholder */}
           <p>Filters will go here.</p>
         </aside>
         <div className="calendar-wrapper">
