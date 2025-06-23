@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import eventsData from "./eventsData";
 import AddToCalendarButton from "./AddToCalendarButton";
@@ -35,8 +36,11 @@ export default function App() {
     (selectedVenues.length === 0 || selectedVenues.includes(event.venue))
   );
 
+  console.log("Filtered Events:", filteredEvents);
+
   return (
     <div className="App">
+      <h1>DEBUG: App is rendering</h1>
       <header>
         <h1>Fresno Music Calendar</h1>
       </header>
@@ -72,16 +76,20 @@ export default function App() {
         </div>
       </aside>
       <main style={{ marginLeft: "22%", padding: "1rem" }}>
-        {filteredEvents.map((event, index) => (
-          <div key={index} style={{ marginBottom: "1rem", padding: "1rem", border: "1px solid #ccc" }}>
-            <h2>{event.name}</h2>
-            <p><strong>Venue:</strong> {event.venue}</p>
-            <p><strong>Time:</strong> {event.time}</p>
-            <p><strong>Genre:</strong> {event.genre}</p>
-            <p>{event.description}</p>
-            <AddToCalendarButton event={event} />
-          </div>
-        ))}
+        {filteredEvents.length === 0 ? (
+          <p>No events match the selected filters.</p>
+        ) : (
+          filteredEvents.map((event, index) => (
+            <div key={index} style={{ marginBottom: "1rem", padding: "1rem", border: "1px solid #ccc" }}>
+              <h2>{event.name}</h2>
+              <p><strong>Venue:</strong> {event.venue}</p>
+              <p><strong>Time:</strong> {event.time}</p>
+              <p><strong>Genre:</strong> {event.genre}</p>
+              <p>{event.description}</p>
+              <AddToCalendarButton event={event} />
+            </div>
+          ))
+        )}
       </main>
     </div>
   );
