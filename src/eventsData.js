@@ -1,5 +1,5 @@
 
-export eventsData = [
+const eventsData = [
   {
     id: "1",
     title: "Jazz Night at Lucy’s",
@@ -33,3 +33,4 @@ export eventsData = [
     source: "https://instagram.com/strummers"
   }
 ];
+export default eventsData;
