@@ -1,82 +1,77 @@
-
 import React, { useState } from "react";
 import eventsData from "./eventsData";
 import AddToCalendarButton from "./AddToCalendarButton";
+import "./style.css";
 
 export default function App() {
   const [selectedGenres, setSelectedGenres] = useState([]);
   const [selectedVenues, setSelectedVenues] = useState([]);
 
-  const genres = [...new Set(eventsData.map((event) => event.genre))];
-  const venues = [...new Set(eventsData.map((event) => event.venue))];
+  const allGenres = Array.from(new Set(eventsData.map(event => event.genre)));
+  const allVenues = Array.from(new Set(eventsData.map(event => event.venue)));
 
-  const toggleGenre = (genre) => {
-    setSelectedGenres((prev) =>
-      prev.includes(genre)
-        ? prev.filter((g) => g !== genre)
-        : [...prev, genre]
-    );
+  const toggleFilter = (filterType, value) => {
+    if (filterType === "genre") {
+      setSelectedGenres(prev =>
+        prev.includes(value) ? prev.filter(item => item !== value) : [...prev, value]
+      );
+    } else if (filterType === "venue") {
+      setSelectedVenues(prev =>
+        prev.includes(value) ? prev.filter(item => item !== value) : [...prev, value]
+      );
+    }
   };
 
-  const toggleVenue = (venue) => {
-    setSelectedVenues((prev) =>
-      prev.includes(venue)
-        ? prev.filter((v) => v !== venue)
-        : [...prev, venue]
-    );
+  const selectAll = (filterType) => {
+    if (filterType === "genre") {
+      setSelectedGenres(allGenres);
+    } else if (filterType === "venue") {
+      setSelectedVenues(allVenues);
+    }
   };
 
-  const filteredEvents = eventsData.filter((event) => {
-    const genreMatch = selectedGenres.length === 0 || selectedGenres.includes(event.genre);
-    const venueMatch = selectedVenues.length === 0 || selectedVenues.includes(event.venue);
-    return genreMatch && venueMatch;
-  });
+  const filteredEvents = eventsData.filter(event =>
+    (selectedGenres.length === 0 || selectedGenres.includes(event.genre)) &&
+    (selectedVenues.length === 0 || selectedVenues.includes(event.venue))
+  );
 
   return (
-    <div>
-      <aside style={{ padding: "1rem", borderRight: "1px solid #ccc" }}>
-        <h3>Filter by Genre</h3>
-        <label>
-          <input
-            type="checkbox"
-            checked={selectedGenres.length === 0}
-            onChange={() => setSelectedGenres([])}
-          />
-          Select All
-        </label>
-        {genres.map((genre) => (
-          <label key={genre}>
-            <input
-              type="checkbox"
-              checked={selectedGenres.includes(genre)}
-              onChange={() => toggleGenre(genre)}
-            />
-            {genre}
-          </label>
-        ))}
-
-        <h3>Filter by Venue</h3>
-        <label>
-          <input
-            type="checkbox"
-            checked={selectedVenues.length === 0}
-            onChange={() => setSelectedVenues([])}
-          />
-          Select All
-        </label>
-        {venues.map((venue) => (
-          <label key={venue}>
-            <input
-              type="checkbox"
-              checked={selectedVenues.includes(venue)}
-              onChange={() => toggleVenue(venue)}
-            />
-            {venue}
-          </label>
-        ))}
+    <div className="App">
+      <header>
+        <h1>Fresno Music Calendar</h1>
+      </header>
+      <aside style={{ float: "left", width: "20%", padding: "1rem" }}>
+        <h2>Filters</h2>
+        <div>
+          <h3>Genres</h3>
+          <button onClick={() => selectAll("genre")}>Select All</button>
+          {allGenres.map((genre, index) => (
+            <div key={index}>
+              <input
+                type="checkbox"
+                checked={selectedGenres.includes(genre)}
+                onChange={() => toggleFilter("genre", genre)}
+              />
+              {genre}
+            </div>
+          ))}
+        </div>
+        <div>
+          <h3>Venues</h3>
+          <button onClick={() => selectAll("venue")}>Select All</button>
+          {allVenues.map((venue, index) => (
+            <div key={index}>
+              <input
+                type="checkbox"
+                checked={selectedVenues.includes(venue)}
+                onChange={() => toggleFilter("venue", venue)}
+              />
+              {venue}
+            </div>
+          ))}
+        </div>
       </aside>
-
-      <main style={{ padding: "1rem" }}>
+      <main style={{ marginLeft: "22%", padding: "1rem" }}>
         {filteredEvents.map((event, index) => (
           <div key={index} style={{ marginBottom: "1rem", padding: "1rem", border: "1px solid #ccc" }}>
             <h2>{event.name}</h2>
