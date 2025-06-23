@@ -1,36 +1,3 @@
+const eventsData = [{'id': '1', 'name': 'Live Music Night at Tower Theatre', 'venue': 'Tower Theatre', 'time': '2025-06-23T19:00', 'cover': '$10', 'genre': 'Rock', 'description': 'Enjoy an evening of Rock music at Tower Theatre!'}, {'id': '2', 'name': "Live Music Night at Strummer's", 'venue': "Strummer's", 'time': '2025-06-24T19:00', 'cover': '$11', 'genre': 'Jazz', 'description': "Enjoy an evening of Jazz music at Strummer's!"}, {'id': '3', 'name': 'Live Music Night at Fulton 55', 'venue': 'Fulton 55', 'time': '2025-06-25T19:00', 'cover': '$12', 'genre': 'Folk', 'description': 'Enjoy an evening of Folk music at Fulton 55!'}, {'id': '4', 'name': 'Live Music Night at Tioga-Sequoia Beer Garden', 'venue': 'Tioga-Sequoia Beer Garden', 'time': '2025-06-26T19:00', 'cover': '$13', 'genre': 'Hip-Hop', 'description': 'Enjoy an evening of Hip-Hop music at Tioga-Sequoia Beer Garden!'}, {'id': '5', 'name': 'Live Music Night at The Starline', 'venue': 'The Starline', 'time': '2025-06-27T19:00', 'cover': '$14', 'genre': 'Classical', 'description': 'Enjoy an evening of Classical music at The Starline!'}, {'id': '6', 'name': 'Live Music Night at Full Circle Brewing Co.', 'venue': 'Full Circle Brewing Co.', 'time': '2025-06-28T19:00', 'cover': '$15', 'genre': 'Indie', 'description': 'Enjoy an evening of Indie music at Full Circle Brewing Co.!'}, {'id': '7', 'name': 'Live Music Night at Sequoia Brewing Company', 'venue': 'Sequoia Brewing Company', 'time': '2025-06-29T19:00', 'cover': '$16', 'genre': 'Funk', 'description': 'Enjoy an evening of Funk music at Sequoia Brewing Company!'}, {'id': '8', 'name': 'Live Music Night at Vineyard Farmers Market Stage', 'venue': 'Vineyard Farmers Market Stage', 'time': '2025-06-30T19:00', 'cover': '$17', 'genre': 'Electronic', 'description': 'Enjoy an evening of Electronic music at Vineyard Farmers Market Stage!'}];
 
-const eventsData = [
-  {
-    id: "1",
-    title: "Jazz Night at Lucy’s",
-    date: "2025-06-23",
-    time: "8:00 PM",
-    venue: {
-      name: "Lucy's Lounge",
-      address: "733 E Olive Ave, Fresno, CA",
-      mapLink: "https://maps.google.com/?q=733+E+Olive+Ave,+Fresno,+CA"
-    },
-    genre: "Jazz",
-    cover: "$5",
-    description: "Live jazz from local artists, plus great cocktails!",
-    ticketsLink: "https://example.com/tickets/jazz-night",
-    source: "https://instagram.com/lucysfresno"
-  },
-  {
-    id: "2",
-    title: "Rock Show @ Strummer’s",
-    date: "2025-06-25",
-    time: "9:00 PM",
-    venue: {
-      name: "Strummer’s",
-      address: "833 E Fern Ave, Fresno, CA",
-      mapLink: "https://maps.google.com/?q=833+E+Fern+Ave,+Fresno,+CA"
-    },
-    genre: "Rock",
-    cover: "$10",
-    description: "Hard rock bands all night. All ages.",
-    ticketsLink: "https://example.com/tickets/rock-strummers",
-    source: "https://instagram.com/strummers"
-  }
-];
 export default eventsData;
