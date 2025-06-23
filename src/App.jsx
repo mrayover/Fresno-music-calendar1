@@ -37,8 +37,14 @@ export default function App() {
   );
 
   return (
-    <div className="App" style={{ display: "flex" }}>
-      <aside style={{ width: "20%", padding: "1rem", borderRight: "1px solid #ccc" }}>
+    <div className="App">
+      <div style={{ backgroundColor: "black", color: "lime", padding: "1rem" }}>
+        Debug: App is rendering
+      </div>
+      <header>
+        <h1>Fresno Music Calendar</h1>
+      </header>
+      <aside style={{ float: "left", width: "20%", padding: "1rem" }}>
         <h2>Filters</h2>
         <div>
           <h3>Genres</h3>
@@ -54,7 +60,7 @@ export default function App() {
             </div>
           ))}
         </div>
-        <div style={{ marginTop: "1rem" }}>
+        <div>
           <h3>Venues</h3>
           <button onClick={() => selectAll("venue")}>Select All</button>
           {allVenues.map((venue, index) => (
@@ -69,7 +75,7 @@ export default function App() {
           ))}
         </div>
       </aside>
-      <main style={{ flexGrow: 1, padding: "1rem" }}>
+      <main style={{ marginLeft: "22%", padding: "1rem" }}>
         {filteredEvents.map((event, index) => (
           <div key={index} style={{ marginBottom: "1rem", padding: "1rem", border: "1px solid #ccc" }}>
             <h2>{event.name}</h2>
