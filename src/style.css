@@ -1,79 +1,22 @@
 
-/* === Base Styles === */
-body {
-  margin: 0;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #FDF6EC;
-  color: #1A1A1A;
+.app-container {
+  font-family: 'Arial Black', sans-serif;
+  background-color: #fffaf0;
+  color: #333;
+  padding: 20px;
 }
 
-h1, h2, h3 {
-  color: #A63D40;
-}
-
-/* === Header === */
-header {
-  background-color: #A63D40;
-  padding: 1rem;
-  color: #FDF6EC;
+.app-header {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  background-color: #32004f;
+  padding: 1rem;
+  color: white;
+  margin-bottom: 2rem;
+  border-radius: 12px;
 }
 
-header img {
-  height: 40px;
+.app-logo {
+  height: 60px;
   margin-right: 1rem;
-}
-
-/* === Sidebar === */
-aside {
-  background-color: #FDF6EC;
-  border-right: 1px solid #E0C8A5;
-  padding: 1rem;
-}
-
-aside h2, aside h3 {
-  margin-top: 0;
-  color: #A63D40;
-}
-
-aside input[type="checkbox"] {
-  margin-right: 0.5rem;
-}
-
-/* === Main Calendar Events === */
-main {
-  padding: 1rem;
-}
-
-/* Event Card Styling */
-.event-card {
-  background-color: #ffffff;
-  border-left: 8px solid #DDD;
-  padding: 1rem;
-  margin-bottom: 1rem;
-  border-radius: 8px;
-}
-
-.event-card.jazz { border-color: #3B7EA1; }
-.event-card.rock { border-color: #D94F4F; }
-.event-card.classical { border-color: #7B6D8D; }
-.event-card.hiphop { border-color: #F29E4C; }
-.event-card.electronic { border-color: #64A6BD; }
-.event-card.folk { border-color: #BC9B6A; }
-
-/* Button */
-button {
-  background-color: #A63D40;
-  color: #FDF6EC;
-  border: none;
-  padding: 0.5rem 1rem;
-  margin-top: 0.5rem;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-button:hover {
-  background-color: #8B2F32;
 }
