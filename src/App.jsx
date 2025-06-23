@@ -1,47 +1,35 @@
-
-import React from "react";
+import React, { useState } from "react";
+import eventsData from "./eventsData.jsx";
+import "./style.css";
 
 export default function App() {
-  const events = [
-    {
-      name: "Tower District Jazz Night",
-      venue: "Goldstein's Mortuary",
-      time: "2025-06-25T20:00:00",
-      genre: "Jazz",
-      description: "A night of local jazz talent.",
-    }
-  ];
+  const [events] = useState(eventsData);
 
   return (
-    <div style={{ backgroundColor: "#000", color: "#0f0", padding: "2rem", fontFamily: "monospace" }}>
-      <h1 style={{ marginBottom: "2rem" }}>Fresno Music Calendar - Calendar View</h1>
-      <div style={{
-        display: "grid",
-        gridTemplateColumns: "repeat(7, 1fr)",
-        gap: "1rem",
-        border: "1px solid #0f0",
-        padding: "1rem"
-      }}>
-        {[...Array(30)].map((_, index) => {
-          const date = index + 1;
-          const event = date === 25 ? events[0] : null;
-          return (
-            <div key={index} style={{
-              border: "1px solid #0f0",
-              minHeight: "6rem",
-              padding: "0.5rem"
-            }}>
-              <strong>June {date}</strong>
-              {event && (
-                <div>
-                  <p><strong>{event.name}</strong></p>
-                  <p>{event.venue}</p>
-                </div>
-              )}
-            </div>
-          );
-        })}
-      </div>
+    <div className="App">
+      <header>
+        <h1>Fresno Music Calendar</h1>
+      </header>
+      <main style={{ padding: "1rem" }}>
+        {events.map((event, index) => (
+          <div
+            key={index}
+            style={{
+              marginBottom: "1rem",
+              padding: "1rem",
+              border: "1px solid #ccc",
+              borderRadius: "8px",
+              backgroundColor: "#fff"
+            }}
+          >
+            <h2>{event.name}</h2>
+            <p><strong>Venue:</strong> {event.venue}</p>
+            <p><strong>Time:</strong> {event.time}</p>
+            <p><strong>Genre:</strong> {event.genre}</p>
+            <p>{event.description}</p>
+          </div>
+        ))}
+      </main>
     </div>
   );
 }
