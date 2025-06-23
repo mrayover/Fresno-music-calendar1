@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import eventsData from "./eventsData";
 import AddToCalendarButton from "./AddToCalendarButton";
@@ -36,44 +37,44 @@ export default function App() {
   );
 
   return (
-    <div className="App">
-      <header>
+    <div className="app-container">
+      <header className="header">
         <h1>Fresno Music Calendar</h1>
       </header>
-      <aside style={{ float: "left", width: "20%", padding: "1rem" }}>
+      <aside className="sidebar">
         <h2>Filters</h2>
-        <div>
+        <div className="filter-group">
           <h3>Genres</h3>
           <button onClick={() => selectAll("genre")}>Select All</button>
           {allGenres.map((genre, index) => (
-            <div key={index}>
+            <label key={index}>
               <input
                 type="checkbox"
                 checked={selectedGenres.includes(genre)}
                 onChange={() => toggleFilter("genre", genre)}
               />
               {genre}
-            </div>
+            </label>
           ))}
         </div>
-        <div>
+        <div className="filter-group">
           <h3>Venues</h3>
           <button onClick={() => selectAll("venue")}>Select All</button>
           {allVenues.map((venue, index) => (
-            <div key={index}>
+            <label key={index}>
               <input
                 type="checkbox"
                 checked={selectedVenues.includes(venue)}
                 onChange={() => toggleFilter("venue", venue)}
               />
               {venue}
-            </div>
+            </label>
           ))}
         </div>
       </aside>
-      <main style={{ marginLeft: "22%", padding: "1rem" }}>
+      <main className="main-content">
         {filteredEvents.map((event, index) => (
-          <div key={index} style={{ marginBottom: "1rem", padding: "1rem", border: "1px solid #ccc" }}>
+          <div className="event-card" key={index}>
             <h2>{event.name}</h2>
             <p><strong>Venue:</strong> {event.venue}</p>
             <p><strong>Time:</strong> {event.time}</p>

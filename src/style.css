@@ -1,1 +1,40 @@
-.landing-page { font-family: sans-serif; padding: 2rem; text-align: center; background: #f7f3e9; color: #222; }
+
+.App {
+  display: flex;
+  flex-direction: row;
+  min-height: 100vh;
+  font-family: sans-serif;
+}
+
+aside {
+  width: 20%;
+  background-color: #f8f8f8;
+  padding: 1rem;
+  border-right: 1px solid #ddd;
+}
+
+main {
+  flex: 1;
+  padding: 2rem;
+}
+
+header {
+  position: fixed;
+  width: 100%;
+  background-color: #222;
+  color: #fff;
+  padding: 1rem;
+  top: 0;
+  left: 0;
+  text-align: center;
+  z-index: 10;
+}
+
+h1 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.App > aside, .App > main {
+  margin-top: 80px; /* pushes content down below header */
+}
