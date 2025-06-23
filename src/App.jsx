@@ -1,65 +1,61 @@
 
-import React, { useState } from "react";
-import eventsData from "./eventsData.jsx";
+import React from "react";
+import { Calendar, dateFnsLocalizer } from "react-big-calendar";
+import format from "date-fns/format";
+import parse from "date-fns/parse";
+import startOfWeek from "date-fns/startOfWeek";
+import getDay from "date-fns/getDay";
+import enUS from "date-fns/locale/en-US";
+import "react-big-calendar/lib/css/react-big-calendar.css";
 import "./style.css";
 
+const locales = {
+  "en-US": enUS,
+};
+
+const localizer = dateFnsLocalizer({
+  format,
+  parse,
+  startOfWeek,
+  getDay,
+  locales,
+});
+
+const events = [
+  {
+    "title": "Jazz Night at Fulton",
+    "start": "2025-06-25T19:00:00-07:00",
+    "end": "2025-06-25T21:00:00-07:00"
+  },
+  {
+    "title": "Open Mic @ Tower Caf\u00e9",
+    "start": "2025-06-27T20:00:00-07:00",
+    "end": "2025-06-27T22:00:00-07:00"
+  },
+  {
+    "title": "Symphony in the Park",
+    "start": "2025-06-30T18:00:00-07:00",
+    "end": "2025-06-30T20:30:00-07:00"
+  }
+];
+
 export default function App() {
-  const [events] = useState(eventsData);
-
-  // Group events by date for calendar view
-  const groupedEvents = events.reduce((acc, event) => {
-    const date = event.date;
-    if (!acc[date]) acc[date] = [];
-    acc[date].push(event);
-    return acc;
-  }, {});
-
-  const today = new Date();
-  const year = today.getFullYear();
-  const month = today.getMonth(); // 0-indexed
-  const firstDay = new Date(year, month, 1);
-  const lastDay = new Date(year, month + 1, 0);
-  const numDays = lastDay.getDate();
-  const startWeekday = firstDay.getDay();
-
-  const days = [];
-  for (let i = 0; i < startWeekday; i++) {
-    days.push(null);
-  }
-  for (let i = 1; i <= numDays; i++) {
-    days.push(i);
-  }
-
-  const monthName = today.toLocaleString("default", { month: "long" });
+  const parsedEvents = events.map(event => ({
+    ...event,
+    start: new Date(event.start),
+    end: new Date(event.end),
+  }));
 
   return (
-    <div className="App">
-      <header>
-        <h1>Fresno Music Calendar</h1>
-        <h2>{monthName} {year}</h2>
-      </header>
-      <div className="calendar-grid">
-        {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((day, idx) => (
-          <div className="calendar-header" key={idx}>{day}</div>
-        ))}
-        {days.map((day, idx) => {
-          const dateKey = day ? `${year}-${(month + 1).toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}` : null;
-          const eventsForDay = dateKey && groupedEvents[dateKey] ? groupedEvents[dateKey] : [];
-
-          return (
-            <div key={idx} className="calendar-day">
-              {day && <div className="day-number">{day}</div>}
-              {eventsForDay.map((event, i) => (
-                <div key={i} className="event-card">
-                  <strong>{event.name}</strong><br />
-                  {event.venue}<br />
-                  {event.time}
-                </div>
-              ))}
-            </div>
-          );
-        })}
-      </div>
+    <div className="App" style={{ height: "100vh", padding: "1rem" }}>
+      <h1>Fresno Music Calendar</h1>
+      <Calendar
+        localizer={localizer}
+        events={parsedEvents}
+        startAccessor="start"
+        endAccessor="end"
+        style={{ height: 600 }}
+      />
     </div>
   );
 }
