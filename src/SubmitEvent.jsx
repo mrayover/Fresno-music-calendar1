@@ -1,7 +1,6 @@
-
 import React from "react";
-import { useNavigate } from "react-router-dom";
 import SubmitEventForm from "./SubmitEventForm";
+import { useNavigate } from "react-router-dom";
 
 export default function SubmitEvent() {
   const navigate = useNavigate();
@@ -11,10 +10,8 @@ export default function SubmitEvent() {
       <button onClick={() => navigate("/")} style={{ marginBottom: "1rem" }}>
         ← Back to Calendar
       </button>
-      <h1>Submit a New Event</h1>
+      <h2>Submit a New Event</h2>
       <SubmitEventForm />
     </div>
   );
-};
-
-export default SubmitEvent;
+}
