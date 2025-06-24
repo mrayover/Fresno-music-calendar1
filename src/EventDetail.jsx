@@ -1,6 +1,6 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import eventsData from "./eventsData";
+import eventsData from "./eventsData.jsx";
 import AddToCalendarButton from "./AddToCalendarButton";
 
 export default function EventDetail() {
@@ -13,11 +13,12 @@ export default function EventDetail() {
 
   return (
     <div style={{ padding: "2rem" }}>
-      <h1>{event.title}</h1>
+      <h1>{event.name}</h1>
       <p><strong>Venue:</strong> {event.venue}</p>
-      <p><strong>Start:</strong> {event.start}</p>
-      <p><strong>End:</strong> {event.end}</p>
-      <p><strong>Description:</strong> {event.description}</p>
+      <p><strong>Time:</strong> {event.time}</p>
+      <p><strong>Date:</strong> {event.date}</p>
+      <p><strong>Genre:</strong> {event.genre}</p>
+      <p>{event.description}</p>
       <AddToCalendarButton event={event} />
     </div>
   );
