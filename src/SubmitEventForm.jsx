@@ -7,9 +7,9 @@ const SubmitEventForm = () => {
     startTime: "",
     endTime: "",
     venue: "",
-    description: "",
     genre: "",
-    cover: ""
+    cover: "",
+    description: ""
   });
 
   const handleChange = (e) => {
@@ -24,22 +24,21 @@ const SubmitEventForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
     const isoDate = formatDateToISO(formData.date);
     const start = `${isoDate}T${formData.startTime}:00`;
     const end = `${isoDate}T${formData.endTime}:00`;
 
-    const event = {
+    const newEvent = {
       ...formData,
       start,
       end
     };
 
-    delete event.date;
-    delete event.startTime;
-    delete event.endTime;
+    delete newEvent.date;
+    delete newEvent.startTime;
+    delete newEvent.endTime;
 
-    alert("Submitted:\n" + JSON.stringify(event, null, 2));
+    alert("Submitted Event:\n" + JSON.stringify(newEvent, null, 2));
   };
 
   return (
