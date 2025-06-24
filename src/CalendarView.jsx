@@ -1,42 +1,28 @@
-
-import React, { useState } from "react";
-import { Calendar, Views, momentLocalizer } from "react-big-calendar";
+import React from "react";
+import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
 import "react-big-calendar/lib/css/react-big-calendar.css";
-import events from "./eventsData";
+import { useNavigate } from "react-router-dom";
 
 const localizer = momentLocalizer(moment);
 
-const CalendarView = ({ onSelectEvent }) => {
-  const [view, setView] = useState(Views.MONTH);
+const CalendarView = ({ events }) => {
+  const navigate = useNavigate();
 
-  const handleViewChange = (newView) => {
-    setView(newView);
+  const handleSelectEvent = (event) => {
+    navigate(`/event/${event.id}`);
   };
 
   return (
-    <div className="calendar-container">
-      <div className="view-selector">
-        {Object.values(Views).map((v) => (
-          <button
-            key={v}
-            className={view === v ? "active" : ""}
-            onClick={() => handleViewChange(v)}
-          >
-            {v.charAt(0).toUpperCase() + v.slice(1)}
-          </button>
-        ))}
-      </div>
+    <div style={{ height: "calc(100vh - 120px)", margin: "1rem" }}>
       <Calendar
         localizer={localizer}
         events={events}
         startAccessor="start"
         endAccessor="end"
-        style={{ height: "80vh" }}
-        views={["month", "week", "day", "agenda"]}
-        view={view}
-        onView={handleViewChange}
-        onSelectEvent={onSelectEvent}
+        titleAccessor="title"
+        onSelectEvent={handleSelectEvent}
+        style={{ height: "100%" }}
       />
     </div>
   );
