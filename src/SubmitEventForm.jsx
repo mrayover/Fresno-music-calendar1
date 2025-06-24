@@ -42,23 +42,11 @@ const SubmitEventForm = () => {
     alert("Submitted:\n" + JSON.stringify(event, null, 2));
   };
 
-return (
-  <>
+  return (
+    <>
     <h2 style={{ textAlign: "center" }}>Form is Rendering</h2>
-
-    <form
-      onSubmit={handleSubmit}
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        gap: "1rem",
-        maxWidth: "600px",
-        margin: "0 auto",
-        backgroundColor: "#f8f8f8", // temp styling
-        border: "1px solid red",     // temp styling
-        padding: "2rem"
-      }}
-    >
+    
+    <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "1rem", maxWidth: "600px", margin: "0 auto" }}>
       <input name="title" placeholder="Event Title" value={formData.title} onChange={handleChange} required />
       <input name="date" placeholder="MM-DD-YYYY" value={formData.date} onChange={handleChange} required />
       <input name="startTime" type="time" value={formData.startTime} onChange={handleChange} required />
@@ -69,8 +57,8 @@ return (
       <textarea name="description" placeholder="Description" value={formData.description} onChange={handleChange} required />
       <button type="submit">Submit Event</button>
     </form>
-  </>
-);
-
+      </>
+  );
+};
 
 export default SubmitEventForm;
