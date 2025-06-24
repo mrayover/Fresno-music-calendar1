@@ -7,7 +7,7 @@ import events from './eventsData';
 
 const localizer = momentLocalizer(moment);
 
-const CalendarView = ({ events }) => {
+const CalendarView = () => {
   const [view, setView] = useState(Views.MONTH);
   const navigate = useNavigate();
 
