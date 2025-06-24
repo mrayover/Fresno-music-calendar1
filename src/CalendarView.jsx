@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Calendar, momentLocalizer, Views } from "react-big-calendar";
+import React from "react";
+import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import { useNavigate } from "react-router-dom";
@@ -7,7 +7,6 @@ import { useNavigate } from "react-router-dom";
 const localizer = momentLocalizer(moment);
 
 const CalendarView = ({ events }) => {
-  const [view, setView] = useState(Views.MONTH);
   const navigate = useNavigate();
 
   const handleSelectEvent = (event) => {
@@ -16,20 +15,12 @@ const CalendarView = ({ events }) => {
 
   return (
     <div style={{ height: "calc(100vh - 120px)", margin: "1rem" }}>
-      <div style={{ marginBottom: "1rem" }}>
-        <button onClick={() => setView(Views.MONTH)}>Month</button>
-        <button onClick={() => setView(Views.WEEK)}>Week</button>
-        <button onClick={() => setView(Views.DAY)}>Day</button>
-        <button onClick={() => setView(Views.AGENDA)}>Agenda</button>
-      </div>
       <Calendar
         localizer={localizer}
         events={events}
         startAccessor="start"
         endAccessor="end"
         titleAccessor="title"
-        view={view}
-        onView={setView}
         onSelectEvent={handleSelectEvent}
         style={{ height: "100%" }}
       />
