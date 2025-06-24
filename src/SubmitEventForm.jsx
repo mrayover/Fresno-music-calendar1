@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 
 const SubmitEventForm = () => {
@@ -5,28 +6,32 @@ const SubmitEventForm = () => {
     title: "",
     start: "",
     end: "",
+    venue: "",
+    description: "",
     genre: "",
-    location: "",
-    description: ""
+    cover: ""
   });
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    alert("Event submitted for review (not yet live).");
+    console.log("Event Submitted:", formData);
+    alert("Event submitted! (This form is not yet connected to a backend.)");
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input name="title" onChange={handleChange} placeholder="Event Title" />
-      <input name="start" onChange={handleChange} type="datetime-local" />
-      <input name="end" onChange={handleChange} type="datetime-local" />
-      <input name="genre" onChange={handleChange} placeholder="Genre" />
-      <input name="location" onChange={handleChange} placeholder="Location" />
-      <textarea name="description" onChange={handleChange} placeholder="Description" />
+    <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+      <label>Title: <input type="text" name="title" value={formData.title} onChange={handleChange} required /></label>
+      <label>Start Time: <input type="datetime-local" name="start" value={formData.start} onChange={handleChange} required /></label>
+      <label>End Time: <input type="datetime-local" name="end" value={formData.end} onChange={handleChange} required /></label>
+      <label>Venue: <input type="text" name="venue" value={formData.venue} onChange={handleChange} required /></label>
+      <label>Description: <textarea name="description" value={formData.description} onChange={handleChange} required /></label>
+      <label>Genre: <input type="text" name="genre" value={formData.genre} onChange={handleChange} required /></label>
+      <label>Cover Charge: <input type="text" name="cover" value={formData.cover} onChange={handleChange} /></label>
       <button type="submit">Submit Event</button>
     </form>
   );
