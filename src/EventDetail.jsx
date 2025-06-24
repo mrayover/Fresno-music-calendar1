@@ -2,10 +2,14 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import eventsData from "./eventsData.jsx";
 import AddToCalendarButton from "./AddToCalendarButton";
+import { useNavigate } from "react-router-dom";
+
 
 export default function EventDetail() {
   const { id } = useParams();
   const event = eventsData.find(event => event.id === id);
+  const navigate = useNavigate();
+
 
   if (!event) {
     return <div>Event not found</div>;
@@ -13,6 +17,10 @@ export default function EventDetail() {
 
   return (
     <div style={{ padding: "2rem" }}>
+      <button onClick={() => navigate("/")} style={{ marginBottom: "1rem" }}>
+  ← Back to Calendar
+</button>
+
       <h1>{event.name}</h1>
       <p><strong>Venue:</strong> {event.venue}</p>
       <p><strong>Date:</strong> {new Date(event.start).toLocaleDateString()}</p>
