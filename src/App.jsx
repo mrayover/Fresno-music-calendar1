@@ -4,7 +4,6 @@ import { Routes, Route, Link } from "react-router-dom";
 import CalendarView from "./CalendarView";
 import EventDetail from "./EventDetail";
 import SubmitEvent from "./SubmitEvent.jsx";
-console.log("SubmitEvent:", SubmitEvent);
 
 export default function App() {
   return (
@@ -23,7 +22,7 @@ export default function App() {
         <Routes>
           <Route path="/" element={<CalendarView />} />
           <Route path="/event/:id" element={<EventDetail />} />
-          <Route path="/submit" element={<div style={{ padding: "2rem" }}>INLINE ROUTE WORKING</div>} />
+          <Route path="/submit" element={<SubmitEvent />} />
         </Routes>
       </main>
     </div>

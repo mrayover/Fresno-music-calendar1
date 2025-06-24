@@ -1,6 +1,7 @@
 import React from "react";
 import SubmitEventForm from "./SubmitEventForm";
 import { useNavigate } from "react-router-dom";
+import "./components/SubmitEvent.css";
 
 export default function SubmitEvent() {
   const navigate = useNavigate();
