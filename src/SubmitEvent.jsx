@@ -11,6 +11,11 @@ export default function SubmitEvent() {
         ← Back to Calendar
       </button>
       <h2>Submit a New Event</h2>
+
+      <p style={{ backgroundColor: "lightyellow", padding: "1rem" }}>
+        ✅ If you see this message, SubmitEvent is rendering.
+      </p>
+
       <SubmitEventForm />
     </div>
   );
