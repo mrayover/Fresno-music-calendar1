@@ -7,6 +7,7 @@ export default function SubmitEvent() {
 
   return (
     <div style={{ padding: "2rem" }}>
+      <h1>Submit Event Page Loaded</h1> {/* DEBUG TEXT */}
       <button onClick={() => navigate("/")} style={{ marginBottom: "1rem" }}>
         ← Back to Calendar
       </button>
