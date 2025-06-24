@@ -43,10 +43,7 @@ const SubmitEventForm = () => {
   };
 
   return (
-  <>
     <h2 style={{ textAlign: "center" }}>Form is Rendering</h2>
-    <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "1rem", maxWidth: "600px", margin: "0 auto" }}>
-      ...
     <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "1rem", maxWidth: "600px", margin: "0 auto" }}>
       <input name="title" placeholder="Event Title" value={formData.title} onChange={handleChange} required />
       <input name="date" placeholder="MM-DD-YYYY" value={formData.date} onChange={handleChange} required />
