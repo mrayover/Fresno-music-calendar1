@@ -42,7 +42,7 @@ const CalendarView = () => {
       <Calendar
         views={["month", "day"]}
         localizer={localizer}
-        events={events}
+        events={events.filter(event => selectedGenres.includes(event.genre))}
         startAccessor="start"
         endAccessor="end"
         titleAccessor="title"
