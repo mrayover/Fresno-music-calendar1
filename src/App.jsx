@@ -23,7 +23,7 @@ export default function App() {
         <Routes>
           <Route path="/" element={<CalendarView />} />
           <Route path="/event/:id" element={<EventDetail />} />
-          <Route path="/submit" element={<SubmitEvent />} />
+          <Route path="/submit" element={<div style={{ padding: "2rem" }}>INLINE ROUTE WORKING</div>} />
         </Routes>
       </main>
     </div>
