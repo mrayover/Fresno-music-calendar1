@@ -7,15 +7,11 @@ export default function SubmitEvent() {
 
   return (
     <div style={{ padding: "2rem" }}>
+      <p style={{ color: "red" }}>TEST TEXT: SubmitEvent component is rendering</p>
       <button onClick={() => navigate("/")} style={{ marginBottom: "1rem" }}>
         ← Back to Calendar
       </button>
       <h2>Submit a New Event</h2>
-
-      <p style={{ backgroundColor: "lightyellow", padding: "1rem" }}>
-        ✅ If you see this message, SubmitEvent is rendering.
-      </p>
-
       <SubmitEventForm />
     </div>
   );
