@@ -22,6 +22,8 @@ const CalendarView = ({ events }) => {
         endAccessor="end"
         titleAccessor="title"
         onSelectEvent={handleSelectEvent}
+        views={['month', 'week', 'day', 'agenda']}
+        defaultView="month"
         style={{ height: "100%" }}
       />
     </div>
