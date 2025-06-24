@@ -6,26 +6,26 @@ import { useNavigate } from "react-router-dom";
 import events from './eventsData';
 import FilterPanel from "./FilterPanel";
 
-const allGenres = Array.from(new Set(events.map(event => event.genre))).sort();
-
-const [selectedGenres, setSelectedGenres] = useState(allGenres);
-
-const handleGenreChange = (genre) => {
-  setSelectedGenres(prev =>
-    prev.includes(genre)
-      ? prev.filter(g => g !== genre)
-      : [...prev, genre]
-  );
-};
-
 const localizer = momentLocalizer(moment);
 
 const CalendarView = () => {
   const [view, setView] = useState(Views.MONTH);
+  const [selectedGenres, setSelectedGenres] = useState(
+    Array.from(new Set(events.map(event => event.genre))).sort()
+  );
+
   const navigate = useNavigate();
 
   const handleSelectEvent = (event) => {
     navigate(`/event/${event.id}`);
+  };
+
+  const handleGenreChange = (genre) => {
+    setSelectedGenres(prev =>
+      prev.includes(genre)
+        ? prev.filter(g => g !== genre)
+        : [...prev, genre]
+    );
   };
 
   return (
