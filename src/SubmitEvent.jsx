@@ -11,7 +11,6 @@ export default function SubmitEvent() {
         ← Back to Calendar
       </button>
       <h2>Submit a New Event</h2>
-      <p>DEBUG: Form should be below this line.</p>
       <SubmitEventForm />
     </div>
   );
