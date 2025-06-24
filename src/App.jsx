@@ -1,61 +1,57 @@
 
-import React from "react";
-import { Calendar, dateFnsLocalizer } from "react-big-calendar";
-import format from "date-fns/format";
-import parse from "date-fns/parse";
-import startOfWeek from "date-fns/startOfWeek";
-import getDay from "date-fns/getDay";
-import enUS from "date-fns/locale/en-US";
+import React, { useState } from "react";
+import { BrowserRouter as Router, Routes, Route, useNavigate } from "react-router-dom";
+import { Calendar, momentLocalizer } from "react-big-calendar";
+import moment from "moment";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import "./style.css";
 
-const locales = {
-  "en-US": enUS,
-};
+import eventsData from "./eventsData.jsx";
+import EventDetail from "./EventDetail.jsx";
+import SubmitEvent from "./SubmitEvent.jsx";
+import FilterPanel from "./FilterPanel.jsx";
+import logo from "./assets/logo.png";
 
-const localizer = dateFnsLocalizer({
-  format,
-  parse,
-  startOfWeek,
-  getDay,
-  locales,
-});
+const localizer = momentLocalizer(moment);
 
-const events = [
-  {
-    "title": "Jazz Night at Fulton",
-    "start": "2025-06-25T19:00:00-07:00",
-    "end": "2025-06-25T21:00:00-07:00"
-  },
-  {
-    "title": "Open Mic @ Tower Caf\u00e9",
-    "start": "2025-06-27T20:00:00-07:00",
-    "end": "2025-06-27T22:00:00-07:00"
-  },
-  {
-    "title": "Symphony in the Park",
-    "start": "2025-06-30T18:00:00-07:00",
-    "end": "2025-06-30T20:30:00-07:00"
-  }
-];
+function HomePage() {
+  const navigate = useNavigate();
 
-export default function App() {
-  const parsedEvents = events.map(event => ({
-    ...event,
-    start: new Date(event.start),
-    end: new Date(event.end),
-  }));
+  const handleSelectEvent = (event) => {
+    navigate(`/event/${event.id}`);
+  };
 
   return (
-    <div className="App" style={{ height: "100vh", padding: "1rem" }}>
-      <h1>Fresno Music Calendar</h1>
-      <Calendar
-        localizer={localizer}
-        events={parsedEvents}
-        startAccessor="start"
-        endAccessor="end"
-        style={{ height: 600 }}
-      />
+    <div className="app-container">
+      <header className="app-header">
+        <img src={logo} alt="Fresno Music Calendar Logo" className="app-logo" />
+        <h1 className="app-title">Fresno Music Calendar</h1>
+      </header>
+      <div className="main-layout">
+        <FilterPanel />
+        <div className="calendar-container">
+          <Calendar
+            localizer={localizer}
+            events={eventsData}
+            startAccessor="start"
+            endAccessor="end"
+            style={{ height: 600 }}
+            onSelectEvent={handleSelectEvent}
+          />
+        </div>
+      </div>
     </div>
+  );
+}
+
+export default function App() {
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/event/:id" element={<EventDetail />} />
+        <Route path="/submit" element={<SubmitEvent />} />
+      </Routes>
+    </Router>
   );
 }
