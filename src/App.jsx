@@ -3,7 +3,8 @@ import React from "react";
 import { Routes, Route, Link } from "react-router-dom";
 import CalendarView from "./CalendarView";
 import EventDetail from "./EventDetail";
-import SubmitEvent from "./SubmitEvent";
+import SubmitEvent from "./SubmitEvent.jsx";
+console.log("SubmitEvent:", SubmitEvent);
 
 export default function App() {
   return (
