@@ -1,20 +1,18 @@
+
 import React from "react";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
 import "react-big-calendar/lib/css/react-big-calendar.css";
-import { useNavigate } from "react-router-dom";
 
 const localizer = momentLocalizer(moment);
 
-const CalendarView = ({ events }) => {
-  const navigate = useNavigate();
-
+function CalendarView({ events, onSelectEvent }) {
   const handleSelectEvent = (event) => {
-    navigate(`/event/${event.id}`);
+    onSelectEvent(event);
   };
 
   return (
-    <div style={{ height: "calc(100vh - 120px)", margin: "1rem" }}>
+    <div style={{ height: "calc(100vh - 100px)" }}>
       <Calendar
         localizer={localizer}
         events={events}
@@ -28,6 +26,6 @@ const CalendarView = ({ events }) => {
       />
     </div>
   );
-};
+}
 
 export default CalendarView;
