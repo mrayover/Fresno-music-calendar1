@@ -15,8 +15,8 @@ export default function EventDetail() {
     <div style={{ padding: "2rem" }}>
       <h1>{event.name}</h1>
       <p><strong>Venue:</strong> {event.venue}</p>
-      <p><strong>Time:</strong> {event.time}</p>
-      <p><strong>Date:</strong> {event.date}</p>
+      <p><strong>Date:</strong> {new Date(event.start).toLocaleDateString()}</p>
+      <p><strong>Time:</strong> {new Date(event.start).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} – {new Date(event.end).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</p>
       <p><strong>Genre:</strong> {event.genre}</p>
       <p>{event.description}</p>
       <AddToCalendarButton event={event} />
