@@ -1,19 +1,24 @@
 import React from "react";
 
 export default function AddToCalendarButton({ event }) {
-  const { name, time, venue } = event;
+  const generateGoogleCalendarUrl = () => {
+    const title = encodeURIComponent(event.title);
+    const start = new Date(event.start).toISOString().replace(/-|:|\.\d+/g, "");
+    const end = new Date(event.end).toISOString().replace(/-|:|\.\d+/g, "");
+    const details = encodeURIComponent(event.description || "");
+    const location = encodeURIComponent(event.venue || "");
 
-  const startTime = new Date(time).toISOString();
-  const endTime = new Date(new Date(time).getTime() + 2 * 60 * 60 * 1000).toISOString(); // +2 hours
-  const details = encodeURIComponent(`${name} at ${venue}`);
-  const location = encodeURIComponent(venue);
-  const calendarUrl = `https://www.addevent.com/dir/?client=aGxsNGRhaHRjZ29scg&id=example&start=${startTime}&end=${endTime}&title=${encodeURIComponent(name)}&location=${location}&description=${details}`;
+    return `https://www.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${start}/${end}&details=${details}&location=${location}&sf=true&output=xml`;
+  };
 
   return (
-    <a href={calendarUrl} target="_blank" rel="noopener noreferrer">
-      <button style={{ marginTop: "0.5rem", padding: "0.4rem 1rem", background: "#333", color: "#fff", border: "none", cursor: "pointer" }}>
-        Add to Calendar
-      </button>
+    <a
+      className="add-to-calendar"
+      href={generateGoogleCalendarUrl()}
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      Add to Google Calendar
     </a>
   );
 }
