@@ -4,6 +4,19 @@ import moment from "moment";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import { useNavigate } from "react-router-dom";
 import events from './eventsData';
+import FilterPanel from "./FilterPanel";
+
+const allGenres = Array.from(new Set(events.map(event => event.genre))).sort();
+
+const [selectedGenres, setSelectedGenres] = useState(allGenres);
+
+const handleGenreChange = (genre) => {
+  setSelectedGenres(prev =>
+    prev.includes(genre)
+      ? prev.filter(g => g !== genre)
+      : [...prev, genre]
+  );
+};
 
 const localizer = momentLocalizer(moment);
 
