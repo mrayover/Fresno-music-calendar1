@@ -34,6 +34,11 @@ const CalendarView = () => {
         <button onClick={() => setView(Views.MONTH)}>Month</button>
         <button onClick={() => setView(Views.DAY)}>Day</button>
       </div>
+      <FilterPanel
+        genres={Array.from(new Set(events.map(event => event.genre))).sort()}
+        selectedGenres={selectedGenres}
+        onFilterChange={handleGenreChange}
+        />
       <Calendar
         views={["month", "day"]}
         localizer={localizer}
