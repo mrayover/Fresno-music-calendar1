@@ -7,7 +7,6 @@ export default function SubmitEvent() {
 
   return (
     <div style={{ padding: "2rem" }}>
-      <p style={{ color: "red" }}>TEST TEXT: SubmitEvent component is rendering</p>
       <button onClick={() => navigate("/")} style={{ marginBottom: "1rem" }}>
         ← Back to Calendar
       </button>
