@@ -3,7 +3,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import SubmitEventForm from "./SubmitEventForm";
 
-const SubmitEvent = () => {
+export default function SubmitEvent() {
   const navigate = useNavigate();
 
   return (

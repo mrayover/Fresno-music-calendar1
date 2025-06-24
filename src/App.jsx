@@ -16,6 +16,7 @@ export default function App() {
         <nav>
           <Link to="/" className="nav-link">Home</Link>
           <Link to="/submit" className="nav-link">Submit Event</Link>
+          <Link to="/submit">Submit Event</Link>
         </nav>
       </header>
       <main>
