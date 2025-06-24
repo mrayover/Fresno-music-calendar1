@@ -1,11 +1,11 @@
-
 import React, { useState } from "react";
 
 const SubmitEventForm = () => {
   const [formData, setFormData] = useState({
     title: "",
-    start: "",
-    end: "",
+    date: "",
+    startTime: "",
+    endTime: "",
     venue: "",
     description: "",
     genre: "",
@@ -14,24 +14,44 @@ const SubmitEventForm = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const formatDateToISO = (mmddyyyy) => {
+    const [month, day, year] = mmddyyyy.split("-");
+    return `${year}-${month}-${day}`;
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Event Submitted:", formData);
-    alert("Event submitted! (This form is not yet connected to a backend.)");
+
+    const isoDate = formatDateToISO(formData.date);
+    const start = `${isoDate}T${formData.startTime}:00`;
+    const end = `${isoDate}T${formData.endTime}:00`;
+
+    const event = {
+      ...formData,
+      start,
+      end
+    };
+
+    delete event.date;
+    delete event.startTime;
+    delete event.endTime;
+
+    alert("Submitted:\n" + JSON.stringify(event, null, 2));
   };
 
   return (
-    <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
-      <label>Title: <input type="text" name="title" value={formData.title} onChange={handleChange} required /></label>
-      <label>Start Time: <input type="datetime-local" name="start" value={formData.start} onChange={handleChange} required /></label>
-      <label>End Time: <input type="datetime-local" name="end" value={formData.end} onChange={handleChange} required /></label>
-      <label>Venue: <input type="text" name="venue" value={formData.venue} onChange={handleChange} required /></label>
-      <label>Description: <textarea name="description" value={formData.description} onChange={handleChange} required /></label>
-      <label>Genre: <input type="text" name="genre" value={formData.genre} onChange={handleChange} required /></label>
-      <label>Cover Charge: <input type="text" name="cover" value={formData.cover} onChange={handleChange} /></label>
+    <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "1rem", maxWidth: "600px", margin: "0 auto" }}>
+      <input name="title" placeholder="Event Title" value={formData.title} onChange={handleChange} required />
+      <input name="date" placeholder="MM-DD-YYYY" value={formData.date} onChange={handleChange} required />
+      <input name="startTime" type="time" value={formData.startTime} onChange={handleChange} required />
+      <input name="endTime" type="time" value={formData.endTime} onChange={handleChange} required />
+      <input name="venue" placeholder="Venue" value={formData.venue} onChange={handleChange} required />
+      <input name="genre" placeholder="Genre" value={formData.genre} onChange={handleChange} />
+      <input name="cover" placeholder="Cover Charge" value={formData.cover} onChange={handleChange} />
+      <textarea name="description" placeholder="Description" value={formData.description} onChange={handleChange} required />
       <button type="submit">Submit Event</button>
     </form>
   );
