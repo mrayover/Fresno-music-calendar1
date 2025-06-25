@@ -53,7 +53,38 @@ const handleVenueChange = (venue) => {
       <div style={{ marginBottom: "1rem" }}>
         <button onClick={() => setView(Views.MONTH)}>Month</button>
         <button onClick={() => setView(Views.DAY)}>Day</button>
-      </div>
+    </div>
+    <div style={{ marginTop: "2rem" }}>
+  <h3>Filter by Venue</h3>
+  <label>
+    <input
+      type="checkbox"
+      checked={allVenues.length === selectedVenues.length}
+      onChange={() => {
+        if (selectedVenues.length === allVenues.length) {
+          setSelectedVenues([]); // Deselect all
+        } else {
+          setSelectedVenues(allVenues); // Select all
+        }
+      }}
+    />
+    Select All
+  </label>
+  <div style={{ display: "flex", flexDirection: "column", gap: "0.25rem", marginTop: "0.5rem" }}>
+    {allVenues.map((venue) => (
+      <label key={venue}>
+        <input
+          type="checkbox"
+          value={venue}
+          checked={selectedVenues.includes(venue)}
+          onChange={() => handleVenueChange(venue)}
+        />
+        {venue}
+      </label>
+    ))}
+  </div>
+</div>
+
       <Calendar
         views={["month", "day"]}
         localizer={localizer}
