@@ -24,7 +24,7 @@ const FilterPanel = ({ genres, selectedGenres, onFilterChange }) => {
         />
         Select All
       </label>
-      <div style={{ display: "flex", flexDirection: "column", marginTop: "0.5rem" }}>
+      <div style={{ display: "flex", flexDirection: "column", gap: "0.25rem", marginTop: "0.5rem" }}>
         {genres.map((genre) => (
           <label key={genre}>
             <input
