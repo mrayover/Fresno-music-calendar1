@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import { supabase } from "./supabaseClient";
 
@@ -22,19 +23,18 @@ export default function AdminConfig() {
     const savedGenres = localStorage.getItem(GENRE_STORAGE_KEY);
     if (savedGenres) setGenres(JSON.parse(savedGenres));
 
-const fetchPending = async () => {
-  const { data, error } = await supabase
-    .from("pending_events")
-    .select("*"); // 🔁 remove `.eq(...)` and `.order(...)` temporarily
+    const fetchPending = async () => {
+      const { data, error } = await supabase
+        .from("pending_events")
+        .select("*");
 
-  if (error) {
-    console.error("Failed to fetch moderation queue:", error.message);
-  } else {
-    console.log("Fetched from Supabase:", data);
-    setPendingEvents(data);
-  }
-};
-
+      if (error) {
+        console.error("Failed to fetch moderation queue:", error.message);
+      } else {
+        console.log("Fetched from Supabase:", data);
+        setPendingEvents(data);
+      }
+    };
 
     fetchPending();
   }, []);
@@ -63,13 +63,13 @@ const fetchPending = async () => {
 
   const formatDateToISO = (mmddyyyy) => {
     const [month, day, year] = mmddyyyy.split("-");
-    return `${year}-${month}-${day}`;
+    return \`\${year}-\${month}-\${day}\`;
   };
 
   const generateEventObject = () => {
     const isoDate = formatDateToISO(eventData.date);
-    const start = `${isoDate}T${eventData.startTime}:00`;
-    const end = `${isoDate}T${eventData.endTime}:00`;
+    const start = \`\${isoDate}T\${eventData.startTime}:00\`;
+    const end = \`\${isoDate}T\${eventData.endTime}:00\`;
 
     const newEvent = {
       id: Date.now().toString(),
@@ -81,35 +81,37 @@ const fetchPending = async () => {
       genre: eventData.genre,
       cover: eventData.cover
     };
-
   };
 
-    const approveEvent = async (event) => {
-        const { error } = await supabase
-          .from("pending_events")
-          .update({ status: "approved" })
-          .eq("id", event.id);
+  const approveEvent = async (event) => {
+    const { data, error } = await supabase
+      .from("pending_events")
+      .update({ status: "approved" })
+      .eq("id", event.id)
+      .select();
 
-        if (error) {
-          console.error("Approval failed:", error.message);
-          alert("Failed to approve event.");
-        } else {
-          setPendingEvents((prev) => prev.filter((e) => e.id !== event.id));
-          alert(`Approved "${event.title}"`);
-        }
-      };
-
+    if (error) {
+      console.error("Approval failed:", error.message);
+      alert("Failed to approve event.");
+    } else {
+      console.log("Approved event:", data);
+      setPendingEvents((prev) => prev.filter((e) => e.id !== event.id));
+      alert(\`Approved "\${event.title}"\`);
+    }
+  };
 
   const rejectEvent = async (eventId) => {
-    const { error } = await supabase
+    const { data, error } = await supabase
       .from("pending_events")
       .update({ status: "rejected" })
-      .eq("id", eventId);
+      .eq("id", eventId)
+      .select();
 
     if (error) {
       console.error("Rejection failed:", error.message);
       alert("Failed to reject event.");
     } else {
+      console.log("Rejected event:", data);
       setPendingEvents((prev) => prev.filter((e) => e.id !== eventId));
       alert("Event rejected.");
     }
