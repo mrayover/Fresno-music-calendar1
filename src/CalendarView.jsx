@@ -14,6 +14,12 @@ const CalendarView = () => {
     Array.from(new Set(events.map(event => event.genre))).sort()
   );
 
+const [searchQuery, setSearchQuery] = useState("");
+
+const handleSearchChange = (e) => {
+  setSearchQuery(e.target.value.toLowerCase());
+};
+
   const navigate = useNavigate();
 
   const handleSelectEvent = (event) => {
@@ -37,7 +43,6 @@ const handleVenueChange = (venue) => {
       : [...prev, venue]
   );
 };
-
 
   return (
   <div style={{ display: "flex", height: "calc(100vh - 120px)", padding: "1rem" }}>
