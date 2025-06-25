@@ -100,11 +100,27 @@ const approveEvent = async (event) => {
   }
 };
 
+const rejectEvent = async (eventId) => {
+  try {
+    const { error } = await supabase
+      .from("events")
+      .delete()
+      .eq("id", eventId)
+      .eq("status", "pending"); // Safety: only delete if still pending
 
-  const rejectEvent = (eventId) => {
-    const updatedQueue = pendingEvents.filter((e) => e.id !== eventId);
-    saveQueue(updatedQueue);
-  };
+    if (error) {
+      console.error("Error rejecting event:", error.message);
+      alert("There was an error rejecting the event.");
+      return;
+    }
+
+    setPendingEvents((prev) => prev.filter((e) => e.id !== eventId));
+    alert("Event rejected and removed from moderation queue.");
+  } catch (err) {
+    console.error("Unexpected error rejecting event:", err);
+    alert("Unexpected error occurred.");
+  }
+};
 
   return (
     <div style={{ padding: "2rem" }}>
