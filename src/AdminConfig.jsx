@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { supabase } from "./supabaseClient";
 
 const GENRE_STORAGE_KEY = "customGenres";
 const QUEUE_STORAGE_KEY = "pendingEvents";
@@ -20,13 +21,26 @@ export default function AdminConfig() {
 
   const [pendingEvents, setPendingEvents] = useState([]);
 
-  useEffect(() => {
-    const savedGenres = localStorage.getItem(GENRE_STORAGE_KEY);
-    if (savedGenres) setGenres(JSON.parse(savedGenres));
+useEffect(() => {
+  const savedGenres = localStorage.getItem(GENRE_STORAGE_KEY);
+  if (savedGenres) setGenres(JSON.parse(savedGenres));
 
-    const savedQueue = localStorage.getItem(QUEUE_STORAGE_KEY);
-    if (savedQueue) setPendingEvents(JSON.parse(savedQueue));
-  }, []);
+  const fetchPending = async () => {
+    const { data, error } = await supabase
+      .from("pending_events")
+      .select("*")
+      .eq("status", "pending")
+      .order("submitted_at", { ascending: false });
+
+    if (error) {
+      console.error("Failed to fetch moderation queue:", error.message);
+    } else {
+      setPendingEvents(data);
+    }
+  };
+
+  fetchPending();
+}, []);
 
   const saveGenres = (updated) => {
     setGenres(updated);
@@ -133,28 +147,6 @@ export default function AdminConfig() {
       </form>
 
 <hr style={{ margin: "2rem 0" }} />
-
-<div style={{ marginTop: "2rem" }}>
-  <button onClick={() => {
-    const testEvent = {
-      id: Date.now().toString(),
-      title: "Test Underground Show",
-      start: new Date("2025-07-12T20:00:00"),
-      end: new Date("2025-07-12T22:00:00"),
-      venue: "Tower Basement",
-      description: "All-ages punk showcase with 4 local bands.",
-      genre: "Punk",
-      cover: "$7"
-    };
-    const existing = JSON.parse(localStorage.getItem("pendingEvents") || "[]");
-    const updated = [...existing, testEvent];
-    localStorage.setItem("pendingEvents", JSON.stringify(updated));
-    alert("Test event added to moderation queue.");
-    window.location.reload();
-  }}>
-    ➕ Add Test Event to Moderation Queue
-  </button>
-</div>
 
 <h2>Moderation Queue</h2>
 
