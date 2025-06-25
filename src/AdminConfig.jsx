@@ -58,24 +58,39 @@ export default function AdminConfig() {
     return year + "-" + month + "-" + day;
   };
 
-  const generateEventObject = () => {
-    const isoDate = formatDateToISO(eventData.date);
-    const start = isoDate + "T" + eventData.startTime + ":00";
-    const end = isoDate + "T" + eventData.endTime + ":00";
+  const generateEventObject = async () => {
+  const isoDate = formatDateToISO(eventData.date);
+  const start = `${isoDate}T${eventData.startTime}:00`;
+  const end = `${isoDate}T${eventData.endTime}:00`;
 
-    const newEvent = {
-      id: Date.now().toString(),
-      title: eventData.title,
-      start: new Date(start),
-      end: new Date(end),
-      venue: eventData.venue,
-      description: eventData.description,
-      genre: eventData.genre,
-      cover: eventData.cover
-    };
-
-    alert("Copy this event object into eventsData.jsx:\n\n" + JSON.stringify(newEvent, null, 2));
+  const newEvent = {
+    title: eventData.title,
+    start,
+    end,
+    venue: eventData.venue,
+    description: eventData.description,
+    genre: eventData.genre,
+    cover: eventData.cover,
+    status: "approved",
+    source: "admin"
   };
+
+  try {
+    const { error } = await supabase.from("events").insert([newEvent]);
+
+    if (error) {
+      console.error("Insert failed:", error.message);
+      alert("There was an error submitting your event.");
+    } else {
+      alert("Event added and approved!");
+      window.location.reload();
+    }
+  } catch (err) {
+    console.error("Unexpected insert error:", err);
+    alert("Unexpected error occurred.");
+  }
+};
+
 
 const approveEvent = async (event) => {
   try {
@@ -159,7 +174,7 @@ const rejectEvent = async (eventId) => {
         <input name="genre" placeholder="Genre" value={eventData.genre} onChange={handleEventChange} />
         <input name="cover" placeholder="Cover Charge" value={eventData.cover} onChange={handleEventChange} />
         <textarea name="description" placeholder="Description" value={eventData.description} onChange={handleEventChange} required />
-        <button type="submit">Generate Event JSON</button>
+        <button type="submit">Add Event to Calendar</button>
       </form>
 
       <hr style={{ margin: "2rem 0" }} />
