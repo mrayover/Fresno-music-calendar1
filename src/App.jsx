@@ -4,6 +4,7 @@ import { Routes, Route, Link } from "react-router-dom";
 import CalendarView from "./CalendarView";
 import EventDetail from "./EventDetail";
 import SubmitEvent from "./SubmitEvent.jsx";
+import AdminConfig from "./AdminConfig";
 
 export default function App() {
   return (
@@ -23,6 +24,7 @@ export default function App() {
           <Route path="/" element={<CalendarView />} />
           <Route path="/event/:id" element={<EventDetail />} />
           <Route path="/submit" element={<SubmitEvent />} />
+          <Route path="/admin" element={<AdminConfig />} />
         </Routes>
       </main>
     </div>
