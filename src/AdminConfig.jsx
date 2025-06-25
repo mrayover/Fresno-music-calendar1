@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { supabase } from "./supabaseClient";
+window.supabase = supabase
 
 const GENRE_STORAGE_KEY = "customGenres";
 
