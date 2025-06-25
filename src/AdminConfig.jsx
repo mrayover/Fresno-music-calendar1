@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 
-const STORAGE_KEY = "customGenres";
+const GENRE_STORAGE_KEY = "customGenres";
+const QUEUE_STORAGE_KEY = "pendingEvents";
 
 export default function AdminConfig() {
   const [genres, setGenres] = useState([]);
@@ -17,14 +18,24 @@ export default function AdminConfig() {
     description: ""
   });
 
+  const [pendingEvents, setPendingEvents] = useState([]);
+
   useEffect(() => {
-    const saved = localStorage.getItem(STORAGE_KEY);
-    if (saved) setGenres(JSON.parse(saved));
+    const savedGenres = localStorage.getItem(GENRE_STORAGE_KEY);
+    if (savedGenres) setGenres(JSON.parse(savedGenres));
+
+    const savedQueue = localStorage.getItem(QUEUE_STORAGE_KEY);
+    if (savedQueue) setPendingEvents(JSON.parse(savedQueue));
   }, []);
 
   const saveGenres = (updated) => {
     setGenres(updated);
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
+    localStorage.setItem(GENRE_STORAGE_KEY, JSON.stringify(updated));
+  };
+
+  const saveQueue = (updated) => {
+    setPendingEvents(updated);
+    localStorage.setItem(QUEUE_STORAGE_KEY, JSON.stringify(updated));
   };
 
   const addGenre = () => {
@@ -65,7 +76,22 @@ export default function AdminConfig() {
       cover: eventData.cover
     };
 
-    alert("Copy this event object into eventsData.jsx:\n\n" + JSON.stringify(newEvent, null, 2));
+    alert("Copy this event object into eventsData.jsx:
+
+" + JSON.stringify(newEvent, null, 2));
+  };
+
+  const approveEvent = (event) => {
+    const eventJSON = JSON.stringify(event, null, 2);
+    navigator.clipboard.writeText(eventJSON);
+    alert("Approved! Event JSON copied to clipboard.");
+    const updatedQueue = pendingEvents.filter((e) => e.id !== event.id);
+    saveQueue(updatedQueue);
+  };
+
+  const rejectEvent = (eventId) => {
+    const updatedQueue = pendingEvents.filter((e) => e.id !== eventId);
+    saveQueue(updatedQueue);
   };
 
   return (
@@ -107,6 +133,26 @@ export default function AdminConfig() {
         <textarea name="description" placeholder="Description" value={eventData.description} onChange={handleEventChange} required />
         <button type="submit">Generate Event JSON</button>
       </form>
+
+      <hr style={{ margin: "2rem 0" }} />
+
+      <h2>Moderation Queue</h2>
+      {pendingEvents.length === 0 ? (
+        <p>No pending events.</p>
+      ) : (
+        <ul style={{ listStyle: "none", paddingLeft: 0 }}>
+          {pendingEvents.map((event) => (
+            <li key={event.id} style={{ marginBottom: "1.5rem", padding: "1rem", border: "1px solid #ccc", borderRadius: "8px" }}>
+              <strong>{event.title}</strong><br />
+              {new Date(event.start).toLocaleString()} – {new Date(event.end).toLocaleTimeString()}<br />
+              <em>{event.venue}</em> | {event.genre} | {event.cover}<br />
+              <p>{event.description}</p>
+              <button onClick={() => approveEvent(event)} style={{ marginRight: "0.5rem" }}>Approve</button>
+              <button onClick={() => rejectEvent(event.id)}>Reject</button>
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 }
