@@ -3,10 +3,35 @@ import { Calendar, momentLocalizer, Views } from "react-big-calendar";
 import moment from "moment";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import { useNavigate } from "react-router-dom";
-import events from './eventsData';
+import { useEffect, useState } from "react";
+import { supabase } from "./supabaseClient";
 import FilterPanel from "./FilterPanel";
 
 const localizer = momentLocalizer(moment);
+
+const [events, setEvents] = useState([]);
+
+useEffect(() => {
+  const fetchEvents = async () => {
+    const { data, error } = await supabase
+      .from("events")
+      .select("*")
+      .eq("status", "approved");
+
+    if (error) {
+      console.error("Error fetching events:", error.message);
+    } else {
+      const parsed = data.map(event => ({
+        ...event,
+        start: new Date(event.start),
+        end: new Date(event.end)
+      }));
+      setEvents(parsed);
+    }
+  };
+
+  fetchEvents();
+}, []);
 
 const CalendarView = () => {
   const [view, setView] = useState(Views.MONTH);
