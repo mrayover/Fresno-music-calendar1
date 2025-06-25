@@ -93,10 +93,11 @@ const handleVenueChange = (venue) => {
     </div>
 
     {/* Right column: Calendar */}
-  <div style={{ marginBottom: "1rem", display: "flex", alignItems: "center", gap: "1rem" }}>
-    <div>
-      <button onClick={() => setView(Views.MONTH)}>Month</button>
-      <button onClick={() => setView(Views.DAY)}>Day</button>
+    <div style={{ flex: 1, minWidth: 0 }}>
+<div style={{ marginBottom: "1rem", display: "flex", alignItems: "center", gap: "1rem" }}>
+  <div>
+    <button onClick={() => setView(Views.MONTH)}>Month</button>
+    <button onClick={() => setView(Views.DAY)}>Day</button>
   </div>
   <input
     type="text"
@@ -124,7 +125,7 @@ const handleVenueChange = (venue) => {
         style={{ height: "calc(100vh - 200px)", width: "100%" }}
       />
     </div>
- 
+  </div>
 );
 
 };
