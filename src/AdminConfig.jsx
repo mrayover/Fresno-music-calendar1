@@ -74,13 +74,15 @@ export default function AdminConfig() {
 
     alert("Copy this event object into eventsData.jsx:\n\n" + JSON.stringify(newEvent, null, 2));
   };
-  
+
 const approveEvent = async (event) => {
   try {
-    const { error } = await supabase
+    const { data, error } = await supabase
       .from("events")
       .update({ status: "approved" })
       .eq("id", event.id);
+
+    console.log("Supabase update result:", { data, error });
 
     if (error) {
       console.error("Error approving event:", error.message);
@@ -95,6 +97,7 @@ const approveEvent = async (event) => {
     alert("Unexpected error occurred.");
   }
 };
+
 
   const rejectEvent = (eventId) => {
     const updatedQueue = pendingEvents.filter((e) => e.id !== eventId);
