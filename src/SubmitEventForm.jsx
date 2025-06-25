@@ -22,23 +22,28 @@ const SubmitEventForm = () => {
     return `${year}-${month}-${day}`;
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const isoDate = formatDateToISO(formData.date);
-    const start = `${isoDate}T${formData.startTime}:00`;
-    const end = `${isoDate}T${formData.endTime}:00`;
+const handleSubmit = (e) => {
+  e.preventDefault();
+  const isoDate = formatDateToISO(formData.date);
+  const start = `${isoDate}T${formData.startTime}:00`;
+  const end = `${isoDate}T${formData.endTime}:00`;
 
-    const newEvent = {
-      ...formData,
-      start,
-      end
-    };
+  const newEvent = {
+    id: Date.now().toString(),
+    title: formData.title,
+    start: new Date(start),
+    end: new Date(end),
+    venue: formData.venue,
+    description: formData.description,
+    genre: formData.genre,
+    cover: formData.cover
+  };
 
-    delete newEvent.date;
-    delete newEvent.startTime;
-    delete newEvent.endTime;
+  const existing = JSON.parse(localStorage.getItem("pendingEvents") || "[]");
+  localStorage.setItem("pendingEvents", JSON.stringify([...existing, newEvent]));
 
-    alert("Submitted Event:\n" + JSON.stringify(newEvent, null, 2));
+  alert("Your event was submitted and is now awaiting approval. Thank you!");
+  window.location.href = "/"; // or use navigate("/") if you want smoother routing
   };
 
   return (
