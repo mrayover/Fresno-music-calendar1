@@ -103,6 +103,39 @@ const CalendarView = () => {
           />
         </div>
 
+        {/* Live Search Suggestions */}
+        {searchQuery && (
+          <div style={{
+            background: "#fff",
+            color: "#000",
+            border: "1px solid #ccc",
+            borderRadius: "4px",
+            maxHeight: "200px",
+            overflowY: "auto",
+            marginBottom: "1rem",
+            padding: "0.5rem"
+          }}>
+            {events
+              .filter(
+                (event) =>
+                  selectedGenres.includes(event.genre) &&
+                  selectedVenues.includes(event.venue) &&
+                  (event.title.toLowerCase().includes(searchQuery) ||
+                   event.description.toLowerCase().includes(searchQuery))
+              )
+              .map((event) => (
+                <div key={event.id} style={{ padding: "0.25rem 0" }}>
+                  <a
+                    href={`/event/${event.id}`}
+                    style={{ textDecoration: "none", color: "#000" }}
+                  >
+                    <strong>{event.title}</strong> – {new Date(event.start).toLocaleDateString()} @ {event.venue}
+                  </a>
+                </div>
+              ))}
+          </div>
+        )}
+
         <Calendar
           views={["month", "day"]}
           localizer={localizer}
