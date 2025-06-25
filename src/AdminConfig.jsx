@@ -53,6 +53,10 @@ export default function AdminConfig() {
     }
   };
 
+  const formatDateToISO = (mmddyyyy) => {
+    const [month, day, year] = mmddyyyy.split("-");
+    return year + "-" + month + "-" + day;
+  };
 
 const generateEventObject = async () => {
   const start = `${eventData.date}T${eventData.startTime}:00`;
