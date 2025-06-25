@@ -93,20 +93,19 @@ const handleVenueChange = (venue) => {
     </div>
 
     {/* Right column: Calendar */}
-    <div style={{ flex: 1, minWidth: 0 }}>
-      <div style={{ marginBottom: "1rem", display: "flex", alignItems: "center", gap: "1rem" }}>
+  <div style={{ marginBottom: "1rem", display: "flex", alignItems: "center", gap: "1rem" }}>
     <div>
       <button onClick={() => setView(Views.MONTH)}>Month</button>
       <button onClick={() => setView(Views.DAY)}>Day</button>
-    </div>
-    <input
-      type="text"
-      placeholder="Search events..."
-      value={searchQuery}
-      onChange={handleSearchChange}
-      style={{ padding: "0.4rem", flex: 1 }}
-    />
-    </div>
+  </div>
+  <input
+    type="text"
+    placeholder="Search events..."
+    value={searchQuery}
+    onChange={handleSearchChange}
+    style={{ padding: "0.4rem", flex: 1 }}
+  />
+</div>
 
       <Calendar
         views={["month", "day"]}
@@ -125,7 +124,7 @@ const handleVenueChange = (venue) => {
         style={{ height: "calc(100vh - 200px)", width: "100%" }}
       />
     </div>
-  </div>
+ 
 );
 
 };
