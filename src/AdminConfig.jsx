@@ -38,6 +38,15 @@ export default function AdminConfig() {
     fetchPending();
   }, []);
 
+  const addGenre = () => {
+    const trimmed = newGenre.trim();
+    if (trimmed && !genres.includes(trimmed)) {
+      setGenres([...genres, trimmed]);
+      localStorage.setItem(GENRE_STORAGE_KEY, JSON.stringify([...genres, trimmed]));
+      setNewGenre("");
+    }
+  };
+
   const formatDateToISO = (mmddyyyy) => {
     const [month, day, year] = mmddyyyy.split("-");
     return year + "-" + month + "-" + day;
@@ -125,4 +134,3 @@ export default function AdminConfig() {
     </div>
   );
 }
-
