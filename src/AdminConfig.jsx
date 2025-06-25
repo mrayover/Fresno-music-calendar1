@@ -6,6 +6,17 @@ export default function AdminConfig() {
   const [genres, setGenres] = useState([]);
   const [newGenre, setNewGenre] = useState("");
 
+  const [eventData, setEventData] = useState({
+    title: "",
+    date: "",
+    startTime: "",
+    endTime: "",
+    venue: "",
+    genre: "",
+    cover: "",
+    description: ""
+  });
+
   useEffect(() => {
     const saved = localStorage.getItem(STORAGE_KEY);
     if (saved) setGenres(JSON.parse(saved));
@@ -28,6 +39,35 @@ export default function AdminConfig() {
     saveGenres(genres.filter((g) => g !== genreToRemove));
   };
 
+  const handleEventChange = (e) => {
+    const { name, value } = e.target;
+    setEventData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const formatDateToISO = (mmddyyyy) => {
+    const [month, day, year] = mmddyyyy.split("-");
+    return `${year}-${month}-${day}`;
+  };
+
+  const generateEventObject = () => {
+    const isoDate = formatDateToISO(eventData.date);
+    const start = `${isoDate}T${eventData.startTime}:00`;
+    const end = `${isoDate}T${eventData.endTime}:00`;
+
+    const newEvent = {
+      id: Date.now().toString(),
+      title: eventData.title,
+      start: new Date(start),
+      end: new Date(end),
+      venue: eventData.venue,
+      description: eventData.description,
+      genre: eventData.genre,
+      cover: eventData.cover
+    };
+
+    alert("Copy this event object into eventsData.jsx:\n\n" + JSON.stringify(newEvent, null, 2));
+  };
+
   return (
     <div style={{ padding: "2rem" }}>
       <h2>Admin Genre Manager</h2>
@@ -46,6 +86,27 @@ export default function AdminConfig() {
           </li>
         ))}
       </ul>
+
+      <hr style={{ margin: "2rem 0" }} />
+
+      <h2>Manually Add an Event</h2>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          generateEventObject();
+        }}
+        style={{ display: "flex", flexDirection: "column", gap: "0.5rem", maxWidth: "500px" }}
+      >
+        <input name="title" placeholder="Title" value={eventData.title} onChange={handleEventChange} required />
+        <input name="date" placeholder="MM-DD-YYYY" value={eventData.date} onChange={handleEventChange} required />
+        <input name="startTime" type="time" value={eventData.startTime} onChange={handleEventChange} required />
+        <input name="endTime" type="time" value={eventData.endTime} onChange={handleEventChange} required />
+        <input name="venue" placeholder="Venue" value={eventData.venue} onChange={handleEventChange} required />
+        <input name="genre" placeholder="Genre" value={eventData.genre} onChange={handleEventChange} />
+        <input name="cover" placeholder="Cover Charge" value={eventData.cover} onChange={handleEventChange} />
+        <textarea name="description" placeholder="Description" value={eventData.description} onChange={handleEventChange} required />
+        <button type="submit">Generate Event JSON</button>
+      </form>
     </div>
   );
 }
