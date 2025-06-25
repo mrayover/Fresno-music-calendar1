@@ -25,9 +25,8 @@ const SubmitEventForm = () => {
 
 const handleSubmit = async (e) => {
   e.preventDefault();
-  const isoDate = formatDateToISO(formData.date);
-  const start = `${isoDate}T${formData.startTime}:00`;
-  const end = `${isoDate}T${formData.endTime}:00`;
+    const start = `${formData.date}T${formData.startTime}:00`;
+    const end = `${formData.date}T${formData.endTime}:00`;
 
   const newEvent = {
     title: formData.title,
@@ -57,7 +56,7 @@ const handleSubmit = async (e) => {
   return (
     <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "1rem", maxWidth: "600px", margin: "0 auto" }}>
       <input name="title" placeholder="Event Title" value={formData.title} onChange={handleChange} required />
-      <input name="date" placeholder="MM-DD-YYYY" value={formData.date} onChange={handleChange} required />
+      <input name="date" type="date" value={formData.date} onChange={handleChange} required />
       <input name="startTime" type="time" value={formData.startTime} onChange={handleChange} required />
       <input name="endTime" type="time" value={formData.endTime} onChange={handleChange} required />
       <input name="venue" placeholder="Venue" value={formData.venue} onChange={handleChange} required />
