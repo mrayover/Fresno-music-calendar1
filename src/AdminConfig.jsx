@@ -76,9 +76,7 @@ export default function AdminConfig() {
       cover: eventData.cover
     };
 
-    alert("Copy this event object into eventsData.jsx:
-
-" + JSON.stringify(newEvent, null, 2));
+    alert("Copy this event object into eventsData.jsx:\n\n" + JSON.stringify(newEvent, null, 2));
   };
 
   const approveEvent = (event) => {
