@@ -53,15 +53,10 @@ export default function AdminConfig() {
     }
   };
 
-  const formatDateToISO = (mmddyyyy) => {
-    const [month, day, year] = mmddyyyy.split("-");
-    return year + "-" + month + "-" + day;
-  };
 
-  const generateEventObject = async () => {
-  const isoDate = formatDateToISO(eventData.date);
-  const start = `${isoDate}T${eventData.startTime}:00`;
-  const end = `${isoDate}T${eventData.endTime}:00`;
+const generateEventObject = async () => {
+  const start = `${eventData.date}T${eventData.startTime}:00`;
+  const end = `${eventData.date}T${eventData.endTime}:00`;
 
   const newEvent = {
     title: eventData.title,
@@ -74,6 +69,22 @@ export default function AdminConfig() {
     status: "approved",
     source: "admin"
   };
+
+  try {
+    const { error } = await supabase.from("events").insert([newEvent]);
+
+    if (error) {
+      console.error("Insert failed:", error.message);
+      alert("There was an error submitting your event.");
+    } else {
+      alert("Event added and approved!");
+      window.location.reload();
+    }
+  } catch (err) {
+    console.error("Unexpected insert error:", err);
+    alert("Unexpected error occurred.");
+  }
+};
 
   try {
     const { error } = await supabase.from("events").insert([newEvent]);
