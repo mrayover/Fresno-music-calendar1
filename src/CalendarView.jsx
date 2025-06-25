@@ -68,6 +68,29 @@ const CalendarView = () => {
   const handleSearchChange = (e) => {
     setSearchQuery(e.target.value.toLowerCase());
   };
+const [events, setEvents] = useState([]);
+
+useEffect(() => {
+  const fetchEvents = async () => {
+    const { data, error } = await supabase
+      .from("events")
+      .select("*")
+      .eq("status", "approved");
+
+    if (error) {
+      console.error("Error fetching events:", error.message);
+    } else {
+      const parsed = data.map(event => ({
+        ...event,
+        start: new Date(event.start),
+        end: new Date(event.end)
+      }));
+      setEvents(parsed);
+    }
+  };
+
+  fetchEvents();
+}, []);
 
   return (
     <div style={{ display: "flex", height: "calc(100vh - 120px)", padding: "1rem" }}>
