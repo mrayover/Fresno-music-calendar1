@@ -19,7 +19,6 @@ export default function AdminConfig() {
   });
   const [pendingEvents, setPendingEvents] = useState([]);
 
-  
   useEffect(() => {
     const savedGenres = localStorage.getItem(GENRE_STORAGE_KEY);
     if (savedGenres) setGenres(JSON.parse(savedGenres));
