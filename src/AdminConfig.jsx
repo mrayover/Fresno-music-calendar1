@@ -82,7 +82,6 @@ const fetchPending = async () => {
       cover: eventData.cover
     };
 
-    alert("Copy this event object into eventsData.jsx:\n\n" + JSON.stringify(newEvent, null, 2));
   };
 
     const approveEvent = async (event) => {
