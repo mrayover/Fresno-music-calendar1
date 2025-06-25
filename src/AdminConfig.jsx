@@ -62,26 +62,7 @@ export default function AdminConfig() {
     alert("Copy this event object into eventsData.jsx:\n\n" + JSON.stringify(newEvent, null, 2));
   };
 
-  };
 
-  const rejectEvent = async (eventId) => {
-    const { data, error } = await supabase
-      .from("pending_events")
-      .update({ status: "rejected" })
-      .eq("id", eventId)
-      .select();
-
-    if (error) {
-      console.error("Rejection failed:", error.message);
-      alert("Failed to reject event.");
-    } else {
-      console.log("Rejected event:", data);
-      setPendingEvents((prev) => prev.filter((e) => e.id !== eventId));
-      alert("Event rejected.");
-    }
-  };
-
-  
   return (
     <div style={{ padding: "2rem" }}>
       <h2>Admin Genre Manager</h2>
@@ -143,4 +124,5 @@ export default function AdminConfig() {
       )}
     </div>
   );
+}
 
