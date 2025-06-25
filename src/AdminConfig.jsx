@@ -81,6 +81,7 @@ export default function AdminConfig() {
     }
   };
 
+  
   return (
     <div style={{ padding: "2rem" }}>
       <h2>Admin Genre Manager</h2>
@@ -142,3 +143,4 @@ export default function AdminConfig() {
       )}
     </div>
   );
+}
