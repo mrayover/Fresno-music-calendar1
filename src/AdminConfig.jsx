@@ -2,12 +2,10 @@ import React, { useState, useEffect } from "react";
 import { supabase } from "./supabaseClient";
 
 const GENRE_STORAGE_KEY = "customGenres";
-const QUEUE_STORAGE_KEY = "pendingEvents";
 
 export default function AdminConfig() {
   const [genres, setGenres] = useState([]);
   const [newGenre, setNewGenre] = useState("");
-
   const [eventData, setEventData] = useState({
     title: "",
     date: "",
@@ -18,38 +16,32 @@ export default function AdminConfig() {
     cover: "",
     description: ""
   });
-
   const [pendingEvents, setPendingEvents] = useState([]);
 
-useEffect(() => {
-  const savedGenres = localStorage.getItem(GENRE_STORAGE_KEY);
-  if (savedGenres) setGenres(JSON.parse(savedGenres));
+  useEffect(() => {
+    const savedGenres = localStorage.getItem(GENRE_STORAGE_KEY);
+    if (savedGenres) setGenres(JSON.parse(savedGenres));
 
-  const fetchPending = async () => {
-    const { data, error } = await supabase
-      .from("pending_events")
-      .select("*")
-      .eq("status", "pending")
-      .order("submitted_at", { ascending: false });
+    const fetchPending = async () => {
+      const { data, error } = await supabase
+        .from("pending_events")
+        .select("*")
+        .eq("status", "pending")
+        .order("submitted_at", { ascending: false });
 
-    if (error) {
-      console.error("Failed to fetch moderation queue:", error.message);
-    } else {
-      setPendingEvents(data);
-    }
-  };
+      if (error) {
+        console.error("Failed to fetch moderation queue:", error.message);
+      } else {
+        setPendingEvents(data);
+      }
+    };
 
-  fetchPending();
-}, []);
+    fetchPending();
+  }, []);
 
   const saveGenres = (updated) => {
     setGenres(updated);
     localStorage.setItem(GENRE_STORAGE_KEY, JSON.stringify(updated));
-  };
-
-  const saveQueue = (updated) => {
-    setPendingEvents(updated);
-    localStorage.setItem(QUEUE_STORAGE_KEY, JSON.stringify(updated));
   };
 
   const addGenre = () => {
@@ -97,13 +89,11 @@ useEffect(() => {
     const eventJSON = JSON.stringify(event, null, 2);
     navigator.clipboard.writeText(eventJSON);
     alert("Approved! Event JSON copied to clipboard.");
-    const updatedQueue = pendingEvents.filter((e) => e.id !== event.id);
-    saveQueue(updatedQueue);
+    setPendingEvents(prev => prev.filter((e) => e.id !== event.id));
   };
 
   const rejectEvent = (eventId) => {
-    const updatedQueue = pendingEvents.filter((e) => e.id !== eventId);
-    saveQueue(updatedQueue);
+    setPendingEvents(prev => prev.filter((e) => e.id !== eventId));
   };
 
   return (
@@ -146,10 +136,9 @@ useEffect(() => {
         <button type="submit">Generate Event JSON</button>
       </form>
 
-<hr style={{ margin: "2rem 0" }} />
+      <hr style={{ margin: "2rem 0" }} />
 
-<h2>Moderation Queue</h2>
-
+      <h2>Moderation Queue</h2>
       {pendingEvents.length === 0 ? (
         <p>No pending events.</p>
       ) : (
