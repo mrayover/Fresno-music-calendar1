@@ -37,6 +37,10 @@ export default function AdminConfig() {
 
     fetchPending();
   }, []);
+  const handleEventChange = (e) => {
+  const { name, value } = e.target;
+  setEventData((prev) => ({ ...prev, [name]: value }));
+};
 
   const addGenre = () => {
     const trimmed = newGenre.trim();
