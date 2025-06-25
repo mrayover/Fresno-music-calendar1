@@ -167,7 +167,7 @@ const rejectEvent = async (eventId) => {
         style={{ display: "flex", flexDirection: "column", gap: "0.5rem", maxWidth: "500px" }}
       >
         <input name="title" placeholder="Title" value={eventData.title} onChange={handleEventChange} required />
-        <input name="date" placeholder="MM-DD-YYYY" value={eventData.date} onChange={handleEventChange} required />
+        <input name="date" type="date" value={eventData.date} onChange={handleEventChange} required />
         <input name="startTime" type="time" value={eventData.startTime} onChange={handleEventChange} required />
         <input name="endTime" type="time" value={eventData.endTime} onChange={handleEventChange} required />
         <input name="venue" placeholder="Venue" value={eventData.venue} onChange={handleEventChange} required />
