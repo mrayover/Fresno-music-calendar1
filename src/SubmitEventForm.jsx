@@ -29,6 +29,8 @@ const handleSubmit = async (e) => {
   const start = `${isoDate}T${formData.startTime}:00`;
   const end = `${isoDate}T${formData.endTime}:00`;
 
+  console.log("Submitting event:", newEvent);
+
   const { error } = await supabase.from("pending_events").insert([
     {
       title: formData.title,
