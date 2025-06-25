@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { supabase } from "./supabaseClient";
 
@@ -39,37 +38,15 @@ export default function AdminConfig() {
     fetchPending();
   }, []);
 
-  const saveGenres = (updated) => {
-    setGenres(updated);
-    localStorage.setItem(GENRE_STORAGE_KEY, JSON.stringify(updated));
-  };
-
-  const addGenre = () => {
-    const trimmed = newGenre.trim();
-    if (trimmed && !genres.includes(trimmed)) {
-      saveGenres([...genres, trimmed]);
-      setNewGenre("");
-    }
-  };
-
-  const removeGenre = (genreToRemove) => {
-    saveGenres(genres.filter((g) => g !== genreToRemove));
-  };
-
-  const handleEventChange = (e) => {
-    const { name, value } = e.target;
-    setEventData((prev) => ({ ...prev, [name]: value }));
-  };
-
   const formatDateToISO = (mmddyyyy) => {
     const [month, day, year] = mmddyyyy.split("-");
-    return \`\${year}-\${month}-\${day}\`;
+    return year + "-" + month + "-" + day;
   };
 
   const generateEventObject = () => {
     const isoDate = formatDateToISO(eventData.date);
-    const start = \`\${isoDate}T\${eventData.startTime}:00\`;
-    const end = \`\${isoDate}T\${eventData.endTime}:00\`;
+    const start = isoDate + "T" + eventData.startTime + ":00";
+    const end = isoDate + "T" + eventData.endTime + ":00";
 
     const newEvent = {
       id: Date.now().toString(),
@@ -81,23 +58,10 @@ export default function AdminConfig() {
       genre: eventData.genre,
       cover: eventData.cover
     };
+
+    alert("Copy this event object into eventsData.jsx:\n\n" + JSON.stringify(newEvent, null, 2));
   };
 
-  const approveEvent = async (event) => {
-    const { data, error } = await supabase
-      .from("pending_events")
-      .update({ status: "approved" })
-      .eq("id", event.id)
-      .select();
-
-    if (error) {
-      console.error("Approval failed:", error.message);
-      alert("Failed to approve event.");
-    } else {
-      console.log("Approved event:", data);
-      setPendingEvents((prev) => prev.filter((e) => e.id !== event.id));
-      alert(\`Approved "\${event.title}"\`);
-    }
   };
 
   const rejectEvent = async (eventId) => {
@@ -178,4 +142,3 @@ export default function AdminConfig() {
       )}
     </div>
   );
-}
