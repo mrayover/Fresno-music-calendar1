@@ -85,15 +85,35 @@ const fetchPending = async () => {
     alert("Copy this event object into eventsData.jsx:\n\n" + JSON.stringify(newEvent, null, 2));
   };
 
-  const approveEvent = (event) => {
-    const eventJSON = JSON.stringify(event, null, 2);
-    navigator.clipboard.writeText(eventJSON);
-    alert("Approved! Event JSON copied to clipboard.");
-    setPendingEvents(prev => prev.filter((e) => e.id !== event.id));
-  };
+    const approveEvent = async (event) => {
+        const { error } = await supabase
+          .from("pending_events")
+          .update({ status: "approved" })
+          .eq("id", event.id);
 
-  const rejectEvent = (eventId) => {
-    setPendingEvents(prev => prev.filter((e) => e.id !== eventId));
+        if (error) {
+          console.error("Approval failed:", error.message);
+          alert("Failed to approve event.");
+        } else {
+          setPendingEvents((prev) => prev.filter((e) => e.id !== event.id));
+          alert(`Approved "${event.title}"`);
+        }
+      };
+
+
+  const rejectEvent = async (eventId) => {
+    const { error } = await supabase
+      .from("pending_events")
+      .update({ status: "rejected" })
+      .eq("id", eventId);
+
+    if (error) {
+      console.error("Rejection failed:", error.message);
+      alert("Failed to reject event.");
+    } else {
+      setPendingEvents((prev) => prev.filter((e) => e.id !== eventId));
+      alert("Event rejected.");
+    }
   };
 
   return (
