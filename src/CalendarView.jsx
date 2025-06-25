@@ -20,6 +20,12 @@ const handleSearchChange = (e) => {
   setSearchQuery(e.target.value.toLowerCase());
 };
 
+const [searchQuery, setSearchQuery] = useState("");
+
+const handleSearchChange = (e) => {
+  setSearchQuery(e.target.value.toLowerCase());
+};
+
   const navigate = useNavigate();
 
   const handleSelectEvent = (event) => {
@@ -88,10 +94,20 @@ const handleVenueChange = (venue) => {
 
     {/* Right column: Calendar */}
     <div style={{ flex: 1, minWidth: 0 }}>
-      <div style={{ marginBottom: "1rem" }}>
-        <button onClick={() => setView(Views.MONTH)}>Month</button>
-        <button onClick={() => setView(Views.DAY)}>Day</button>
-      </div>
+      <div style={{ marginBottom: "1rem", display: "flex", alignItems: "center", gap: "1rem" }}>
+    <div>
+      <button onClick={() => setView(Views.MONTH)}>Month</button>
+      <button onClick={() => setView(Views.DAY)}>Day</button>
+    </div>
+    <input
+      type="text"
+      placeholder="Search events..."
+      value={searchQuery}
+      onChange={handleSearchChange}
+      style={{ padding: "0.4rem", flex: 1 }}
+    />
+    </div>
+
       <Calendar
         views={["month", "day"]}
         localizer={localizer}
