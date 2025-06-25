@@ -132,9 +132,32 @@ export default function AdminConfig() {
         <button type="submit">Generate Event JSON</button>
       </form>
 
-      <hr style={{ margin: "2rem 0" }} />
+<hr style={{ margin: "2rem 0" }} />
 
-      <h2>Moderation Queue</h2>
+<div style={{ marginTop: "2rem" }}>
+  <button onClick={() => {
+    const testEvent = {
+      id: Date.now().toString(),
+      title: "Test Underground Show",
+      start: new Date("2025-07-12T20:00:00"),
+      end: new Date("2025-07-12T22:00:00"),
+      venue: "Tower Basement",
+      description: "All-ages punk showcase with 4 local bands.",
+      genre: "Punk",
+      cover: "$7"
+    };
+    const existing = JSON.parse(localStorage.getItem("pendingEvents") || "[]");
+    const updated = [...existing, testEvent];
+    localStorage.setItem("pendingEvents", JSON.stringify(updated));
+    alert("Test event added to moderation queue.");
+    window.location.reload();
+  }}>
+    ➕ Add Test Event to Moderation Queue
+  </button>
+</div>
+
+<h2>Moderation Queue</h2>
+
       {pendingEvents.length === 0 ? (
         <p>No pending events.</p>
       ) : (
