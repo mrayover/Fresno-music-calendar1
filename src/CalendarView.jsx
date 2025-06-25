@@ -29,16 +29,20 @@ const CalendarView = () => {
   };
 
   return (
-    <div style={{ height: "calc(100vh - 120px)", margin: "1rem" }}>
-      <div style={{ marginBottom: "1rem" }}>
-        <button onClick={() => setView(Views.MONTH)}>Month</button>
-        <button onClick={() => setView(Views.DAY)}>Day</button>
-      </div>
+  <div style={{ display: "flex", height: "calc(100vh - 120px)", padding: "1rem" }}>
+    <div style={{ minWidth: "200px", marginRight: "2rem" }}>
       <FilterPanel
         genres={Array.from(new Set(events.map(event => event.genre))).sort()}
         selectedGenres={selectedGenres}
         onFilterChange={handleGenreChange}
-        />
+      />
+    </div>
+
+    <div style={{ flex: 1 }}>
+      <div style={{ marginBottom: "1rem" }}>
+        <button onClick={() => setView(Views.MONTH)}>Month</button>
+        <button onClick={() => setView(Views.DAY)}>Day</button>
+      </div>
       <Calendar
         views={["month", "day"]}
         localizer={localizer}
@@ -52,7 +56,9 @@ const CalendarView = () => {
         style={{ height: "100%" }}
       />
     </div>
-  );
+  </div>
+);
+
 };
 
 export default CalendarView;
