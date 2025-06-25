@@ -41,49 +41,45 @@ const handleVenueChange = (venue) => {
 
   return (
   <div style={{ display: "flex", height: "calc(100vh - 120px)", padding: "1rem" }}>
-    <div style={{ minWidth: "200px", marginRight: "2rem" }}>
-      <FilterPanel
-        genres={Array.from(new Set(events.map(event => event.genre))).sort()}
-        selectedGenres={selectedGenres}
-        onFilterChange={handleGenreChange}
-      />
-    </div>
+    <div style={{ minWidth: "220px", marginRight: "2rem", display: "flex", flexDirection: "column" }}>
+  <FilterPanel
+    genres={Array.from(new Set(events.map(event => event.genre))).sort()}
+    selectedGenres={selectedGenres}
+    onFilterChange={handleGenreChange}
+  />
 
-    <div style={{ flex: 1 }}>
-      <div style={{ marginBottom: "1rem" }}>
-        <button onClick={() => setView(Views.MONTH)}>Month</button>
-        <button onClick={() => setView(Views.DAY)}>Day</button>
+  <div style={{ marginTop: "2rem" }}>
+    <h3>Filter by Venue</h3>
+    <label>
+      <input
+        type="checkbox"
+        checked={allVenues.length === selectedVenues.length}
+        onChange={() => {
+          if (selectedVenues.length === allVenues.length) {
+            setSelectedVenues([]);
+          } else {
+            setSelectedVenues(allVenues);
+          }
+        }}
+      />
+      Select All
+    </label>
+    <div style={{ display: "flex", flexDirection: "column", gap: "0.25rem", marginTop: "0.5rem" }}>
+      {allVenues.map((venue) => (
+        <label key={venue}>
+          <input
+            type="checkbox"
+            value={venue}
+            checked={selectedVenues.includes(venue)}
+            onChange={() => handleVenueChange(venue)}
+          />
+          {venue}
+        </label>
+      ))}
     </div>
-    <div style={{ marginTop: "2rem" }}>
-  <h3>Filter by Venue</h3>
-  <label>
-    <input
-      type="checkbox"
-      checked={allVenues.length === selectedVenues.length}
-      onChange={() => {
-        if (selectedVenues.length === allVenues.length) {
-          setSelectedVenues([]); // Deselect all
-        } else {
-          setSelectedVenues(allVenues); // Select all
-        }
-      }}
-    />
-    Select All
-  </label>
-  <div style={{ display: "flex", flexDirection: "column", gap: "0.25rem", marginTop: "0.5rem" }}>
-    {allVenues.map((venue) => (
-      <label key={venue}>
-        <input
-          type="checkbox"
-          value={venue}
-          checked={selectedVenues.includes(venue)}
-          onChange={() => handleVenueChange(venue)}
-        />
-        {venue}
-      </label>
-    ))}
   </div>
 </div>
+
 
       <Calendar
         views={["month", "day"]}
@@ -98,7 +94,6 @@ const handleVenueChange = (venue) => {
         style={{ height: "100%" }}
       />
     </div>
-  </div>
 );
 
 };
