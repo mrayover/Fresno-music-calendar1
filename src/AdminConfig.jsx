@@ -74,7 +74,32 @@ export default function AdminConfig() {
 
     alert("Copy this event object into eventsData.jsx:\n\n" + JSON.stringify(newEvent, null, 2));
   };
+  
+const approveEvent = async (event) => {
+  try {
+    const { error } = await supabase
+      .from("events")
+      .update({ status: "approved" })
+      .eq("id", event.id);
 
+    if (error) {
+      console.error("Error approving event:", error.message);
+      alert("There was an error approving the event.");
+      return;
+    }
+
+    setPendingEvents((prev) => prev.filter((e) => e.id !== event.id));
+    alert("Event approved and published!");
+  } catch (err) {
+    console.error("Unexpected error approving event:", err);
+    alert("Unexpected error occurred.");
+  }
+};
+
+  const rejectEvent = (eventId) => {
+    const updatedQueue = pendingEvents.filter((e) => e.id !== eventId);
+    saveQueue(updatedQueue);
+  };
 
   return (
     <div style={{ padding: "2rem" }}>
