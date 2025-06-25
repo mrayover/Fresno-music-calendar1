@@ -22,19 +22,19 @@ export default function AdminConfig() {
     const savedGenres = localStorage.getItem(GENRE_STORAGE_KEY);
     if (savedGenres) setGenres(JSON.parse(savedGenres));
 
-    const fetchPending = async () => {
-      const { data, error } = await supabase
-        .from("pending_events")
-        .select("*")
-        .eq("status", "pending")
-        .order("submitted_at", { ascending: false });
+const fetchPending = async () => {
+  const { data, error } = await supabase
+    .from("pending_events")
+    .select("*"); // 🔁 remove `.eq(...)` and `.order(...)` temporarily
 
-      if (error) {
-        console.error("Failed to fetch moderation queue:", error.message);
-      } else {
-        setPendingEvents(data);
-      }
-    };
+  if (error) {
+    console.error("Failed to fetch moderation queue:", error.message);
+  } else {
+    console.log("Fetched from Supabase:", data);
+    setPendingEvents(data);
+  }
+};
+
 
     fetchPending();
   }, []);
