@@ -28,6 +28,17 @@ const CalendarView = () => {
     );
   };
 
+  const allVenues = Array.from(new Set(events.map(event => event.venue))).sort();
+const [selectedVenues, setSelectedVenues] = useState(allVenues);
+const handleVenueChange = (venue) => {
+  setSelectedVenues(prev =>
+    prev.includes(venue)
+      ? prev.filter(v => v !== venue)
+      : [...prev, venue]
+  );
+};
+
+
   return (
   <div style={{ display: "flex", height: "calc(100vh - 120px)", padding: "1rem" }}>
     <div style={{ minWidth: "200px", marginRight: "2rem" }}>
