@@ -25,8 +25,9 @@ export default function AdminConfig() {
 
     const fetchPending = async () => {
       const { data, error } = await supabase
-        .from("pending_events")
-        .select("*");
+        .from("events")
+        .select("*")
+        .eq("status", "pending");
 
       if (error) {
         console.error("Failed to fetch moderation queue:", error.message);
@@ -34,7 +35,7 @@ export default function AdminConfig() {
         console.log("Fetched from Supabase:", data);
         setPendingEvents(data);
       }
-    };
+};
 
     fetchPending();
   }, []);

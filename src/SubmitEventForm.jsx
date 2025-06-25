@@ -42,7 +42,7 @@ const handleSubmit = async (e) => {
 
   console.log("Submitting event:", newEvent);
 
-  const { error } = await supabase.from("pending_events").insert([newEvent]);
+  const { error } = await supabase.from("events").insert([newEvent]);
 
   if (error) {
     console.error("Submission failed:", error.message);
