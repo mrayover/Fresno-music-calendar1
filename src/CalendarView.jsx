@@ -8,9 +8,6 @@ import FilterPanel from "./FilterPanel";
 
 const localizer = momentLocalizer(moment);
 
-
-const [events, setEvents] = useState([]);
-
 const CalendarView = () => {
   const [events, setEvents] = useState([]);
   const [view, setView] = useState(Views.MONTH);
