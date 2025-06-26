@@ -1,13 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Calendar, momentLocalizer, Views } from "react-big-calendar";
 import moment from "moment";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
 import { supabase } from "./supabaseClient";
 import FilterPanel from "./FilterPanel";
 
 const localizer = momentLocalizer(moment);
+
 
 const [events, setEvents] = useState([]);
 
@@ -34,63 +34,41 @@ useEffect(() => {
 }, []);
 
 const CalendarView = () => {
+  const [events, setEvents] = useState([]);
   const [view, setView] = useState(Views.MONTH);
-  const [selectedGenres, setSelectedGenres] = useState(
-    Array.from(new Set(events.map(event => event.genre))).sort()
-  );
-  const [selectedVenues, setSelectedVenues] = useState(
-    Array.from(new Set(events.map(event => event.venue))).sort()
-  );
+  const [selectedGenres, setSelectedGenres] = useState([]);
+  const [selectedVenues, setSelectedVenues] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
 
   const navigate = useNavigate();
 
-  const handleSelectEvent = (event) => {
-    navigate(`/event/${event.id}`);
-  };
+  useEffect(() => {
+    const fetchEvents = async () => {
+      const { data, error } = await supabase
+        .from("events")
+        .select("*")
+        .eq("status", "approved");
 
-  const handleGenreChange = (genre) => {
-    setSelectedGenres(prev =>
-      prev.includes(genre)
-        ? prev.filter(g => g !== genre)
-        : [...prev, genre]
-    );
-  };
+      if (error) {
+        console.error("Error fetching events:", error.message);
+      } else {
+        const parsed = data.map(event => ({
+          ...event,
+          start: new Date(event.start),
+          end: new Date(event.end)
+        }));
+        setEvents(parsed);
+        setSelectedGenres(Array.from(new Set(parsed.map(e => e.genre))).sort());
+        setSelectedVenues(Array.from(new Set(parsed.map(e => e.venue))).sort());
+      }
+    };
 
-  const handleVenueChange = (venue) => {
-    setSelectedVenues(prev =>
-      prev.includes(venue)
-        ? prev.filter(v => v !== venue)
-        : [...prev, venue]
-    );
-  };
+    fetchEvents();
+  }, []);
 
   const handleSearchChange = (e) => {
     setSearchQuery(e.target.value.toLowerCase());
   };
-const [events, setEvents] = useState([]);
-
-useEffect(() => {
-  const fetchEvents = async () => {
-    const { data, error } = await supabase
-      .from("events")
-      .select("*")
-      .eq("status", "approved");
-
-    if (error) {
-      console.error("Error fetching events:", error.message);
-    } else {
-      const parsed = data.map(event => ({
-        ...event,
-        start: new Date(event.start),
-        end: new Date(event.end)
-      }));
-      setEvents(parsed);
-    }
-  };
-
-  fetchEvents();
-}, []);
 
   return (
     <div style={{ display: "flex", height: "calc(100vh - 120px)", padding: "1rem" }}>
