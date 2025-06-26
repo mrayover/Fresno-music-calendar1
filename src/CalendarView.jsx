@@ -44,6 +44,25 @@ const CalendarView = () => {
   const handleSearchChange = (e) => {
     setSearchQuery(e.target.value.toLowerCase());
   };
+const handleSelectEvent = (event) => {
+  navigate(`/event/${event.id}`);
+};
+
+const handleGenreChange = (genre) => {
+  setSelectedGenres((prev) =>
+    prev.includes(genre)
+      ? prev.filter((g) => g !== genre)
+      : [...prev, genre]
+  );
+};
+
+const handleVenueChange = (venue) => {
+  setSelectedVenues((prev) =>
+    prev.includes(venue)
+      ? prev.filter((v) => v !== venue)
+      : [...prev, venue]
+  );
+};
 
   return (
     <div style={{ display: "flex", height: "calc(100vh - 120px)", padding: "1rem" }}>
