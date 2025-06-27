@@ -74,6 +74,7 @@ const genreColors = {
   Other: "#666666"
 };
 
+
   return (
     <div style={{ display: "flex", height: "calc(100vh - 120px)", padding: "1rem" }}>
       {/* Left column: Filters */}
