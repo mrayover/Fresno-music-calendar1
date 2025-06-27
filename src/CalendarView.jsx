@@ -63,6 +63,16 @@ const handleVenueChange = (venue) => {
       : [...prev, venue]
   );
 };
+const genreColors = {
+  Jazz: "#4B9CD3",
+  "Open Mic": "#A23E48",
+  Classical: "#3E9A5E",
+  Rock: "#C95E5E",
+  Punk: "#D1495B",
+  HipHop: "#6B4C9A",
+  Indie: "#D0A73E",
+  Other: "#666666"
+};
 
   return (
     <div style={{ display: "flex", height: "calc(100vh - 120px)", padding: "1rem" }}>
@@ -172,6 +182,18 @@ const handleVenueChange = (venue) => {
           view={view}
           onView={setView}
           onSelectEvent={handleSelectEvent}
+          eventPropGetter={(event) => {
+  const bg = genreColors[event.genre] || genreColors["Other"];
+          return {
+            style: {
+              backgroundColor: bg,
+              color: "#fff",
+              borderRadius: "4px",
+              padding: "2px"
+            }
+          };
+        }}
+
           style={{ height: "calc(100vh - 200px)", width: "100%" }}
         />
       </div>
