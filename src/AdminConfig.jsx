@@ -89,11 +89,11 @@ const editEvent = (event) => {
   const localDate = new Date(year, month - 1, day, hour, minute);
   return localDate.toISOString(); // this is what Supabase likes
 };
-const start = localToISO(eventData.date, eventData.startTime);
-const end = localToISO(eventData.date, eventData.endTime);
+
 
 const generateEventObject = async () => {
-
+const start = localToISO(eventData.date, eventData.startTime);
+const end = localToISO(eventData.date, eventData.endTime);
 
   const updatedEvent = {
     title: eventData.title,
