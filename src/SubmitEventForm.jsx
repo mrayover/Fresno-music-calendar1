@@ -57,8 +57,34 @@ const handleSubmit = async (e) => {
     <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "1rem", maxWidth: "600px", margin: "0 auto" }}>
       <input name="title" placeholder="Event Title" value={formData.title} onChange={handleChange} required />
       <input name="date" type="date" value={formData.date} onChange={handleChange} required />
-      <input name="startTime" type="time" value={formData.startTime} onChange={handleChange} required />
-      <input name="endTime" type="time" value={formData.endTime} onChange={handleChange} required />
+      <select
+  name="startTime"
+  value={eventData.startTime}
+  onChange={handleEventChange}
+  required
+>
+  <option value="">Select Start Time</option>
+  {generateTimeOptions().map((time) => (
+    <option key={time.value} value={time.value}>
+      {time.label}
+    </option>
+  ))}
+</select>
+
+<select
+  name="endTime"
+  value={eventData.endTime}
+  onChange={handleEventChange}
+  required
+>
+  <option value="">Select End Time</option>
+  {generateTimeOptions().map((time) => (
+    <option key={time.value} value={time.value}>
+      {time.label}
+    </option>
+  ))}
+</select>
+
       <input name="venue" placeholder="Venue" value={formData.venue} onChange={handleChange} required />
       <input name="genre" placeholder="Genre" value={formData.genre} onChange={handleChange} />
       <input name="cover" placeholder="Cover Charge" value={formData.cover} onChange={handleChange} />
