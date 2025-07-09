@@ -36,7 +36,11 @@ export default function AdminConfig() {
         setPendingEvents(data);
       }
 };
-const [editingId, setEditingId] = useState(null);
+
+    fetchPending();
+  }, []);
+
+  const [editingId, setEditingId] = useState(null);
 const editEvent = (event) => {
   setEventData({
     title: event.title,
@@ -51,8 +55,6 @@ const editEvent = (event) => {
   setEditingId(event.id);
 };
 
-    fetchPending();
-  }, []);
   const handleEventChange = (e) => {
   const { name, value } = e.target;
   setEventData((prev) => ({ ...prev, [name]: value }));
