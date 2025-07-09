@@ -78,7 +78,7 @@ const end = localToISO(formData.date, formData.endTime);
   onChange={handleChange}
   required
 >
-  <option value="">Select Start Time</option>
+  <option value="13:00">1:00 PM (default)</option>
   {generateTimeOptions().map((time) => (
     <option key={time.value} value={time.value}>
       {time.label}

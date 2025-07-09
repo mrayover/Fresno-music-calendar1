@@ -263,7 +263,7 @@ const removeGenre = (genreToRemove) => {
   onChange={handleEventChange}
   required
 >
-  <option value="">Select Start Time</option>
+  <option value="13:00">1:00 PM (default)</option>
   {generateTimeOptions().map((time) => (
     <option key={time.value} value={time.value}>
       {time.label}
