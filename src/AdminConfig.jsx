@@ -36,6 +36,20 @@ export default function AdminConfig() {
         setPendingEvents(data);
       }
 };
+const [editingId, setEditingId] = useState(null);
+const editEvent = (event) => {
+  setEventData({
+    title: event.title,
+    date: event.start.slice(0, 10),
+    startTime: new Date(event.start).toISOString().slice(11, 16),
+    endTime: new Date(event.end).toISOString().slice(11, 16),
+    venue: event.venue,
+    genre: event.genre,
+    cover: event.cover || "",
+    description: event.description || ""
+  });
+  setEditingId(event.id);
+};
 
     fetchPending();
   }, []);
@@ -57,7 +71,7 @@ const generateEventObject = async () => {
   const start = `${eventData.date}T${eventData.startTime}:00`;
   const end = `${eventData.date}T${eventData.endTime}:00`;
 
-  const newEvent = {
+  const updatedEvent = {
     title: eventData.title,
     start,
     end,
@@ -70,21 +84,30 @@ const generateEventObject = async () => {
   };
 
   try {
-    const { error } = await supabase.from("events").insert([newEvent]);
-
-    if (error) {
-      console.error("Insert failed:", error.message);
-      alert("There was an error submitting your event.");
+    let result;
+    if (editingId) {
+      result = await supabase
+        .from("events")
+        .update(updatedEvent)
+        .eq("id", editingId);
     } else {
-      alert("Event added and approved!");
+      result = await supabase.from("events").insert([updatedEvent]);
+    }
+
+    const { error } = result;
+    if (error) {
+      console.error("Save failed:", error.message);
+      alert("Error submitting your event.");
+    } else {
+      alert(`Event ${editingId ? "updated" : "added"} successfully!`);
+      setEditingId(null);
       window.location.reload();
     }
   } catch (err) {
-    console.error("Unexpected insert error:", err);
+    console.error("Unexpected insert/update error:", err);
     alert("Unexpected error occurred.");
   }
 };
-
 
 
 const approveEvent = async (event) => {
@@ -131,7 +154,11 @@ const rejectEvent = async (eventId) => {
     alert("Unexpected error occurred.");
   }
 };
-
+const removeGenre = (genreToRemove) => {
+  const updated = genres.filter(g => g !== genreToRemove);
+  setGenres(updated);
+  localStorage.setItem(GENRE_STORAGE_KEY, JSON.stringify(updated));
+};
   return (
     <div style={{ padding: "2rem" }}>
       <h2>Admin Genre Manager</h2>
@@ -187,6 +214,9 @@ const rejectEvent = async (eventId) => {
               <p>{event.description}</p>
               <button onClick={() => approveEvent(event)} style={{ marginRight: "0.5rem" }}>Approve</button>
               <button onClick={() => rejectEvent(event.id)}>Reject</button>
+              <button onClick={() => editEvent(event)} style={{ marginLeft: "0.5rem" }}>
+                Edit
+              </button>
             </li>
           ))}
         </ul>
