@@ -138,6 +138,22 @@ const deleteApprovedEvent = async (id) => {
     alert("Event deleted.");
   }
 };
+const archiveEvent = async (id) => {
+  const confirmed = window.confirm("Archive this event? It will be removed from the calendar.");
+  if (!confirmed) return;
+
+  const { error } = await supabase
+    .from("events")
+    .update({ status: "archived" })
+    .eq("id", id);
+
+  if (error) {
+    alert("Failed to archive event.");
+  } else {
+    setApprovedEvents((prev) => prev.filter((e) => e.id !== id));
+    alert("Event archived.");
+  }
+};
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -220,6 +236,7 @@ const deleteApprovedEvent = async (id) => {
       {e.description}<br />
       <button onClick={() => editEvent(e)}>Edit</button>
       <button onClick={() => deleteApprovedEvent(e.id)} style={{ marginLeft: "1rem" }}>Delete</button>
+      <button onClick={() => archiveEvent(e.id)} style={{ marginLeft: "1rem", backgroundColor: "#ddd" }}>Archive</button>
     </li>
   ))}
 </ul>
