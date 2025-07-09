@@ -5,18 +5,36 @@ const SubmitEventForm = () => {
   const [formData, setFormData] = useState({
     title: "",
     date: "",
-    startTime: "13:00",
-    endTime: "14:00",
+    startTime: "18:00",
+    endTime: "",
     venue: "",
     genre: "",
     cover: "",
     description: ""
   });
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
-  };
+const handleChange = (e) => {
+  const { name, value } = e.target;
+
+  // If the startTime changes, auto-update endTime
+  if (name === "startTime") {
+    const [hour, minute] = value.split(":").map(Number);
+    let newHour = (hour + 1) % 24;
+    const adjustedEnd = `${newHour.toString().padStart(2, "0")}:${minute.toString().padStart(2, "0")}`;
+
+    setFormData((prev) => ({
+      ...prev,
+      startTime: value,
+      endTime: adjustedEnd,
+    }));
+  } else {
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  }
+};
+
 const generateTimeOptions = () => {
   const times = [];
   for (let hour = 0; hour < 24; hour++) {

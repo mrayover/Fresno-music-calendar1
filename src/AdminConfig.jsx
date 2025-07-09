@@ -10,7 +10,7 @@ export default function AdminConfig() {
   const [eventData, setEventData] = useState({
     title: "",
     date: "",
-    startTime: "",
+    startTime: "18:00",
     endTime: "",
     venue: "",
     genre: "",
@@ -70,10 +70,28 @@ const editEvent = (event) => {
 
   setEditingId(event.id);
 };
-  const handleEventChange = (e) => {
+const handleChange = (e) => {
   const { name, value } = e.target;
-  setEventData((prev) => ({ ...prev, [name]: value }));
+
+  // If the startTime changes, auto-update endTime
+  if (name === "startTime") {
+    const [hour, minute] = value.split(":").map(Number);
+    let newHour = (hour + 1) % 24;
+    const adjustedEnd = `${newHour.toString().padStart(2, "0")}:${minute.toString().padStart(2, "0")}`;
+
+    setFormData((prev) => ({
+      ...prev,
+      startTime: value,
+      endTime: adjustedEnd,
+    }));
+  } else {
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  }
 };
+
 
   const addGenre = () => {
     const trimmed = newGenre.trim();
