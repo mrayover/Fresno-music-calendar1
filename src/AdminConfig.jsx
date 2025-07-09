@@ -54,19 +54,22 @@ fetchApproved();
 
   const [editingId, setEditingId] = useState(null);
 const editEvent = (event) => {
+  const startDate = new Date(event.start);
+  const endDate = new Date(event.end);
+
   setEventData({
     title: event.title,
-    date: event.start.slice(0, 10),
-    startTime: new Date(event.start).toISOString().slice(11, 16),
-    endTime: new Date(event.end).toISOString().slice(11, 16),
+    date: startDate.toISOString().slice(0, 10),
+    startTime: startDate.toISOString().slice(11, 16),
+    endTime: endDate.toISOString().slice(11, 16),
     venue: event.venue,
     genre: event.genre,
     cover: event.cover || "",
     description: event.description || ""
   });
+
   setEditingId(event.id);
 };
-
   const handleEventChange = (e) => {
   const { name, value } = e.target;
   setEventData((prev) => ({ ...prev, [name]: value }));
@@ -195,6 +198,25 @@ const removeGenre = (genreToRemove) => {
       <hr style={{ margin: "2rem 0" }} />
 
       <h2>Manually Add an Event</h2>
+      {editingId && (
+  <div style={{ marginBottom: "1rem", color: "#ffcc00" }}>
+    <strong>Editing Event ID: {editingId}</strong>
+    <button onClick={() => {
+      setEditingId(null);
+      setEventData({
+        title: "",
+        date: "",
+        startTime: "",
+        endTime: "",
+        venue: "",
+        genre: "",
+        cover: "",
+        description: ""
+      });
+    }} style={{ marginLeft: "1rem" }}>Cancel Edit</button>
+  </div>
+)}
+
       <form
         onSubmit={(e) => {
           e.preventDefault();
