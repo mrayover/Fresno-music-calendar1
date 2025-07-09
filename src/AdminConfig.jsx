@@ -245,6 +245,7 @@ const toggleArchiveEvent = async (event) => {
         ))}
       </ul>
       <hr />
+<hr />
 <h2>Approved Events</h2>
 <ul>
   {approvedEvents.map((e) => (
@@ -255,18 +256,34 @@ const toggleArchiveEvent = async (event) => {
       <button onClick={() => editEvent(e)}>Edit</button>
       <button onClick={() => deleteApprovedEvent(e.id)} style={{ marginLeft: "1rem" }}>Delete</button>
       <button
-  onClick={() => toggleArchiveEvent(e)}
-  style={{
-    marginLeft: "1rem",
-    backgroundColor: e.status === "archived" ? "#ffcc66" : "#ddd"
-  }}
->
-  {e.status === "archived" ? "Restore" : "Archive"}
-</button>
-
+        onClick={() => toggleArchiveEvent(e)}
+        style={{ marginLeft: "1rem", backgroundColor: "#ffcc66" }}
+      >
+        Archive
+      </button>
     </li>
   ))}
 </ul>
+
+<hr />
+<h2 style={{ color: "#999" }}>Archived Events</h2>
+<ul>
+  {archivedEvents.map((e) => (
+    <li key={e.id} style={{ opacity: 0.7 }}>
+      <strong>{e.title}</strong> | {e.venue} | {e.genre} <em>(archived)</em><br />
+      {new Date(e.start).toLocaleString()} – {new Date(e.end).toLocaleTimeString()}<br />
+      {e.description}<br />
+      <button onClick={() => editEvent(e)}>Edit</button>
+      <button
+        onClick={() => toggleArchiveEvent(e)}
+        style={{ marginLeft: "1rem", backgroundColor: "#aaffaa" }}
+      >
+        Restore
+      </button>
+    </li>
+  ))}
+</ul>
+
     </div>
   );
 }
