@@ -92,8 +92,15 @@ const editEvent = (event) => {
 
 
 const generateEventObject = async () => {
-const start = localToISO(eventData.date, eventData.startTime);
-const end = localToISO(eventData.date, eventData.endTime);
+  const start = localToISO(eventData.date, eventData.startTime);
+  const end = localToISO(eventData.date, eventData.endTime);
+
+  const coverNumber = parseFloat(eventData.cover);
+
+  if (isNaN(coverNumber) || coverNumber < 0) {
+    alert("Please enter a valid non-negative cover charge.");
+    return;
+  }
 
   const updatedEvent = {
     title: eventData.title,
@@ -102,7 +109,7 @@ const end = localToISO(eventData.date, eventData.endTime);
     venue: eventData.venue,
     description: eventData.description,
     genre: eventData.genre,
-    cover: eventData.cover,
+    cover: coverNumber, // stored as number
     status: "approved",
     source: "admin"
   };
@@ -266,7 +273,7 @@ color: editingId === event.id ? "#ffffff" : "inherit"
 >
   <strong>{event.title}</strong><br />
   {new Date(event.start).toLocaleString()} – {new Date(event.end).toLocaleTimeString()}<br />
-  <em>{event.venue}</em> | {event.genre} | {event.cover}<br />
+  <em>{event.venue}</em> | {event.genre} | {parseFloat(event.cover) > 0 ? `$${parseFloat(event.cover).toFixed(2)}` : "Free"}<br />
   <p>{event.description}</p>
   <button onClick={() => approveEvent(event)} style={{ marginRight: "0.5rem" }}>Approve</button>
   <button onClick={() => rejectEvent(event.id)}>Reject</button>
