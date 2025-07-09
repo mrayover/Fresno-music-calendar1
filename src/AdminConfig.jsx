@@ -300,11 +300,26 @@ color: editingId === event.id ? "#ffffff" : "inherit"
   <p>{event.description}</p>
   <button onClick={() => approveEvent(event)} style={{ marginRight: "0.5rem" }}>Approve</button>
   <button onClick={() => rejectEvent(event.id)}>Reject</button>
-  <button
-    onClick={() => editEvent(event)}
-    style={{ marginLeft: "0.5rem" }}
-    disabled={editingId !== null && editingId !== event.id}
+<button
+  onClick={() => {
+    if (editingId === event.id) {
+      setEditingId(null);
+      setEventData({
+        title: "",
+        date: "",
+        startTime: "",
+        endTime: "",
+        venue: "",
+        genre: "",
+        cover: "",
+        description: ""
+      });
+    } else {
+      editEvent(event);
+    }
+  }}
   >
+     {editingId === event.id ? "Cancel Edit" : "Edit"}
     Edit
   </button>
 </li>
