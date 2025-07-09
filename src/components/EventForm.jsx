@@ -21,17 +21,19 @@ const EventForm = ({ data, setData, onSubmit, mode = "public", editingId = null,
     const { name, value } = e.target;
 if (name === "startTime") {
   const [hour, minute] = value.split(":").map(Number);
-  let newHour = (hour + 1) % 24;
+  const prevHour = parseInt(prev.startTime?.split(":")[0] || "18");
+  const prevMinute = parseInt(prev.startTime?.split(":")[1] || "00");
+  const expectedPrevEnd = `${(prevHour + 1) % 24}`.padStart(2, "0") + `:${prevMinute.toString().padStart(2, "0")}`;
+  const shouldUpdate = prev.endTime === expectedPrevEnd || prev.endTime === "" || prev.endTime === prev.startTime;
+
+  const newHour = (hour + 1) % 24;
   const adjustedEnd = `${newHour.toString().padStart(2, "0")}:${minute.toString().padStart(2, "0")}`;
 
-  setData((prev) => {
-    const shouldAutoUpdate = prev.endTime === "" || prev.endTime === prev.startTime;
-    return {
-      ...prev,
-      startTime: value,
-      endTime: shouldAutoUpdate ? adjustedEnd : prev.endTime,
-    };
-  });
+  setData((prev) => ({
+    ...prev,
+    startTime: value,
+    endTime: shouldUpdate ? adjustedEnd : prev.endTime,
+  }));
 
     } else {
       setData((prev) => ({
