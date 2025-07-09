@@ -320,7 +320,7 @@ color: editingId === event.id ? "#ffffff" : "inherit"
   }}
   >
      {editingId === event.id ? "Cancel Edit" : "Edit"}
-
+    Edit
   </button>
 </li>
 
