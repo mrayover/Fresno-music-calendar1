@@ -318,10 +318,10 @@ color: editingId === event.id ? "#ffffff" : "inherit"
       editEvent(event);
     }
   }}
-  >
-     {editingId === event.id ? "Cancel Edit" : "Edit"}
-    Edit
-  </button>
+>
+  {editingId === event.id ? "Cancel Edit" : "Edit"}
+</button>
+
 </li>
 
           ))}
