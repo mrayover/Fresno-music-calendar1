@@ -198,7 +198,9 @@ const removeGenre = (genreToRemove) => {
         <input name="genre" placeholder="Genre" value={eventData.genre} onChange={handleEventChange} />
         <input name="cover" placeholder="Cover Charge" value={eventData.cover} onChange={handleEventChange} />
         <textarea name="description" placeholder="Description" value={eventData.description} onChange={handleEventChange} required />
-        <button type="submit">Add Event to Calendar</button>
+        <button type="submit">
+  {editingId ? "Update Event" : "Add Event to Calendar"}
+</button>
       </form>
 
       <hr style={{ margin: "2rem 0" }} />
