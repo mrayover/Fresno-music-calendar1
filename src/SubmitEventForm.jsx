@@ -5,8 +5,8 @@ const SubmitEventForm = () => {
   const [formData, setFormData] = useState({
     title: "",
     date: "",
-    startTime: "",
-    endTime: "",
+    startTime: "13:00",
+    endTime: "14:00",
     venue: "",
     genre: "",
     cover: "",
@@ -78,7 +78,7 @@ const end = localToISO(formData.date, formData.endTime);
   onChange={handleChange}
   required
 >
-  <option value="13:00">1:00 PM (default)</option>
+  <option value="">Select Start Time</option>
   {generateTimeOptions().map((time) => (
     <option key={time.value} value={time.value}>
       {time.label}

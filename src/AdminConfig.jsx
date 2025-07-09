@@ -236,8 +236,8 @@ const removeGenre = (genreToRemove) => {
       setEventData({
         title: "",
         date: "",
-        startTime: "",
-        endTime: "",
+        startTime: "13:00",
+        endTime: "14:00",
         venue: "",
         genre: "",
         cover: "",
