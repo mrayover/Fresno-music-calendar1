@@ -235,24 +235,24 @@ const removeGenre = (genreToRemove) => {
               </button>
             </li>
           ))}
-          <hr style={{ margin: "2rem 0" }} />
-<h2>Approved Events</h2>
-{approvedEvents.length === 0 ? (
-  <p>No approved events yet.</p>
-) : (
-  <ul style={{ listStyle: "none", paddingLeft: 0 }}>
-    {approvedEvents.map((event) => (
-      <li key={event.id} style={{ marginBottom: "1rem", padding: "1rem", border: "1px solid #ccc", borderRadius: "8px" }}>
-        <strong>{event.title}</strong><br />
-        {new Date(event.start).toLocaleString()} – {new Date(event.end).toLocaleTimeString()}<br />
-        <em>{event.venue}</em> | {event.genre} | {event.cover}<br />
-        <p>{event.description}</p>
-        <button onClick={() => editEvent(event)}>Edit</button>
-      </li>
-    ))}
-  </ul>
-)}
-
+          
+        </ul>
+      )}
+      <hr style={{ margin: "2rem 0" }} />
+      <h2>Approved Events</h2>
+      {approvedEvents.length === 0 ? (
+        <p>No approved events yet.</p>
+      ) : (
+        <ul style={{ listStyle: "none", paddingLeft: 0 }}>
+          {approvedEvents.map((event) => (
+            <li key={event.id} style={{ marginBottom: "1rem", padding: "1rem", border: "1px solid #ccc", borderRadius: "8px" }}>
+              <strong>{event.title}</strong><br />
+              {new Date(event.start).toLocaleString()} – {new Date(event.end).toLocaleTimeString()}<br />
+              <em>{event.venue}</em> | {event.genre} | {event.cover}<br />
+              <p>{event.description}</p>
+              <button onClick={() => editEvent(event)}>Edit</button>
+            </li>
+          ))}
         </ul>
       )}
     </div>
