@@ -83,8 +83,6 @@ const editEvent = (event) => {
       setNewGenre("");
     }
   };
-
-const generateEventObject = async () => {
   const localToISO = (dateStr, timeStr) => {
   const [year, month, day] = dateStr.split("-").map(Number);
   const [hour, minute] = timeStr.split(":").map(Number);
@@ -93,6 +91,9 @@ const generateEventObject = async () => {
 };
 const start = localToISO(eventData.date, eventData.startTime);
 const end = localToISO(eventData.date, eventData.endTime);
+
+const generateEventObject = async () => {
+
 
   const updatedEvent = {
     title: eventData.title,
