@@ -27,7 +27,11 @@ export default function AdminConfig() {
 
     const fetchEvents = async () => {
       const pending = await supabase.from("events").select("*").eq("status", "pending");
-      const approved = await supabase.from("events").select("*").eq("status", "approved");
+      const approved = await supabase
+  .from("events")
+  .select("*")
+  .in("status", ["approved", "archived"]);
+
 
       if (pending.data) setPendingEvents(pending.data);
       if (approved.data) setApprovedEvents(approved.data);
