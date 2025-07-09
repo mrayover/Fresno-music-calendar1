@@ -252,7 +252,8 @@ const removeGenre = (genreToRemove) => {
     padding: "1rem",
     border: "1px solid #ccc",
     borderRadius: "8px",
-    backgroundColor: editingId === event.id ? "#ffffcc" : "inherit"
+   backgroundColor: editingId === event.id ? "#003366" : "inherit",
+color: editingId === event.id ? "#ffffff" : "inherit"
   }}
 >
   <strong>{event.title}</strong><br />
@@ -289,7 +290,8 @@ const removeGenre = (genreToRemove) => {
     padding: "1rem",
     border: "1px solid #ccc",
     borderRadius: "8px",
-    backgroundColor: editingId === event.id ? "#ffffcc" : "inherit"
+    backgroundColor: editingId === event.id ? "#003366" : "inherit",
+color: editingId === event.id ? "#ffffff" : "inherit"
   }}
 >
   <strong>{event.title}</strong><br />
