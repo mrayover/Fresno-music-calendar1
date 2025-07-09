@@ -79,13 +79,13 @@ const handleChange = (e) => {
     let newHour = (hour + 1) % 24;
     const adjustedEnd = `${newHour.toString().padStart(2, "0")}:${minute.toString().padStart(2, "0")}`;
 
-    setFormData((prev) => ({
+    setEventData((prev) => ({
       ...prev,
       startTime: value,
       endTime: adjustedEnd,
     }));
   } else {
-    setFormData((prev) => ({
+    setEventData((prev) => ({
       ...prev,
       [name]: value,
     }));
