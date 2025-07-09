@@ -18,7 +18,7 @@ export default function AdminConfig() {
     description: ""
   });
   const [pendingEvents, setPendingEvents] = useState([]);
-
+const [approvedEvents, setApprovedEvents] = useState([]);
   useEffect(() => {
     const savedGenres = localStorage.getItem(GENRE_STORAGE_KEY);
     if (savedGenres) setGenres(JSON.parse(savedGenres));
@@ -36,7 +36,19 @@ export default function AdminConfig() {
         setPendingEvents(data);
       }
 };
+const fetchApproved = async () => {
+  const { data, error } = await supabase
+    .from("events")
+    .select("*")
+    .eq("status", "approved");
 
+  if (error) {
+    console.error("Failed to fetch approved events:", error.message);
+  } else {
+    setApprovedEvents(data);
+  }
+};
+fetchApproved();
     fetchPending();
   }, []);
 
@@ -223,6 +235,24 @@ const removeGenre = (genreToRemove) => {
               </button>
             </li>
           ))}
+          <hr style={{ margin: "2rem 0" }} />
+<h2>Approved Events</h2>
+{approvedEvents.length === 0 ? (
+  <p>No approved events yet.</p>
+) : (
+  <ul style={{ listStyle: "none", paddingLeft: 0 }}>
+    {approvedEvents.map((event) => (
+      <li key={event.id} style={{ marginBottom: "1rem", padding: "1rem", border: "1px solid #ccc", borderRadius: "8px" }}>
+        <strong>{event.title}</strong><br />
+        {new Date(event.start).toLocaleString()} – {new Date(event.end).toLocaleTimeString()}<br />
+        <em>{event.venue}</em> | {event.genre} | {event.cover}<br />
+        <p>{event.description}</p>
+        <button onClick={() => editEvent(event)}>Edit</button>
+      </li>
+    ))}
+  </ul>
+)}
+
         </ul>
       )}
     </div>
