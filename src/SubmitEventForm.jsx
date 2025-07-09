@@ -17,16 +17,31 @@ const SubmitEventForm = () => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
   };
+const generateTimeOptions = () => {
+  const times = [];
+  for (let hour = 0; hour < 24; hour++) {
+    for (let min of [0, 15, 30, 45]) {
+      const h = hour % 24;
+      const labelHour = h === 0 ? 12 : h > 12 ? h - 12 : h;
+      const suffix = h < 12 || h === 24 ? "AM" : "PM";
+      const label = `${labelHour}:${min.toString().padStart(2, "0")} ${suffix}`;
+      const value = `${h.toString().padStart(2, "0")}:${min.toString().padStart(2, "0")}`;
+      times.push({ label, value });
+    }
+  }
+  return times;
+};
 
-  const formatDateToISO = (mmddyyyy) => {
-    const [month, day, year] = mmddyyyy.split("-");
-    return `${year}-${month}-${day}`;
-  };
+const localToISO = (dateStr, timeStr) => {
+  const [year, month, day] = dateStr.split("-").map(Number);
+  const [hour, minute] = timeStr.split(":").map(Number);
+  return new Date(year, month - 1, day, hour, minute);
+};
 
 const handleSubmit = async (e) => {
   e.preventDefault();
-    const start = localToISO(eventData.date, eventData.startTime);
-    const end = localToISO(eventData.date, eventData.endTime);
+    const start = localToISO(formData.date, formData.startTime);
+const end = localToISO(formData.date, formData.endTime);
 
   const newEvent = {
     title: formData.title,
@@ -59,8 +74,8 @@ const handleSubmit = async (e) => {
       <input name="date" type="date" value={formData.date} onChange={handleChange} required />
       <select
   name="startTime"
-  value={eventData.startTime}
-  onChange={handleEventChange}
+  value={formData.startTime}
+  onChange={handleChange}
   required
 >
   <option value="">Select Start Time</option>
@@ -73,8 +88,8 @@ const handleSubmit = async (e) => {
 
 <select
   name="endTime"
-  value={eventData.endTime}
-  onChange={handleEventChange}
+  value={formData.endTime}
+  onChange={handleChange}
   required
 >
   <option value="">Select End Time</option>
@@ -84,6 +99,7 @@ const handleSubmit = async (e) => {
     </option>
   ))}
 </select>
+
 
       <input name="venue" placeholder="Venue" value={formData.venue} onChange={handleChange} required />
       <input name="genre" placeholder="Genre" value={formData.genre} onChange={handleChange} />
