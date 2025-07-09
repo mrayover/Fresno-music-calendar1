@@ -18,6 +18,7 @@ export default function AdminConfig() {
   const [editingId, setEditingId] = useState(null);
   const [pendingEvents, setPendingEvents] = useState([]);
   const [approvedEvents, setApprovedEvents] = useState([]);
+  const [archivedEvents, setArchivedEvents] = useState([]);
 
   useEffect(() => {
     const fetchGenres = () => {
@@ -159,7 +160,11 @@ const toggleArchiveEvent = async (event) => {
   } else {
     // Refetch the lists to reflect updated status
     const { data: updatedApproved } = await supabase.from("events").select("*").eq("status", ["approved","archived"]);
-    setApprovedEvents(updatedApproved || []);
+    const approvedOnly = (updatedApproved || []).filter(e => e.status === "approved");
+    const archivedOnly = (updatedApproved || []).filter(e => e.status === "archived");
+
+      setApprovedEvents(approvedOnly);
+      setArchivedEvents(archivedOnly); // (optional for future use)
     alert(isArchived ? "Event restored to calendar." : "Event archived.");
   }
 };
