@@ -25,8 +25,8 @@ const SubmitEventForm = () => {
 
 const handleSubmit = async (e) => {
   e.preventDefault();
-    const start = `${formData.date}T${formData.startTime}:00`;
-    const end = `${formData.date}T${formData.endTime}:00`;
+    const start = localToISO(eventData.date, eventData.startTime);
+    const end = localToISO(eventData.date, eventData.endTime);
 
   const newEvent = {
     title: formData.title,
