@@ -41,6 +41,7 @@ export default function EventDetail() {
       <p><strong>Date:</strong> {new Date(event.start).toLocaleDateString()}</p>
       <p><strong>Time:</strong> {new Date(event.start).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} – {new Date(event.end).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</p>
       <p><strong>Genre:</strong> {event.genre}</p>
+      <p><strong>Cover:</strong> {parseFloat(event.cover) > 0 ? `$${parseFloat(event.cover).toFixed(2)}` : "Free"}</p>
       <p>{event.description}</p>
       <AddToCalendarButton event={event} />
     </div>
