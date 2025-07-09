@@ -9,7 +9,7 @@ const generateTimeOptions = () => {
       const labelHour = h === 0 ? 12 : h > 12 ? h - 12 : h;
       const suffix = h < 12 || h === 24 ? "AM" : "PM";
       const label = `${labelHour}:${min.toString().padStart(2, "0")} ${suffix}`;
-      const value = `${h.toString().padStart(2, "0")}:\${min.toString().padStart(2, "0")}`;
+      const value = `${h.toString().padStart(2, "0")}:${min.toString().padStart(2, "0")}`;
       times.push({ label, value });
     }
   }
