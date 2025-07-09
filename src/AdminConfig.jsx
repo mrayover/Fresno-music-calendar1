@@ -197,7 +197,18 @@ export default function AdminConfig() {
           </li>
         ))}
       </ul>
-
+      <hr />
+<h2>Approved Events</h2>
+<ul>
+  {approvedEvents.map((e) => (
+    <li key={e.id}>
+      <strong>{e.title}</strong> | {e.venue} | {e.genre} | {parseFloat(e.cover) > 0 ? `$${parseFloat(e.cover).toFixed(2)}` : "Free"}<br />
+      {new Date(e.start).toLocaleString()} – {new Date(e.end).toLocaleTimeString()}<br />
+      {e.description}<br />
+      <button onClick={() => editEvent(e)}>Edit</button>
+    </li>
+  ))}
+</ul>
       <hr />
       <h2>Approved Events</h2>
       <ul>
