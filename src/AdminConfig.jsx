@@ -125,6 +125,19 @@ export default function AdminConfig() {
     });
     setEditingId(event.id);
   };
+const deleteApprovedEvent = async (id) => {
+  const confirmed = window.confirm("Are you sure you want to delete this approved event?");
+  if (!confirmed) return;
+
+  const { error } = await supabase.from("events").delete().eq("id", id);
+
+  if (error) {
+    alert("Failed to delete event.");
+  } else {
+    setApprovedEvents((prev) => prev.filter((e) => e.id !== id));
+    alert("Event deleted.");
+  }
+};
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -206,6 +219,7 @@ export default function AdminConfig() {
       {new Date(e.start).toLocaleString()} – {new Date(e.end).toLocaleTimeString()}<br />
       {e.description}<br />
       <button onClick={() => editEvent(e)}>Edit</button>
+      <button onClick={() => deleteApprovedEvent(e.id)} style={{ marginLeft: "1rem" }}>Delete</button>
     </li>
   ))}
 </ul>
