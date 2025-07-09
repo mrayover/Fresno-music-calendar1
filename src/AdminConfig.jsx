@@ -245,17 +245,32 @@ const removeGenre = (genreToRemove) => {
       ) : (
         <ul style={{ listStyle: "none", paddingLeft: 0 }}>
           {pendingEvents.map((event) => (
-            <li key={event.id} style={{ marginBottom: "1.5rem", padding: "1rem", border: "1px solid #ccc", borderRadius: "8px" }}>
-              <strong>{event.title}</strong><br />
-              {new Date(event.start).toLocaleString()} – {new Date(event.end).toLocaleTimeString()}<br />
-              <em>{event.venue}</em> | {event.genre} | {event.cover}<br />
-              <p>{event.description}</p>
-              <button onClick={() => approveEvent(event)} style={{ marginRight: "0.5rem" }}>Approve</button>
-              <button onClick={() => rejectEvent(event.id)}>Reject</button>
-              <button onClick={() => editEvent(event)} style={{ marginLeft: "0.5rem" }}>
-                Edit
-              </button>
-            </li>
+            <li
+  key={event.id}
+  style={{
+    marginBottom: "1.5rem",
+    padding: "1rem",
+    border: "1px solid #ccc",
+    borderRadius: "8px",
+    backgroundColor: editingId === event.id ? "#ffffcc" : "inherit"
+  }}
+>
+  <strong>{event.title}</strong><br />
+  {new Date(event.start).toLocaleString()} – {new Date(event.end).toLocaleTimeString()}<br />
+  <em>{event.venue}</em> | {event.genre} | {event.cover}<br />
+  <p>{event.description}</p>
+  <button onClick={() => approveEvent(event)} style={{ marginRight: "0.5rem" }}>Approve</button>
+  <button onClick={() => rejectEvent(event.id)}>Reject</button>
+  <button
+    onClick={() => editEvent(event)}
+    style={{ marginLeft: "0.5rem" }}
+    disabled={editingId !== null && editingId !== event.id}
+  >
+    Edit
+  </button>
+</li>
+
+            
           ))}
           
         </ul>
@@ -267,13 +282,31 @@ const removeGenre = (genreToRemove) => {
       ) : (
         <ul style={{ listStyle: "none", paddingLeft: 0 }}>
           {approvedEvents.map((event) => (
-            <li key={event.id} style={{ marginBottom: "1rem", padding: "1rem", border: "1px solid #ccc", borderRadius: "8px" }}>
-              <strong>{event.title}</strong><br />
-              {new Date(event.start).toLocaleString()} – {new Date(event.end).toLocaleTimeString()}<br />
-              <em>{event.venue}</em> | {event.genre} | {event.cover}<br />
-              <p>{event.description}</p>
-              <button onClick={() => editEvent(event)}>Edit</button>
-            </li>
+            <li
+  key={event.id}
+  style={{
+    marginBottom: "1.5rem",
+    padding: "1rem",
+    border: "1px solid #ccc",
+    borderRadius: "8px",
+    backgroundColor: editingId === event.id ? "#ffffcc" : "inherit"
+  }}
+>
+  <strong>{event.title}</strong><br />
+  {new Date(event.start).toLocaleString()} – {new Date(event.end).toLocaleTimeString()}<br />
+  <em>{event.venue}</em> | {event.genre} | {event.cover}<br />
+  <p>{event.description}</p>
+  <button onClick={() => approveEvent(event)} style={{ marginRight: "0.5rem" }}>Approve</button>
+  <button onClick={() => rejectEvent(event.id)}>Reject</button>
+  <button
+    onClick={() => editEvent(event)}
+    style={{ marginLeft: "0.5rem" }}
+    disabled={editingId !== null && editingId !== event.id}
+  >
+    Edit
+  </button>
+</li>
+
           ))}
         </ul>
       )}
