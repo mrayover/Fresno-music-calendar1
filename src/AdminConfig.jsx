@@ -205,7 +205,7 @@ const removeGenre = (genreToRemove) => {
       <hr style={{ margin: "2rem 0" }} />
 
       <h2>Manually Add an Event</h2>
-      {editingId && (
+{editingId && (
   <div style={{ marginBottom: "1rem", color: "#ffcc00" }}>
     <strong>Editing Event ID: {editingId}</strong>
     <button onClick={() => {
@@ -223,6 +223,7 @@ const removeGenre = (genreToRemove) => {
     }} style={{ marginLeft: "1rem" }}>Cancel Edit</button>
   </div>
 )}
+
 
       <form
         onSubmit={(e) => {
