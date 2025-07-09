@@ -118,12 +118,33 @@ export default function AdminConfig() {
       date: start.toISOString().slice(0, 10),
       startTime: start.toISOString().slice(11, 16),
       endTime: end.toISOString().slice(11, 16),
-      venue: event.venue,
-      genre: event.genre,
+      venue: event.venue || "",
+      genre: event.genre || "",
       cover: event.cover || "",
       description: event.description || ""
     });
     setEditingId(event.id);
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+
+    if (name === "startTime") {
+      const [hour, minute] = value.split(":").map(Number);
+      let newHour = (hour + 1) % 24;
+      const adjustedEnd = `${newHour.toString().padStart(2, "0")}:${minute.toString().padStart(2, "0")}`;
+
+      setEventData((prev) => ({
+        ...prev,
+        startTime: value,
+        endTime: adjustedEnd
+      }));
+    } else {
+      setEventData((prev) => ({
+        ...prev,
+        [name]: value
+      }));
+    }
   };
 
   return (
@@ -144,14 +165,22 @@ export default function AdminConfig() {
         mode="admin"
         data={eventData}
         setData={setEventData}
+        onSubmit={generateEventObject}
+        handleChange={handleChange}
         editingId={editingId}
         cancelEdit={() => {
           setEditingId(null);
           setEventData({
-            title: "", date: "", startTime: "18:00", endTime: "19:00", venue: "", genre: "", cover: "", description: ""
+            title: "",
+            date: "",
+            startTime: "18:00",
+            endTime: "19:00",
+            venue: "",
+            genre: "",
+            cover: "",
+            description: ""
           });
         }}
-        onSubmit={generateEventObject}
       />
 
       <hr />
@@ -164,6 +193,19 @@ export default function AdminConfig() {
             {e.description}<br />
             <button onClick={() => approveEvent(e)}>Approve</button>
             <button onClick={() => rejectEvent(e.id)}>Reject</button>
+            <button onClick={() => editEvent(e)}>Edit</button>
+          </li>
+        ))}
+      </ul>
+
+      <hr />
+      <h2>Approved Events</h2>
+      <ul>
+        {approvedEvents.map(e => (
+          <li key={e.id}>
+            <strong>{e.title}</strong> | {e.venue} | {e.genre} | {parseFloat(e.cover) > 0 ? `$${parseFloat(e.cover).toFixed(2)}` : "Free"}<br />
+            {new Date(e.start).toLocaleString()} – {new Date(e.end).toLocaleTimeString()}<br />
+            {e.description}<br />
             <button onClick={() => editEvent(e)}>Edit</button>
           </li>
         ))}
