@@ -83,6 +83,22 @@ const editEvent = (event) => {
       setNewGenre("");
     }
   };
+const generateTimeOptions = () => {
+  const times = [];
+  for (let hour = 0; hour < 24; hour++) {
+    for (let min of [0, 15, 30, 45]) {
+      const h = hour % 24;
+      const labelHour = h === 0 ? 12 : h > 12 ? h - 12 : h;
+      const suffix = h < 12 || h === 24 ? "AM" : "PM";
+      const label = `${labelHour}:${min.toString().padStart(2, "0")} ${suffix}`;
+      const value = `${h.toString().padStart(2, "0")}:${min.toString().padStart(2, "0")}`;
+      times.push({ label, value });
+    }
+  }
+  return times;
+};
+
+
   const localToISO = (dateStr, timeStr) => {
   const [year, month, day] = dateStr.split("-").map(Number);
   const [hour, minute] = timeStr.split(":").map(Number);
@@ -241,8 +257,33 @@ const removeGenre = (genreToRemove) => {
       >
         <input name="title" placeholder="Title" value={eventData.title} onChange={handleEventChange} required />
         <input name="date" type="date" value={eventData.date} onChange={handleEventChange} required />
-        <input name="startTime" type="time" value={eventData.startTime} onChange={handleEventChange} required />
-        <input name="endTime" type="time" value={eventData.endTime} onChange={handleEventChange} required />
+        <select
+  name="startTime"
+  value={eventData.startTime}
+  onChange={handleEventChange}
+  required
+>
+  <option value="">Select Start Time</option>
+  {generateTimeOptions().map((time) => (
+    <option key={time.value} value={time.value}>
+      {time.label}
+    </option>
+  ))}
+</select>
+
+<select
+  name="endTime"
+  value={eventData.endTime}
+  onChange={handleEventChange}
+  required
+>
+  <option value="">Select End Time</option>
+  {generateTimeOptions().map((time) => (
+    <option key={time.value} value={time.value}>
+      {time.label}
+    </option>
+  ))}
+</select>
         <input name="venue" placeholder="Venue" value={eventData.venue} onChange={handleEventChange} required />
         <input name="genre" placeholder="Genre" value={eventData.genre} onChange={handleEventChange} />
         <input name="cover" placeholder="Cover Charge" value={eventData.cover} onChange={handleEventChange} />
