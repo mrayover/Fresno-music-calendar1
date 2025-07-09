@@ -138,22 +138,28 @@ const deleteApprovedEvent = async (id) => {
     alert("Event deleted.");
   }
 };
-const archiveEvent = async (id) => {
-  const confirmed = window.confirm("Archive this event? It will be removed from the calendar.");
+const toggleArchiveEvent = async (event) => {
+  const isArchived = event.status === "archived";
+  const newStatus = isArchived ? "approved" : "archived";
+
+  const confirmed = window.confirm(`${isArchived ? "Restore" : "Archive"} this event?`);
   if (!confirmed) return;
 
   const { error } = await supabase
     .from("events")
-    .update({ status: "archived" })
-    .eq("id", id);
+    .update({ status: newStatus })
+    .eq("id", event.id);
 
   if (error) {
-    alert("Failed to archive event.");
+    alert("Failed to update archive status.");
   } else {
-    setApprovedEvents((prev) => prev.filter((e) => e.id !== id));
-    alert("Event archived.");
+    // Refetch the lists to reflect updated status
+    const { data: updatedApproved } = await supabase.from("events").select("*").eq("status", "approved");
+    setApprovedEvents(updatedApproved || []);
+    alert(isArchived ? "Event restored to calendar." : "Event archived.");
   }
 };
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -236,7 +242,16 @@ const archiveEvent = async (id) => {
       {e.description}<br />
       <button onClick={() => editEvent(e)}>Edit</button>
       <button onClick={() => deleteApprovedEvent(e.id)} style={{ marginLeft: "1rem" }}>Delete</button>
-      <button onClick={() => archiveEvent(e.id)} style={{ marginLeft: "1rem", backgroundColor: "#ddd" }}>Archive</button>
+      <button
+  onClick={() => toggleArchiveEvent(e)}
+  style={{
+    marginLeft: "1rem",
+    backgroundColor: e.status === "archived" ? "#ffcc66" : "#ddd"
+  }}
+>
+  {e.status === "archived" ? "Restore" : "Archive"}
+</button>
+
     </li>
   ))}
 </ul>
