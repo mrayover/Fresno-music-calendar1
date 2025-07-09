@@ -6,7 +6,7 @@ const SubmitEventForm = () => {
     title: "",
     date: "",
     startTime: "18:00",
-    endTime: "",
+    endTime: "19:00",
     venue: "",
     genre: "",
     cover: "",

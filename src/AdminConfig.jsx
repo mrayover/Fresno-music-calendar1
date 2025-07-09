@@ -11,7 +11,7 @@ export default function AdminConfig() {
     title: "",
     date: "",
     startTime: "18:00",
-    endTime: "",
+    endTime: "19:00",
     venue: "",
     genre: "",
     cover: "",
@@ -70,7 +70,7 @@ const editEvent = (event) => {
 
   setEditingId(event.id);
 };
-const handleChange = (e) => {
+const handleEventChange = (e) => {
   const { name, value } = e.target;
 
   // If the startTime changes, auto-update endTime
