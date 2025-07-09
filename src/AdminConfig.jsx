@@ -158,7 +158,7 @@ const toggleArchiveEvent = async (event) => {
     alert("Failed to update archive status.");
   } else {
     // Refetch the lists to reflect updated status
-    const { data: updatedApproved } = await supabase.from("events").select("*").eq("status", "approved");
+    const { data: updatedApproved } = await supabase.from("events").select("*").eq("status", ["approved","archived"]);
     setApprovedEvents(updatedApproved || []);
     alert(isArchived ? "Event restored to calendar." : "Event archived.");
   }
