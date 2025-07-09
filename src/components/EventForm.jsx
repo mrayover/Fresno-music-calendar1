@@ -18,31 +18,36 @@ const generateTimeOptions = () => {
 
 const EventForm = ({ data, setData, onSubmit, mode = "public", editingId = null, cancelEdit = null }) => {
   const handleChange = (e) => {
-    const { name, value } = e.target;
-if (name === "startTime") {
-  const [hour, minute] = value.split(":").map(Number);
-  const prevHour = parseInt(prev.startTime?.split(":")[0] || "18");
-  const prevMinute = parseInt(prev.startTime?.split(":")[1] || "00");
-  const expectedPrevEnd = `${(prevHour + 1) % 24}`.padStart(2, "0") + `:${prevMinute.toString().padStart(2, "0")}`;
-  const shouldUpdate = prev.endTime === expectedPrevEnd || prev.endTime === "" || prev.endTime === prev.startTime;
+  const { name, value } = e.target;
 
-  const newHour = (hour + 1) % 24;
-  const adjustedEnd = `${newHour.toString().padStart(2, "0")}:${minute.toString().padStart(2, "0")}`;
+  if (name === "startTime") {
+    setData((prev) => {
+      const [hour, minute] = value.split(":").map(Number);
+      const prevStart = prev.startTime || "18:00";
+      const [prevHour, prevMinute] = prevStart.split(":").map(Number);
+      const expectedPrevEnd = `${(prevHour + 1) % 24}`.padStart(2, "0") + `:${prevMinute.toString().padStart(2, "0")}`;
 
-  setData((prev) => ({
-    ...prev,
-    startTime: value,
-    endTime: shouldUpdate ? adjustedEnd : prev.endTime,
-  }));
+      const shouldUpdate =
+        prev.endTime === "" ||
+        prev.endTime === prev.startTime ||
+        prev.endTime === expectedPrevEnd;
 
-    } else {
-      setData((prev) => ({
+      const newHour = (hour + 1) % 24;
+      const adjustedEnd = `${newHour.toString().padStart(2, "0")}:${minute.toString().padStart(2, "0")}`;
+
+      return {
         ...prev,
-        [name]: value,
-      }));
-    }
-  };
-
+        startTime: value,
+        endTime: shouldUpdate ? adjustedEnd : prev.endTime
+      };
+    });
+  } else {
+    setData((prev) => ({
+      ...prev,
+      [name]: value
+    }));
+  }
+};
   return (
     <>
       {mode === "admin" && editingId && (
