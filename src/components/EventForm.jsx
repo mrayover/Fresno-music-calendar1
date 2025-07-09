@@ -19,16 +19,20 @@ const generateTimeOptions = () => {
 const EventForm = ({ data, setData, onSubmit, mode = "public", editingId = null, cancelEdit = null }) => {
   const handleChange = (e) => {
     const { name, value } = e.target;
-    if (name === "startTime") {
-      const [hour, minute] = value.split(":" ).map(Number);
-      let newHour = (hour + 1) % 24;
-      const adjustedEnd = `${newHour.toString().padStart(2, "0")}:\${minute.toString().padStart(2, "0")}`;
+if (name === "startTime") {
+  const [hour, minute] = value.split(":").map(Number);
+  let newHour = (hour + 1) % 24;
+  const adjustedEnd = `${newHour.toString().padStart(2, "0")}:${minute.toString().padStart(2, "0")}`;
 
-      setData((prev) => ({
-        ...prev,
-        startTime: value,
-        endTime: adjustedEnd,
-      }));
+  setData((prev) => {
+    const shouldAutoUpdate = prev.endTime === "" || prev.endTime === prev.startTime;
+    return {
+      ...prev,
+      startTime: value,
+      endTime: shouldAutoUpdate ? adjustedEnd : prev.endTime,
+    };
+  });
+
     } else {
       setData((prev) => ({
         ...prev,
