@@ -85,8 +85,14 @@ const editEvent = (event) => {
   };
 
 const generateEventObject = async () => {
-  const start = `${eventData.date}T${eventData.startTime}:00`;
-  const end = `${eventData.date}T${eventData.endTime}:00`;
+  const localToISO = (dateStr, timeStr) => {
+  const [year, month, day] = dateStr.split("-").map(Number);
+  const [hour, minute] = timeStr.split(":").map(Number);
+  const localDate = new Date(year, month - 1, day, hour, minute);
+  return localDate.toISOString(); // this is what Supabase likes
+};
+const start = localToISO(eventData.date, eventData.startTime);
+const end = localToISO(eventData.date, eventData.endTime);
 
   const updatedEvent = {
     title: eventData.title,
