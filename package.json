@@ -20,8 +20,7 @@
     "autoprefixer": "^10.4.21",
     "postcss": "^8.5.6",
     "tailwindcss": "^4.1.11",
-    "vite": "^5.0.0",
-    "vite-plugin-tailwind": "^0.0.4"
+    "vite": "^5.0.0"
   },
   "description": "This file documents the structure, naming conventions, and key components used in the Fresno Music Calendar React project. It ensures consistent architecture and prevents errors during development or deployment.",
   "main": "tailwind.config.js",
