@@ -5,10 +5,11 @@ import "./components/SubmitEvent.css";
 
 const SubmitEvent = () => {
   return (
-    <div style={{ padding: "2rem" }}>
-      <h2>Submit a New Event</h2>
-      <SubmitEventForm />
-    </div>
+<div className="max-w-2xl mx-auto px-4 py-6 bg-black/50 rounded-xl shadow-md text-tower-cream">
+  <h2 className="text-2xl font-bold mb-4 text-tower-yellow">Submit a New Event</h2>
+  {/* form goes here */}
+</div>
+
   );
 };
 

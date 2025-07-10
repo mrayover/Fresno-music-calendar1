@@ -51,39 +51,52 @@ const EventForm = ({ data, setData, onSubmit, mode = "public", editingId = null,
   return (
     <>
       {mode === "admin" && editingId && (
-        <div style={{ marginBottom: "1rem", color: "#ffcc00" }}>
-          <strong>Editing Event ID: {editingId}</strong>
-          <button onClick={cancelEdit} style={{ marginLeft: "1rem" }}>Cancel Edit</button>
-        </div>
-      )}
+  <div className="mb-4 text-tower-yellow bg-tower-black p-2 rounded-md shadow-sm">
+    <strong>Editing Event ID: {editingId}</strong>
+    <button onClick={cancelEdit} className="ml-4 text-tower-teal underline hover:text-tower-yellow">Cancel Edit</button>
+  </div>
+)}
 
       <form
-        onSubmit={onSubmit}
-        style={{ display: "flex", flexDirection: "column", gap: "0.75rem", maxWidth: "500px" }}
-      >
-        <input name="title" placeholder="Title" value={data.title} onChange={handleChange} required />
-        <input name="date" type="date" value={data.date} onChange={handleChange} required />
+  onSubmit={onSubmit}
+  className="flex flex-col gap-4 max-w-xl bg-black/50 p-6 rounded-lg shadow-md text-tower-cream"
+        >
+                <input
+          name="title"
+          placeholder="Title"
+          value={data.title}
+          onChange={handleChange}
+          required
+          className="bg-white/10 text-tower-cream placeholder-gray-400 p-2 rounded-md border border-tower-teal focus:outline-none focus:ring-2 focus:ring-tower-pink"
+        />
 
-        <select name="startTime" value={data.startTime} onChange={handleChange} required>
+        <input name="date" type="date" value={data.date} onChange={handleChange} required className="bg-white/10 text-tower-cream placeholder-gray-400 p-2 rounded-md border border-tower-teal focus:outline-none focus:ring-2 focus:ring-tower-pink"/>
+
+        <select name="startTime" value={data.startTime} onChange={handleChange} required className="bg-white/10 text-tower-cream placeholder-gray-400 p-2 rounded-md border border-tower-teal focus:outline-none focus:ring-2 focus:ring-tower-pink">
           <option value="">Select Start Time</option>
           {generateTimeOptions().map((time) => (
             <option key={time.value} value={time.value}>{time.label}</option>
           ))}
         </select>
 
-        <select name="endTime" value={data.endTime} onChange={handleChange} required>
+        <select name="endTime" value={data.endTime} onChange={handleChange} required className="bg-white/10 text-tower-cream placeholder-gray-400 p-2 rounded-md border border-tower-teal focus:outline-none focus:ring-2 focus:ring-tower-pink">
           <option value="">Select End Time</option>
           {generateTimeOptions().map((time) => (
             <option key={time.value} value={time.value}>{time.label}</option>
           ))}
         </select>
 
-        <input name="venue" placeholder="Venue" value={data.venue} onChange={handleChange} required />
-        <input name="genre" placeholder="Genre" value={data.genre} onChange={handleChange} />
-        <input name="cover" placeholder="Cover Charge" value={data.cover} onChange={handleChange} />
-        <textarea name="description" placeholder="Description" value={data.description} onChange={handleChange} required />
+        <input name="venue" placeholder="Venue" value={data.venue} onChange={handleChange} required className="bg-white/10 text-tower-cream placeholder-gray-400 p-2 rounded-md border border-tower-teal focus:outline-none focus:ring-2 focus:ring-tower-pink"/>
+        <input name="genre" placeholder="Genre" value={data.genre} onChange={handleChange} className="bg-white/10 text-tower-cream placeholder-gray-400 p-2 rounded-md border border-tower-teal focus:outline-none focus:ring-2 focus:ring-tower-pink"/>
+        <input name="cover" placeholder="Cover Charge" value={data.cover} onChange={handleChange} className="bg-white/10 text-tower-cream placeholder-gray-400 p-2 rounded-md border border-tower-teal focus:outline-none focus:ring-2 focus:ring-tower-pink"/>
+        <textarea name="description" placeholder="Description" value={data.description} onChange={handleChange} required className="bg-white/10 text-tower-cream placeholder-gray-400 p-2 rounded-md border border-tower-teal focus:outline-none focus:ring-2 focus:ring-tower-pink"/>
 
-        <button type="submit">{editingId ? "Update Event" : mode === "admin" ? "Add Event to Calendar" : "Submit Event"}</button>
+        <button
+  type="submit"
+  className="bg-tower-pink hover:bg-tower-yellow text-black font-semibold py-2 px-4 rounded-md transition-colors duration-200"
+>
+  {editingId ? "Update Event" : mode === "admin" ? "Add Event to Calendar" : "Submit Event"}
+</button>
       </form>
     </>
   );
