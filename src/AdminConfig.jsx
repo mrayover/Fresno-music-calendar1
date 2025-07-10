@@ -21,26 +21,36 @@ export default function AdminConfig() {
   const [archivedEvents, setArchivedEvents] = useState([]);
 
   useEffect(() => {
-    const fetchGenres = () => {
-      const saved = localStorage.getItem("customGenres");
-      if (saved) setGenres(JSON.parse(saved));
-    };
+  const fetchGenres = () => {
+    const saved = localStorage.getItem("customGenres");
+    if (saved) setGenres(JSON.parse(saved));
+  };
 
-    const fetchEvents = async () => {
-      const pending = await supabase.from("events").select("*").eq("status", "pending");
-      const approved = await supabase
-  .from("events")
-  .select("*")
-  .in("status", ["approved", "archived"]);
+  const fetchEvents = async () => {
+    const pending = await supabase
+      .from("events")
+      .select("*")
+      .eq("status", "pending");
 
+    const all = await supabase
+      .from("events")
+      .select("*")
+      .in("status", ["approved", "archived"]);
 
-      if (pending.data) setPendingEvents(pending.data);
-      if (approved.data) setApprovedEvents(approved.data);
-    };
+    if (pending.data) setPendingEvents(pending.data);
 
-    fetchGenres();
-    fetchEvents();
-  }, []);
+    if (all.data) {
+      const approvedOnly = all.data.filter(e => e.status === "approved");
+      const archivedOnly = all.data.filter(e => e.status === "archived");
+
+      setApprovedEvents(approvedOnly);
+      setArchivedEvents(archivedOnly);
+    }
+  };
+
+  fetchGenres();
+  fetchEvents();
+}, []);
 
   const addGenre = () => {
     const trimmed = newGenre.trim();
