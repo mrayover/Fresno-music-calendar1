@@ -14,6 +14,8 @@ export default function App() {
           <img src="/logo.png" alt="Fresno Music Calendar Logo" className="logo" />
           <h1 className="site-title">Fresno Music Calendar</h1>
         </div>
+        <div className="text-pink-500 font-bold">Tailwind is live!</div>
+
         <nav>
           <Link to="/" className="nav-link">Home</Link>
           <Link to="/submit">Submit Event</Link>
