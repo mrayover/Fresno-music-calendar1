@@ -9,18 +9,16 @@ import AdminConfig from "./AdminConfig";
 export default function App() {
   return (
     <div className="app-container">
-      <header className="app-header">
-        <div className="logo-title">
-          <img src="/logo.png" alt="Fresno Music Calendar Logo" className="logo" />
-          <h1 className="site-title">Fresno Music Calendar</h1>
-        </div>
-        <div className="text-pink-500 font-bold">Tailwind is live!</div>
-
-        <nav>
-          <Link to="/" className="nav-link">Home</Link>
-          <Link to="/submit">Submit Event</Link>
-        </nav>
-      </header>
+<header className="bg-tower-brick text-tower-cream px-6 py-4 flex items-center justify-between shadow-md">
+  <div className="flex items-center space-x-4">
+    <img src="/logo.png" alt="Fresno Music Calendar Logo" className="h-12" />
+    <h1 className="text-2xl font-extrabold tracking-wide">Fresno Music Calendar</h1>
+  </div>
+  <nav className="space-x-4">
+    <Link to="/" className="hover:underline hover:text-tower-yellow">Home</Link>
+    <Link to="/submit" className="hover:underline hover:text-tower-yellow">Submit Event</Link>
+  </nav>
+</header>
       <main>
         <Routes>
           <Route path="/" element={<CalendarView />} />
