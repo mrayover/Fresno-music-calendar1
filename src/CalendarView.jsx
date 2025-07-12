@@ -186,23 +186,35 @@ const genreColors = {
               (event.title.toLowerCase().includes(searchQuery) ||
                event.description.toLowerCase().includes(searchQuery))
           )}
-          components={{
-  event: ({ event }) => (
-    <div className="group relative">
-      <div className="truncate">{event.title}</div>
-      <div className="absolute z-50 hidden group-hover:block bg-black text-white text-sm p-3 rounded shadow-xl top-full left-0 w-64">
-        <div className="font-bold">{event.title}</div>
-        <div className="text-xs italic">{event.venue}</div>
-        <div className="text-xs">
-          {new Date(event.start).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })} –{" "}
-          {new Date(event.end).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
+components={{
+  event: ({ event }) => {
+    const bg = genreColors[event.genre] || genreColors["Other"];
+    return (
+      <div className="group relative">
+        <div
+          className="truncate px-1 py-[2px] rounded"
+          style={{
+            backgroundColor: bg,
+            color: "#fff"
+          }}
+        >
+          {event.title}
         </div>
-        <div className="text-xs text-tower-yellow">{event.genre}</div>
-        <p className="mt-1">{event.description?.slice(0, 120)}{event.description?.length > 120 ? "..." : ""}</p>
+        <div className="absolute z-50 hidden group-hover:block bg-black text-white text-sm p-3 rounded shadow-xl top-full left-0 w-64">
+          <div className="font-bold">{event.title}</div>
+          <div className="text-xs italic">{event.venue}</div>
+          <div className="text-xs">
+            {new Date(event.start).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })} –{" "}
+            {new Date(event.end).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
+          </div>
+          <div className="text-xs text-tower-yellow">{event.genre}</div>
+          <p className="mt-1">{event.description?.slice(0, 120)}{event.description?.length > 120 ? "..." : ""}</p>
+        </div>
       </div>
-    </div>
-  )
+    );
+  }
 }}
+
 
           startAccessor="start"
           endAccessor="end"
