@@ -73,14 +73,15 @@ const EventForm = ({ data, setData, onSubmit, mode = "public", editingId = null,
   className={inputClass}
 />
 
-        <input
+<input
   name="date"
   type="date"
   value={data.date}
   onChange={handleChange}
   required
-  className="bg-white/10 text-tower-cream placeholder-gray-400 p-2 rounded-md border border-tower-teal focus:outline-none focus:ring-2 focus:ring-tower-pink"
+  className="bg-white text-black p-2 rounded-md border border-tower-teal focus:outline-none focus:ring-2 focus:ring-tower-pink"
 />
+
 
 <select
   name="startTime"
