@@ -1,6 +1,9 @@
 // EventForm.jsx
 import React from "react";
 
+const inputClass =
+  "bg-white/10 text-tower-cream placeholder-gray-400 p-2 rounded-md border border-tower-teal focus:outline-none focus:ring-2 focus:ring-tower-pink appearance-none";
+
 const generateTimeOptions = () => {
   const times = [];
   for (let hour = 0; hour < 24; hour++) {
@@ -62,34 +65,53 @@ const EventForm = ({ data, setData, onSubmit, mode = "public", editingId = null,
   className="flex flex-col gap-4 max-w-xl bg-black/50 p-6 rounded-lg shadow-md text-tower-cream"
         >
                 <input
-          name="title"
-          placeholder="Title"
-          value={data.title}
-          onChange={handleChange}
-          required
-          className="bg-white/10 text-tower-cream placeholder-gray-400 p-2 rounded-md border border-tower-teal focus:outline-none focus:ring-2 focus:ring-tower-pink"
-        />
+  name="title"
+  placeholder="Title"
+  value={data.title}
+  onChange={handleChange}
+  required
+  className={inputClass}
+/>
 
-        <input name="date" type="date" value={data.date} onChange={handleChange} required className="bg-white/10 text-tower-cream placeholder-gray-400 p-2 rounded-md border border-tower-teal focus:outline-none focus:ring-2 focus:ring-tower-pink"/>
+        <input name="date" type="date" value={data.date} onChange={handleChange} required className={inputClass}/>
 
-        <select name="startTime" value={data.startTime} onChange={handleChange} required className="bg-white/10 text-tower-cream placeholder-gray-400 p-2 rounded-md border border-tower-teal focus:outline-none focus:ring-2 focus:ring-tower-pink">
-          <option value="">Select Start Time</option>
-          {generateTimeOptions().map((time) => (
-            <option key={time.value} value={time.value}>{time.label}</option>
-          ))}
-        </select>
+<select
+  name="startTime"
+  value={data.startTime}
+  onChange={handleChange}
+  required
+  className={inputClass}
+>
+  <option value="">Select Start Time</option>
+  {generateTimeOptions().map((time) => (
+    <option key={time.value} value={time.value}>{time.label}</option>
+  ))}
+</select>
+<select
+  name="endTime"
+  value={data.endTime}
+  onChange={handleChange}
+  required
+  className={inputClass}
+>
+  <option value="">Select End Time</option>
+  {generateTimeOptions().map((time) => (
+    <option key={time.value} value={time.value}>{time.label}</option>
+  ))}
+</select>
 
-        <select name="endTime" value={data.endTime} onChange={handleChange} required className="bg-white/10 text-tower-cream placeholder-gray-400 p-2 rounded-md border border-tower-teal focus:outline-none focus:ring-2 focus:ring-tower-pink">
-          <option value="">Select End Time</option>
-          {generateTimeOptions().map((time) => (
-            <option key={time.value} value={time.value}>{time.label}</option>
-          ))}
-        </select>
 
-        <input name="venue" placeholder="Venue" value={data.venue} onChange={handleChange} required className="bg-white/10 text-tower-cream placeholder-gray-400 p-2 rounded-md border border-tower-teal focus:outline-none focus:ring-2 focus:ring-tower-pink"/>
-        <input name="genre" placeholder="Genre" value={data.genre} onChange={handleChange} className="bg-white/10 text-tower-cream placeholder-gray-400 p-2 rounded-md border border-tower-teal focus:outline-none focus:ring-2 focus:ring-tower-pink"/>
-        <input name="cover" placeholder="Cover Charge" value={data.cover} onChange={handleChange} className="bg-white/10 text-tower-cream placeholder-gray-400 p-2 rounded-md border border-tower-teal focus:outline-none focus:ring-2 focus:ring-tower-pink"/>
-        <textarea name="description" placeholder="Description" value={data.description} onChange={handleChange} required className="bg-white/10 text-tower-cream placeholder-gray-400 p-2 rounded-md border border-tower-teal focus:outline-none focus:ring-2 focus:ring-tower-pink"/>
+        <input name="venue" placeholder="Venue" value={data.venue} onChange={handleChange} required className={inputClass}/>
+        <input name="genre" placeholder="Genre" value={data.genre} onChange={handleChange} className={inputClass}/>
+        <input name="cover" placeholder="Cover Charge" value={data.cover} onChange={handleChange} className={inputClass}/>
+        <textarea
+  name="description"
+  placeholder="Description"
+  value={data.description}
+  onChange={handleChange}
+  required
+  className={inputClass}
+/>
 
         <button
   type="submit"
