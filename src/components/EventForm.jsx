@@ -1,5 +1,7 @@
 // EventForm.jsx
 import React from "react";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 const inputClass =
   "bg-white/10 text-tower-cream placeholder-gray-400 p-2 rounded-md border border-tower-teal focus:outline-none focus:ring-2 focus:ring-tower-pink appearance-none";
@@ -73,15 +75,18 @@ const EventForm = ({ data, setData, onSubmit, mode = "public", editingId = null,
   className={inputClass}
 />
 
-<input
-  name="date"
-  type="date"
-  value={data.date}
-  onChange={handleChange}
-  required
-  className="bg-white text-black p-2 rounded-md border border-tower-teal focus:outline-none focus:ring-2 focus:ring-tower-pink"
+<DatePicker
+  selected={data.date ? new Date(data.date) : null}
+  onChange={(date) =>
+    setData((prev) => ({
+      ...prev,
+      date: date.toISOString().slice(0, 10)
+    }))
+  }
+  placeholderText="Select a date"
+  dateFormat="yyyy-MM-dd"
+  className="bg-white text-black p-2 rounded-md border border-tower-teal focus:outline-none focus:ring-2 focus:ring-tower-pink w-full"
 />
-
 
 <select
   name="startTime"
