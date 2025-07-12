@@ -8,8 +8,7 @@ import FilterPanel from "./FilterPanel";
 
 const localizer = momentLocalizer(moment);
 
-const [hoveredEvent, setHoveredEvent] = useState(null);
-const [hoverPosition, setHoverPosition] = useState({ x: 0, y: 0 });
+
 
 const CalendarView = () => {
   const [events, setEvents] = useState([]);
@@ -18,6 +17,8 @@ const CalendarView = () => {
   const [selectedGenres, setSelectedGenres] = useState([]);
   const [selectedVenues, setSelectedVenues] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
+  const [hoveredEvent, setHoveredEvent] = useState(null);
+  const [hoverPosition, setHoverPosition] = useState({ x: 0, y: 0 });
 
   const navigate = useNavigate();
 
