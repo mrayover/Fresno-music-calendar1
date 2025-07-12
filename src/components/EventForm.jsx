@@ -137,6 +137,40 @@ className="bg-white text-black p-2 rounded-md border border-tower-teal focus:out
   required
   className={inputClass}
 />
+<input
+  name="source"
+  placeholder="Source Link (optional)"
+  value={data.source || ""}
+  onChange={handleChange}
+  className={inputClass}
+/>
+<input
+  name="submittedBy"
+  placeholder="Submitted By (your name or org)"
+  value={data.submittedBy || ""}
+  onChange={handleChange}
+  className={inputClass}
+/>
+
+<input
+  name="contact"
+  placeholder="Contact Info (optional)"
+  value={data.contact || ""}
+  onChange={handleChange}
+  className={inputClass}
+/>
+
+<input
+  type="file"
+  accept="image/*"
+  onChange={(e) =>
+    setData((prev) => ({
+      ...prev,
+      flyer: e.target.files?.[0] || null
+    }))
+  }
+  className="text-tower-cream"
+/>
 
 <button
   type="submit"

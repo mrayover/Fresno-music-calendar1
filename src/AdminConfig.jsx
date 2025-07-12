@@ -5,16 +5,21 @@ import EventForm from "./components/EventForm";
 export default function AdminConfig() {
   const [genres, setGenres] = useState([]);
   const [newGenre, setNewGenre] = useState("");
-  const [eventData, setEventData] = useState({
-    title: "",
-    date: "",
-    startTime: "18:00",
-    endTime: "19:00",
-    venue: "",
-    genre: "",
-    cover: "",
-    description: ""
-  });
+const [eventData, setEventData] = useState({
+  title: "",
+  date: "",
+  startTime: "18:00",
+  endTime: "19:00",
+  venue: "",
+  genre: "",
+  cover: "",
+  description: "",
+  source: "",
+  submittedBy: "",
+  contact: "",
+  flyer: null
+});
+
   const [editingId, setEditingId] = useState(null);
   const [pendingEvents, setPendingEvents] = useState([]);
   const [approvedEvents, setApprovedEvents] = useState([]);
@@ -90,11 +95,14 @@ export default function AdminConfig() {
       start,
       end,
       venue: eventData.venue,
-      description: eventData.description,
       genre: eventData.genre,
-      cover: coverNumber,
-      status: "approved",
-      source: "admin"
+      cover: parseFloat(eventData.cover),
+      description: eventData.description,
+      source: eventData.source,
+      submittedBy: eventData.submittedBy,
+      contact: eventData.contact,
+      flyer: null, // TODO: add admin flyer upload if needed
+      status: "approved"
     };
 
     const result = editingId
@@ -128,16 +136,20 @@ export default function AdminConfig() {
   const editEvent = (event) => {
     const start = new Date(event.start);
     const end = new Date(event.end);
-    setEventData({
-      title: event.title,
-      date: start.toISOString().slice(0, 10),
-      startTime: start.toISOString().slice(11, 16),
-      endTime: end.toISOString().slice(11, 16),
-      venue: event.venue || "",
-      genre: event.genre || "",
-      cover: event.cover || "",
-      description: event.description || ""
-    });
+setEventData({
+  title: event.title,
+  date: start.toISOString().slice(0, 10),
+  startTime: start.toISOString().slice(11, 16),
+  endTime: end.toISOString().slice(11, 16),
+  venue: event.venue || "",
+  genre: event.genre || "",
+  cover: event.cover || "",
+  description: event.description || "",
+  source: event.source || "",
+  submittedBy: event.submittedBy || "",
+  contact: event.contact || "",
+  flyer: null
+});
     setEditingId(event.id);
   };
 const deleteApprovedEvent = async (id) => {
