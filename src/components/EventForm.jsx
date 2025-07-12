@@ -93,7 +93,7 @@ const EventForm = ({ data, setData, onSubmit, mode = "public", editingId = null,
   value={data.startTime}
   onChange={handleChange}
   required
-  className={inputClass}
+  className="bg-white text-black p-2 rounded-md border border-tower-teal focus:outline-none focus:ring-2 focus:ring-tower-pink w-full"
 >
   <option value="">Select Start Time</option>
   {generateTimeOptions().map((time) => (
@@ -105,7 +105,7 @@ const EventForm = ({ data, setData, onSubmit, mode = "public", editingId = null,
   value={data.endTime}
   onChange={handleChange}
   required
-  className={inputClass}
+className="bg-white text-black p-2 rounded-md border border-tower-teal focus:outline-none focus:ring-2 focus:ring-tower-pink w-full"
 >
   <option value="">Select End Time</option>
   {generateTimeOptions().map((time) => (
