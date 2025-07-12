@@ -187,17 +187,7 @@ const genreColors = {
                event.description.toLowerCase().includes(searchQuery))
           )}
 components={{
-event: ({ event }) => {
-  const bg = genreColors[event.genre] || genreColors["Other"];
-  return (
-    <div
-      className="relative z-10 truncate px-2 py-1 rounded-sm text-sm font-medium text-white"
-      style={{ backgroundColor: bg }}
-    >
-      {event.title}
-    </div>
-  );
-},
+
 
 event: ({ event }) => {
   const bg = genreColors[event.genre] || genreColors["Other"];
