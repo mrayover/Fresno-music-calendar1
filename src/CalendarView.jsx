@@ -249,8 +249,7 @@ month: {
           className="h-[85vh] w-full"
         />
       </div>
-    </div>
-    {hoveredEvent && (
+      {hoveredEvent && (
   <div
     className="absolute z-50 bg-black text-white text-sm p-3 rounded shadow-xl w-64 pointer-events-none"
     style={{
@@ -278,6 +277,8 @@ month: {
   </div>
 )}
 
+    </div>
+    
      </div>
      
   );
