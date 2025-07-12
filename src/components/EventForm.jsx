@@ -105,11 +105,10 @@ const EventForm = ({ data, setData, onSubmit, mode = "public", editingId = null,
   className="bg-white text-black p-2 rounded-md border border-tower-teal focus:outline-none focus:ring-2 focus:ring-tower-pink w-full"
 >
   <option value="">Select Start Time</option>
-{generateTimeOptions()
-  .filter((time) => isAfterOrEqual(time.value, data.startTime || "00:00"))
-  .map((time) => (
-    <option key={time.value} value={time.value}>{time.label}</option>
+{generateTimeOptions().map((time) => (
+  <option key={time.value} value={time.value}>{time.label}</option>
 ))}
+
 </select>
 <select
   name="endTime"
