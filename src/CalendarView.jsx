@@ -8,6 +8,8 @@ import FilterPanel from "./FilterPanel";
 
 const localizer = momentLocalizer(moment);
 
+const [hoveredEvent, setHoveredEvent] = useState(null);
+const [hoverPosition, setHoverPosition] = useState({ x: 0, y: 0 });
 
 const CalendarView = () => {
   const [events, setEvents] = useState([]);
@@ -72,6 +74,16 @@ const handleVenueChange = (venue) => {
       ? prev.filter((v) => v !== venue)
       : [...prev, venue]
   );
+};
+const handleMouseEnter = (event, e) => {
+  const rect = e.target.getBoundingClientRect();
+  setHoveredEvent(event);
+  setHoverPosition({ x: rect.left, y: rect.bottom });
+};
+
+const handleMouseLeave = () => {
+  // Delay to avoid flickering
+  setTimeout(() => setHoveredEvent(null), 150);
 };
 const genreColors = {
   Jazz: "#4B9CD3",
@@ -187,40 +199,26 @@ const genreColors = {
                event.description.toLowerCase().includes(searchQuery))
           )}
 components={{
-  month: {
-    event: ({ event }) => {
-      const bg = genreColors[event.genre] || genreColors["Other"];
-      return (
-        <div className="relative group z-10">
-          <div
-            className="truncate px-2 py-1 rounded-sm text-sm font-medium text-white"
-            style={{ backgroundColor: bg }}
-          >
-            {event.title}
-          </div>
-          <div className="absolute z-50 hidden group-hover:flex flex-col bg-black text-white text-sm p-3 rounded shadow-xl top-full left-0 w-64 pointer-events-none">
-            <div className="font-bold">{event.title}</div>
-            <div className="text-xs italic">{event.venue}</div>
-            <div className="text-xs">
-              {new Date(event.start).toLocaleTimeString([], {
-                hour: "2-digit",
-                minute: "2-digit"
-              })} –{" "}
-              {new Date(event.end).toLocaleTimeString([], {
-                hour: "2-digit",
-                minute: "2-digit"
-              })}
-            </div>
-            <div className="text-xs text-tower-yellow">{event.genre}</div>
-            <p className="mt-1">
-              {event.description?.slice(0, 120)}
-              {event.description?.length > 120 ? "..." : ""}
-            </p>
-          </div>
+month: {
+  event: ({ event }) => {
+    const bg = genreColors[event.genre] || genreColors["Other"];
+    return (
+      <div
+        className="relative z-10 cursor-pointer"
+        onMouseEnter={(e) => handleMouseEnter(event, e)}
+        onMouseLeave={handleMouseLeave}
+      >
+        <div
+          className="truncate px-2 py-1 rounded-sm text-sm font-medium text-white"
+          style={{ backgroundColor: bg }}
+        >
+          {event.title}
         </div>
-      );
-    }
-  },
+      </div>
+    );
+  }
+},
+
   day: {
     event: ({ event }) => {
       const bg = genreColors[event.genre] || genreColors["Other"];
@@ -252,8 +250,38 @@ components={{
         />
       </div>
     </div>
+    {hoveredEvent && (
+  <div
+    className="absolute z-50 bg-black text-white text-sm p-3 rounded shadow-xl w-64 pointer-events-none"
+    style={{
+      top: hoverPosition.y + 8,
+      left: hoverPosition.x,
+    }}
+  >
+    <div className="font-bold">{hoveredEvent.title}</div>
+    <div className="text-xs italic">{hoveredEvent.venue}</div>
+    <div className="text-xs">
+      {new Date(hoveredEvent.start).toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit"
+      })} –{" "}
+      {new Date(hoveredEvent.end).toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit"
+      })}
+    </div>
+    <div className="text-xs text-tower-yellow">{hoveredEvent.genre}</div>
+    <p className="mt-1">
+      {hoveredEvent.description?.slice(0, 120)}
+      {hoveredEvent.description?.length > 120 ? "..." : ""}
+    </p>
+  </div>
+)}
+
      </div>
+     
   );
+  
 };
 
 export default CalendarView;
