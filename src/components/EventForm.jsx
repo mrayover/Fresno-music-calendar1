@@ -20,6 +20,11 @@ const generateTimeOptions = () => {
   }
   return times;
 };
+const isAfterOrEqual = (a, b) => {
+  const [ah, am] = a.split(":").map(Number);
+  const [bh, bm] = b.split(":").map(Number);
+  return ah > bh || (ah === bh && am >= bm);
+};
 
 const EventForm = ({ data, setData, onSubmit, mode = "public", editingId = null, cancelEdit = null }) => {
   const handleChange = (e) => {
@@ -47,6 +52,10 @@ const EventForm = ({ data, setData, onSubmit, mode = "public", editingId = null,
       };
     });
   } else {
+    if (name === "endTime" && data.startTime && !isAfterOrEqual(value, data.startTime)) {
+        alert("End time cannot be before start time.");
+        return;
+      }
     setData((prev) => ({
       ...prev,
       [name]: value
@@ -96,9 +105,11 @@ const EventForm = ({ data, setData, onSubmit, mode = "public", editingId = null,
   className="bg-white text-black p-2 rounded-md border border-tower-teal focus:outline-none focus:ring-2 focus:ring-tower-pink w-full"
 >
   <option value="">Select Start Time</option>
-  {generateTimeOptions().map((time) => (
+{generateTimeOptions()
+  .filter((time) => isAfterOrEqual(time.value, data.startTime || "00:00"))
+  .map((time) => (
     <option key={time.value} value={time.value}>{time.label}</option>
-  ))}
+))}
 </select>
 <select
   name="endTime"
@@ -111,7 +122,9 @@ className="bg-white text-black p-2 rounded-md border border-tower-teal focus:out
   {generateTimeOptions().map((time) => (
     <option key={time.value} value={time.value}>{time.label}</option>
   ))}
+  
 </select>
+
 
 
         <input name="venue" placeholder="Venue" value={data.venue} onChange={handleChange} required className={inputClass}/>
