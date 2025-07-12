@@ -249,40 +249,39 @@ month: {
           className="h-[85vh] w-full"
         />
       </div>
-      {hoveredEvent && (
-  <div
-    className="absolute z-50 bg-black text-white text-sm p-3 rounded shadow-xl w-64 pointer-events-none"
-    style={{
-      top: hoverPosition.y + 8,
-      left: hoverPosition.x,
-    }}
-  >
-    <div className="font-bold">{hoveredEvent.title}</div>
-    <div className="text-xs italic">{hoveredEvent.venue}</div>
-    <div className="text-xs">
-      {new Date(hoveredEvent.start).toLocaleTimeString([], {
-        hour: "2-digit",
-        minute: "2-digit"
-      })} –{" "}
-      {new Date(hoveredEvent.end).toLocaleTimeString([], {
-        hour: "2-digit",
-        minute: "2-digit"
-      })}
-    </div>
-    <div className="text-xs text-tower-yellow">{hoveredEvent.genre}</div>
-    <p className="mt-1">
-      {hoveredEvent.description?.slice(0, 120)}
-      {hoveredEvent.description?.length > 120 ? "..." : ""}
-    </p>
-  </div>
-)}
-
+      
     </div>
     
-     </div>
-     
+      {hoveredEvent && (
+        <div
+          className="absolute z-50 bg-black text-white text-sm p-3 rounded shadow-xl w-64 pointer-events-none"
+          style={{
+            top: hoverPosition.y + 8,
+            left: hoverPosition.x,
+          }}
+        >
+          <div className="font-bold">{hoveredEvent.title}</div>
+          <div className="text-xs italic">{hoveredEvent.venue}</div>
+          <div className="text-xs">
+            {new Date(hoveredEvent.start).toLocaleTimeString([], {
+              hour: "2-digit",
+              minute: "2-digit"
+            })} –{" "}
+            {new Date(hoveredEvent.end).toLocaleTimeString([], {
+              hour: "2-digit",
+              minute: "2-digit"
+            })}
+          </div>
+          <div className="text-xs text-tower-yellow">{hoveredEvent.genre}</div>
+          <p className="mt-1">
+            {hoveredEvent.description?.slice(0, 120)}
+            {hoveredEvent.description?.length > 120 ? "..." : ""}
+          </p>
+        </div>
+      )}
+
+    </div> 
   );
-  
 };
 
 export default CalendarView;
