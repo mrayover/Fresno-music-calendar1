@@ -8,6 +8,8 @@ import FilterPanel from "./FilterPanel";
 
 const localizer = momentLocalizer(moment);
 
+const [date, setDate] = useState(new Date());
+
 const CalendarView = () => {
   const [events, setEvents] = useState([]);
   const [view, setView] = useState(Views.MONTH);
@@ -23,6 +25,7 @@ const dayHighlight = () => ({
 
 const handleSelectSlot = (slotInfo) => {
   setView(Views.DAY);
+  setDate(slotInfo.start);
 };
 
   useEffect(() => {
@@ -193,8 +196,11 @@ const genreColors = {
   onSelectSlot={handleSelectSlot}
   selectable
   dayPropGetter={dayHighlight}
+    date={date}
+  onNavigate={(newDate) => setDate(newDate)}
   eventPropGetter={(event) => {
     const bg = genreColors[event.genre] || genreColors["Other"];
+    
           return {
             style: {
               backgroundColor: bg,
