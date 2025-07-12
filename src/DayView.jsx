@@ -15,7 +15,7 @@ const DayView = () => {
 
       if (!error) {
         const filtered = data.filter((event) => {
-          const eventDate = new Date(event.start).toISOString().slice(0, 10);
+          const eventDate = new Date(event.start).toLocaleDateString("sv-SE"); // YYYY-MM-DD
           return eventDate === date;
         });
         setEvents(filtered);
