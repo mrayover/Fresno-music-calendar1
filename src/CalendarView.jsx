@@ -192,7 +192,7 @@ components={{
     return (
       <div className="group relative">
         <div
-          className="truncate px-1 py-[2px] rounded"
+          className="truncate px-2 py-1 rounded-sm text-sm font-medium"
           style={{
             backgroundColor: bg,
             color: "#fff"
@@ -228,18 +228,6 @@ components={{
   dayPropGetter={dayHighlight}
     date={date}
   onNavigate={(newDate) => setDate(newDate)}
-  eventPropGetter={(event) => {
-    const bg = genreColors[event.genre] || genreColors["Other"];
-    
-          return {
-            style: {
-              backgroundColor: bg,
-              color: "#fff",
-              borderRadius: "4px",
-              padding: "2px"
-            }
-          };
-        }}
 
           className="h-[85vh] w-full"
         />
