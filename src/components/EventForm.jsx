@@ -113,7 +113,7 @@ const EventForm = ({ data, setData, onSubmit, mode = "public", editingId = null,
   className={inputClass}
 />
 
-        <button
+<button
   type="submit"
   className="bg-tower-pink hover:bg-tower-yellow text-black font-semibold py-2 px-4 rounded-md transition-colors duration-200"
 >
