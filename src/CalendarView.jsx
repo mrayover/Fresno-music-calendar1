@@ -194,6 +194,7 @@ const genreColors = {
   onSelectEvent={handleSelectEvent}
   onSelectSlot={handleSelectSlot}
   selectable
+  popup
   dayPropGetter={dayHighlight}
     date={date}
   onNavigate={(newDate) => setDate(newDate)}
