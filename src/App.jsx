@@ -5,6 +5,7 @@ import CalendarView from "./CalendarView";
 import EventDetail from "./EventDetail";
 import SubmitEvent from "./SubmitEvent.jsx";
 import AdminConfig from "./AdminConfig";
+import DayView from "./DayView";
 
 export default function App() {
   return (
@@ -25,6 +26,7 @@ export default function App() {
           <Route path="/event/:id" element={<EventDetail />} />
           <Route path="/submit" element={<SubmitEvent />} />
           <Route path="/admin" element={<AdminConfig />} />
+          <Route path="/day/:date" element={<DayView />} />
         </Routes>
       </main>
     </div>

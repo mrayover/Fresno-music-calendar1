@@ -24,8 +24,7 @@ const dayHighlight = () => ({
 });
 
 const handleSelectSlot = (slotInfo) => {
-  setView(Views.DAY);
-  setDate(slotInfo.start);
+  navigate(`/day/${slotInfo.start.toISOString().slice(0, 10)}`);
 };
 
   useEffect(() => {
@@ -86,7 +85,7 @@ const genreColors = {
 };
 
   return (
-    <div style={{ display: "flex", height: "calc(100vh - 120px)", padding: "1rem" }}>
+      <div className="flex flex-col lg:flex-row h-[calc(100vh-120px)] p-4 gap-4">
       {/* Left column: Filters */}
       <div style={{ minWidth: "220px", marginRight: "2rem", display: "flex", flexDirection: "column" }}>
         <FilterPanel
@@ -129,7 +128,7 @@ const genreColors = {
       </div>
 
       {/* Right column: Calendar */}
-      <div style={{ flex: 1, minWidth: 0 }}>
+      <div className="flex-1 w-full min-w-0">
         <div style={{ marginBottom: "1rem", display: "flex", alignItems: "center", gap: "1rem" }}>
           <div>
             <button onClick={() => setView(Views.MONTH)}>Month</button>
@@ -211,7 +210,7 @@ const genreColors = {
           };
         }}
 
-          style={{ height: "calc(100vh - 100px)", width: "100%" }}
+          className="h-[85vh] w-full"
         />
       </div>
     </div>
