@@ -30,21 +30,24 @@ const handleSubmit = async (e) => {
   const end = localToISO(formData.date, formData.endTime);
 
   let flyerUrl = "";
-  if (formData.flyer) {
-    const { data, error } = await supabase.storage
-      .from("flyers")
-      .upload(`public/${Date.now()}-${formData.flyer.name}`, formData.flyer);
+if (formData.flyer) {
+  const filePath = `public/${Date.now()}-${formData.flyer.name}`;
+  const { data, error } = await supabase.storage
+    .from("flyers")
+    .upload(filePath, formData.flyer, { upsert: true });
 
-    if (error) {
-      alert("Flyer upload failed. Event not submitted.");
-      return;
-    }
-
-    const { data: publicUrl } = supabase.storage
-      .from("flyers")
-      .getPublicUrl(data.path);
-    flyerUrl = publicUrl.publicUrl;
+  if (error) {
+    console.error("Upload error:", error); // <-- log real cause
+    alert("Flyer upload failed. Event not submitted.");
+    return;
   }
+
+  const { data: publicUrl } = supabase.storage
+    .from("flyers")
+    .getPublicUrl(filePath);
+  flyerUrl = publicUrl.publicUrl;
+}
+
 
   const newEvent = {
     title: formData.title,
