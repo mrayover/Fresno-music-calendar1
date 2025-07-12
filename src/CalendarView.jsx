@@ -17,6 +17,14 @@ const CalendarView = () => {
 
   const navigate = useNavigate();
 
+const dayHighlight = () => ({
+  className: "hover:bg-tower-brick/20 transition-colors duration-150 cursor-pointer"
+});
+
+const handleSelectSlot = (slotInfo) => {
+  setView(Views.DAY);
+};
+
   useEffect(() => {
     const fetchEvents = async () => {
       const { data, error } = await supabase
@@ -181,9 +189,12 @@ const genreColors = {
           titleAccessor="title"
           view={view}
           onView={setView}
-          onSelectEvent={handleSelectEvent}
-          eventPropGetter={(event) => {
-  const bg = genreColors[event.genre] || genreColors["Other"];
+  onSelectEvent={handleSelectEvent}
+  onSelectSlot={handleSelectSlot}
+  selectable
+  dayPropGetter={dayHighlight}
+  eventPropGetter={(event) => {
+    const bg = genreColors[event.genre] || genreColors["Other"];
           return {
             style: {
               backgroundColor: bg,
@@ -194,7 +205,7 @@ const genreColors = {
           };
         }}
 
-          style={{ height: "calc(100vh - 200px)", width: "100%" }}
+          style={{ height: "calc(100vh - 100px)", width: "100%" }}
         />
       </div>
     </div>
