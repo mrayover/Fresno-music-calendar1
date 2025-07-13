@@ -42,6 +42,13 @@ const DayView = () => {
             </p>
             <p className="text-sm">{e.genre}</p>
             <p className="mt-1">{e.description}</p>
+            {e.flyer && (
+  <img
+    src={e.flyer}
+    alt={`${e.title} flyer`}
+    className="mt-2 max-w-full rounded shadow-lg"
+  />
+)}
           </div>
         ))
       )}
