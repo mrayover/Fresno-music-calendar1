@@ -31,7 +31,11 @@ const DayView = () => {
         <p>No events scheduled for this day.</p>
       ) : (
         events.map((e) => (
-<Link to={`/event/${e.id}`} key={e.id}>
+<Link
+  to={`/event/${e.id}`}
+  key={e.id}
+  className="block no-underline text-inherit"
+>
   <div className="mb-4 border-b border-gray-700 pb-2 hover:bg-tower-brick/10 transition rounded p-2">
     <div className="text-xl font-semibold text-tower-yellow">{e.title}</div>
     <p className="text-sm italic">{e.venue}</p>
