@@ -2,7 +2,7 @@
 import React from "react";
 import { Routes, Route, Link } from "react-router-dom";
 import CalendarView from "./CalendarView";
-import EventPage from "./EventPage";
+import EventPage from "./components/EventPage";
 import SubmitEvent from "./SubmitEvent.jsx";
 import AdminConfig from "./AdminConfig";
 import DayView from "./DayView";
