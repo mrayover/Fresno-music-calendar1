@@ -31,35 +31,33 @@ const DayView = () => {
         <p>No events scheduled for this day.</p>
       ) : (
         events.map((e) => (
-<Link
-  to={`/event/${e.id}`}
-  key={e.id}
-  className="block no-underline text-inherit"
->
-  <div className="mb-4 border-b border-gray-700 pb-2 hover:bg-tower-brick/10 transition rounded p-2">
-    <div className="text-xl font-semibold text-tower-yellow">{e.title}</div>
-    <p className="text-sm italic">{e.venue}</p>
-    <p className="text-sm">
-      {new Date(e.start).toLocaleTimeString([], {
-        hour: "2-digit",
-        minute: "2-digit"
-      })} –{" "}
-      {new Date(e.end).toLocaleTimeString([], {
-        hour: "2-digit",
-        minute: "2-digit"
-      })}
-    </p>
-    <p className="text-sm">{e.genre}</p>
-    <p className="mt-1">{e.description}</p>
-    {e.flyer && (
-      <img
-        src={e.flyer}
-        alt={`${e.title} flyer`}
-        className="mt-2 max-w-full rounded shadow"
-      />
-      )}
-      </div>
-    </Link>
+<div key={e.id} className="mb-4 border-b border-gray-700 pb-2 hover:bg-tower-brick/10 transition rounded p-2">
+  <Link to={`/event/${e.id}`} className="block text-xl font-semibold text-tower-yellow hover:underline">
+    {e.title}
+  </Link>
+  <p className="text-sm italic">{e.venue}</p>
+  <p className="text-sm">
+    {new Date(e.start).toLocaleTimeString([], {
+      hour: "2-digit",
+      minute: "2-digit"
+    })} –{" "}
+    {new Date(e.end).toLocaleTimeString([], {
+      hour: "2-digit",
+      minute: "2-digit"
+    })}
+  </p>
+  <p className="text-sm">{e.genre}</p>
+  <p className="mt-1">{e.description}</p>
+  {e.flyer && (
+    <img
+      src={e.flyer}
+      alt={`${e.title} flyer`}
+      className="mt-2 max-w-full rounded shadow"
+    />
+  )}
+</div>
+
+ 
 
         ))
       )}
