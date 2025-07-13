@@ -16,7 +16,9 @@ export default function EventPage() {
         .single();
 
       if (!error) setEvent(data);
+      else console.error("Error fetching event:", error.message);
     };
+
     fetchEvent();
   }, [id]);
 
@@ -28,12 +30,12 @@ export default function EventPage() {
       <p><strong>Date:</strong> {new Date(event.start).toLocaleDateString()} at {new Date(event.start).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</p>
       <p><strong>Venue:</strong> {event.venue}</p>
       <p><strong>Genre:</strong> {event.genre}</p>
-      <p><strong>Cover Charge:</strong> {parseFloat(event.cover) > 0 ? `$${parseFloat(event.cover).toFixed(2)}` : "Free"}</p>
+      <p><strong>Cover:</strong> {parseFloat(event.cover) > 0 ? `$${parseFloat(event.cover).toFixed(2)}` : "Free"}</p>
       <p className="mt-2">{event.description}</p>
 
       {event.source && (
         <p className="mt-2">
-          <strong>Source:</strong>{' '}
+          <strong>Source:</strong>{" "}
           <a href={event.source} target="_blank" rel="noreferrer" className="underline text-tower-teal">
             {event.source}
           </a>
@@ -56,8 +58,10 @@ export default function EventPage() {
         />
       )}
 
-      <div className="mt-4 flex gap-4">
-        <a href="https://www.addevent.com" target="_blank" rel="noreferrer" className="text-tower-teal underline">📅 Add to Calendar</a>
+      <div className="mt-6 flex gap-4">
+        <a href="https://www.addevent.com" target="_blank" rel="noreferrer" className="text-tower-teal underline">
+          📅 Add to Calendar
+        </a>
         <Link to="/" className="text-tower-teal underline">← Back to Calendar</Link>
       </div>
     </div>
