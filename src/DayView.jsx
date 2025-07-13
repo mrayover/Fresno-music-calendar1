@@ -32,7 +32,7 @@ const DayView = () => {
         <p>No events scheduled for this day.</p>
       ) : (
         events.map((e) => (
-<div
+  <div
     key={e.id}
     className="mb-4 border-b border-gray-700 pb-2 hover:bg-tower-brick/10 transition rounded p-2 cursor-pointer"
     onClick={() => navigate(`/event/${e.id}`)}
@@ -45,14 +45,41 @@ const DayView = () => {
       {new Date(e.start).toLocaleTimeString([], {
         hour: "2-digit",
         minute: "2-digit"
-      })} –{" "}
-      {new Date(e.end).toLocaleTimeString([], {
+      })} – {new Date(e.end).toLocaleTimeString([], {
         hour: "2-digit",
         minute: "2-digit"
       })}
     </p>
     <p className="text-sm">{e.genre}</p>
     <p className="mt-1">{e.description}</p>
+
+    {e.source && (
+      <p className="text-sm mt-1">
+        <strong>Source:</strong>{" "}
+        <a
+          href={e.source}
+          target="_blank"
+          rel="noreferrer"
+          className="underline text-tower-teal"
+          onClick={(evt) => evt.stopPropagation()}
+        >
+          {e.source}
+        </a>
+      </p>
+    )}
+
+    {e.submittedBy && (
+      <p className="text-sm mt-1">
+        <strong>Submitted by:</strong> {e.submittedBy}
+      </p>
+    )}
+
+    {e.contact && (
+      <p className="text-sm mt-1">
+        <strong>Contact:</strong> {e.contact}
+      </p>
+    )}
+
     {e.flyer && (
       <img
         src={e.flyer}
