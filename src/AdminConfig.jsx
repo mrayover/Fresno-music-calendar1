@@ -168,25 +168,28 @@ if (eventData.flyer && typeof eventData.flyer !== "string") {
     }
   };
 
-  const editEvent = (event) => {
-    const start = new Date(event.start);toLocaleDateString()
-    const end = new Date(event.end);toLocaleDateString()
-setEventData({
-  title: event.title,
-  date: start.toLocaleDateString(),
-  startTime: start.toLocaleDateString(),
-  endTime: end.toLocaleDateString(),
-  venue: event.venue || "",
-  genre: event.genre || "",
-  cover: event.cover || "",
-  description: event.description || "",
-  source: event.source || "",
-  submittedBy: event.submittedBy || "",
-  contact: event.contact || "",
-  flyer: null
-});
-    setEditingId(event.id);
-  };
+const editEvent = (event) => {
+  const start = new Date(event.start);
+  const end = new Date(event.end);
+
+  setEventData({
+    title: event.title,
+    date: start.toISOString().slice(0, 10),
+    startTime: start.toTimeString().slice(0, 5),
+    endTime: end.toTimeString().slice(0, 5),
+    venue: event.venue || "",
+    genre: event.genre || "",
+    cover: event.cover || "",
+    description: event.description || "",
+    source: event.source || "",
+    submittedBy: event.submittedBy || "",
+    contact: event.contact || "",
+    flyer: event.flyer || null
+  });
+
+  setEditingId(event.id);
+};
+
 const deleteApprovedEvent = async (id) => {
   const confirmed = window.confirm("Are you sure you want to delete this approved event?");
   if (!confirmed) return;
