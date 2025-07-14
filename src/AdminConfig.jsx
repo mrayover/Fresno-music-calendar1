@@ -294,23 +294,16 @@ const toggleArchiveEvent = async (event) => {
 />
       <hr />
 <hr />
-<h2>Approved Events</h2>
-<ul>
-  {approvedEvents.map((e) => (
-    <li key={e.id}>
-      <strong>{e.title}</strong> | {e.venue} | {e.genre} | {parseFloat(e.cover) > 0 ? `$${parseFloat(e.cover).toFixed(2)}` : "Free"}<br />
-      {e.start.slice(0, 10)} {e.start.slice(11, 16)} – {e.end.slice(11, 16)} {e.description}<br />
-      <button onClick={() => editEvent(e)}>Edit</button>
-      <button onClick={() => deleteApprovedEvent(e.id)} style={{ marginLeft: "1rem" }}>Delete</button>
-      <button
-        onClick={() => toggleArchiveEvent(e)}
-        style={{ marginLeft: "1rem", backgroundColor: "#ffcc66" }}
-      >
-        Archive
-      </button>
-    </li>
-  ))}
-</ul>
+<WeekCalendar
+  title="Approved Events"
+  events={approvedEvents}
+  onEdit={editEvent}
+  onPrimaryAction={toggleArchiveEvent}
+  onSecondaryAction={deleteApprovedEvent}
+  labelPrimary="Archive"
+  labelSecondary="Delete"
+/>
+
 
 <hr />
 <WeekCalendar
