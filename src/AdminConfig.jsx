@@ -1,25 +1,25 @@
 import React, { useState, useEffect } from "react";
 import { supabase } from "./supabaseClient";
 import EventForm from "./components/EventForm";
-import WeekCalendar from "./components/WeekCalendar";
+import UnifiedWeekView from "./components/UnifiedWeekView";
 
 export default function AdminConfig() {
   const [genres, setGenres] = useState([]);
   const [newGenre, setNewGenre] = useState("");
-const [eventData, setEventData] = useState({
-  title: "",
-  date: "",
-  startTime: "18:00",
-  endTime: "19:00",
-  venue: "",
-  genre: "",
-  cover: "",
-  description: "",
-  source: "",
-  submittedBy: "",
-  contact: "",
-  flyer: null
-});
+  const [eventData, setEventData] = useState({
+    title: "",
+    date: "",
+    startTime: "18:00",
+    endTime: "19:00",
+    venue: "",
+    genre: "",
+    cover: "",
+    description: "",
+    source: "",
+    submittedBy: "",
+    contact: "",
+    flyer: null
+  });
 
   const [editingId, setEditingId] = useState(null);
   const [pendingEvents, setPendingEvents] = useState([]);
@@ -27,36 +27,36 @@ const [eventData, setEventData] = useState({
   const [archivedEvents, setArchivedEvents] = useState([]);
 
   useEffect(() => {
-  const fetchGenres = () => {
-    const saved = localStorage.getItem("customGenres");
-    if (saved) setGenres(JSON.parse(saved));
-  };
+    const fetchGenres = () => {
+      const saved = localStorage.getItem("customGenres");
+      if (saved) setGenres(JSON.parse(saved));
+    };
 
-  const fetchEvents = async () => {
-    const pending = await supabase
-      .from("events")
-      .select("*")
-      .eq("status", "pending");
+    const fetchEvents = async () => {
+      const pending = await supabase
+        .from("events")
+        .select("*")
+        .eq("status", "pending");
 
-    const all = await supabase
-      .from("events")
-      .select("*")
-      .in("status", ["approved", "archived"]);
+      const all = await supabase
+        .from("events")
+        .select("*")
+        .in("status", ["approved", "archived"]);
 
-    if (pending.data) setPendingEvents(pending.data);
+      if (pending.data) setPendingEvents(pending.data);
 
-    if (all.data) {
-      const approvedOnly = all.data.filter(e => e.status === "approved");
-      const archivedOnly = all.data.filter(e => e.status === "archived");
+      if (all.data) {
+        const approvedOnly = all.data.filter(e => e.status === "approved");
+        const archivedOnly = all.data.filter(e => e.status === "archived");
 
-      setApprovedEvents(approvedOnly);
-      setArchivedEvents(archivedOnly);
-    }
-  };
+        setApprovedEvents(approvedOnly);
+        setArchivedEvents(archivedOnly);
+      }
+    };
 
-  fetchGenres();
-  fetchEvents();
-}, []);
+    fetchGenres();
+    fetchEvents();
+  }, []);
 
   const addGenre = () => {
     const trimmed = newGenre.trim();
@@ -74,15 +74,13 @@ const [eventData, setEventData] = useState({
     localStorage.setItem("customGenres", JSON.stringify(updated));
   };
 
-const localToISO = (dateStr, timeStr) => {
-  const [year, month, day] = dateStr.split("-").map(Number);
-  const [hour, minute] = timeStr.split(":").map(Number);
-  const localDate = new Date(year, month - 1, day, hour, minute);
-  const tzOffset = localDate.getTimezoneOffset() * 60000;
-  return new Date(localDate.getTime() - tzOffset).toISOString();
-};
-
-
+  const localToISO = (dateStr, timeStr) => {
+    const [year, month, day] = dateStr.split("-").map(Number);
+    const [hour, minute] = timeStr.split(":").map(Number);
+    const localDate = new Date(year, month - 1, day, hour, minute);
+    const tzOffset = localDate.getTimezoneOffset() * 60000;
+    return new Date(localDate.getTime() - tzOffset).toISOString();
+  };
 
   const generateEventObject = async (e) => {
     e.preventDefault();
@@ -94,28 +92,28 @@ const localToISO = (dateStr, timeStr) => {
       alert("Please enter a valid non-negative cover charge.");
       return;
     }
-let flyerUrl = eventData.flyer;
-if (eventData.flyer && typeof eventData.flyer !== "string") {
-  const { data: uploadData, error: uploadError } = await supabase.storage
-    .from("flyers")
-    .upload(`flyers/${Date.now()}-${eventData.flyer.name}`, eventData.flyer, {
-      cacheControl: "3600",
-      upsert: false
-    });
 
-  if (uploadError) {
-    alert("Flyer upload failed.");
-    return;
-  }
+    let flyerUrl = eventData.flyer;
+    if (eventData.flyer && typeof eventData.flyer !== "string") {
+      const { data: uploadData, error: uploadError } = await supabase.storage
+        .from("flyers")
+        .upload(`flyers/${Date.now()}-${eventData.flyer.name}`, eventData.flyer, {
+          cacheControl: "3600",
+          upsert: false
+        });
 
-  const { data: publicUrlData } = await supabase
-    .storage
-    .from("flyers")
-    .getPublicUrl(uploadData.path);
+      if (uploadError) {
+        alert("Flyer upload failed.");
+        return;
+      }
 
-  flyerUrl = publicUrlData.publicUrl;
-}
+      const { data: publicUrlData } = await supabase
+        .storage
+        .from("flyers")
+        .getPublicUrl(uploadData.path);
 
+      flyerUrl = publicUrlData.publicUrl;
+    }
 
     const updatedEvent = {
       title: eventData.title,
@@ -145,7 +143,10 @@ if (eventData.flyer && typeof eventData.flyer !== "string") {
   };
 
   const approveEvent = async (event) => {
-    const { error } = await supabase.from("events").update({ status: "approved" }).eq("id", event.id);
+    const { error } = await supabase
+      .from("events")
+      .update({ status: "approved" })
+      .eq("id", event.id);
     if (!error) {
       setPendingEvents(p => p.filter(e => e.id !== event.id));
       alert("Event approved.");
@@ -153,77 +154,80 @@ if (eventData.flyer && typeof eventData.flyer !== "string") {
   };
 
   const rejectEvent = async (id) => {
-    const { error } = await supabase.from("events").delete().eq("id", id).eq("status", "pending");
+    const { error } = await supabase
+      .from("events")
+      .delete()
+      .eq("id", id)
+      .eq("status", "pending");
     if (!error) {
       setPendingEvents(p => p.filter(e => e.id !== id));
       alert("Event rejected.");
     }
   };
 
-const editEvent = (event) => {
-  const start = new Date(event.start);
-  const end = new Date(event.end);
+  const editEvent = (event) => {
+    const start = new Date(event.start);
+    const end = new Date(event.end);
 
-  setEventData({
-    title: event.title,
-date: event.start.slice(0, 10),
-startTime: event.start.slice(11, 16),
-endTime: event.end.slice(11, 16),
-    venue: event.venue || "",
-    genre: event.genre || "",
-    cover: event.cover || "",
-    description: event.description || "",
-    source: event.source || "",
-    submittedBy: event.submittedBy || "",
-    contact: event.contact || "",
-    flyer: event.flyer || null
-  });
+    setEventData({
+      title: event.title,
+      date: event.start.slice(0, 10),
+      startTime: event.start.slice(11, 16),
+      endTime: event.end.slice(11, 16),
+      venue: event.venue || "",
+      genre: event.genre || "",
+      cover: event.cover || "",
+      description: event.description || "",
+      source: event.source || "",
+      submittedBy: event.submittedBy || "",
+      contact: event.contact || "",
+      flyer: event.flyer || null
+    });
 
-  setEditingId(event.id);
-};
+    setEditingId(event.id);
+  };
 
-const deleteApprovedEvent = async (id) => {
-  const confirmed = window.confirm("Are you sure you want to delete this approved event?");
-  if (!confirmed) return;
+  const deleteApprovedEvent = async (id) => {
+    const confirmed = window.confirm("Are you sure you want to delete this approved event?");
+    if (!confirmed) return;
 
-  const { error } = await supabase.from("events").delete().eq("id", id);
+    const { error } = await supabase.from("events").delete().eq("id", id);
 
-  if (error) {
-    alert("Failed to delete event.");
-  } else {
-    setApprovedEvents((prev) => prev.filter((e) => e.id !== id));
-    alert("Event deleted.");
-  }
-};
-const toggleArchiveEvent = async (event) => {
-  const isArchived = event.status === "archived";
-  const newStatus = isArchived ? "approved" : "archived";
+    if (error) {
+      alert("Failed to delete event.");
+    } else {
+      setApprovedEvents((prev) => prev.filter((e) => e.id !== id));
+      alert("Event deleted.");
+    }
+  };
 
-  const confirmed = window.confirm(`${isArchived ? "Restore" : "Archive"} this event?`);
-  if (!confirmed) return;
+  const toggleArchiveEvent = async (event) => {
+    const isArchived = event.status === "archived";
+    const newStatus = isArchived ? "approved" : "archived";
 
-  const { error } = await supabase
-    .from("events")
-    .update({ status: newStatus })
-    .eq("id", event.id);
+    const confirmed = window.confirm(`${isArchived ? "Restore" : "Archive"} this event?`);
+    if (!confirmed) return;
 
-  if (error) {
-    alert("Failed to update archive status.");
-  } else {
-    // Refetch the lists to reflect updated status
-    const { data: updatedApproved } = await supabase
-  .from("events")
-  .select("*")
-  .in("status", ["approved", "archived"]);
-    const approvedOnly = (updatedApproved || []).filter(e => e.status === "approved");
-    const archivedOnly = (updatedApproved || []).filter(e => e.status === "archived");
+    const { error } = await supabase
+      .from("events")
+      .update({ status: newStatus })
+      .eq("id", event.id);
+
+    if (error) {
+      alert("Failed to update archive status.");
+    } else {
+      const { data: updatedApproved } = await supabase
+        .from("events")
+        .select("*")
+        .in("status", ["approved", "archived"]);
+      const approvedOnly = (updatedApproved || []).filter(e => e.status === "approved");
+      const archivedOnly = (updatedApproved || []).filter(e => e.status === "archived");
 
       setApprovedEvents(approvedOnly);
-      setArchivedEvents(archivedOnly); // (optional for future use)
-    alert(isArchived ? "Event restored to calendar." : "Event archived.");
-  }
-};
-
+      setArchivedEvents(archivedOnly);
+      alert(isArchived ? "Event restored to calendar." : "Event archived.");
+    }
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -247,18 +251,39 @@ const toggleArchiveEvent = async (event) => {
   };
 
   return (
-    <div style={{ padding: "2rem" }}>
-      <h2>Admin Genre Manager</h2>
-      <input value={newGenre} onChange={(e) => setNewGenre(e.target.value)} placeholder="New Genre" />
-      <button onClick={addGenre}>Add</button>
-      <ul>
+    <div className="p-8">
+      <h2 className="text-lg font-semibold mb-2">Admin Genre Manager</h2>
+      <input
+        value={newGenre}
+        onChange={(e) => setNewGenre(e.target.value)}
+        placeholder="New Genre"
+        className="border px-2 py-1 mr-2 rounded"
+      />
+      <button
+        onClick={addGenre}
+        className="bg-blue-100 hover:bg-blue-200 px-2 py-1 rounded"
+      >
+        Add
+      </button>
+      <ul className="mt-2">
         {genres.map((g) => (
-          <li key={g}>{g} <button onClick={() => removeGenre(g)}>Remove</button></li>
+          <li key={g}>
+            {g}{" "}
+            <button
+              onClick={() => removeGenre(g)}
+              className="text-red-500 hover:underline ml-2"
+            >
+              Remove
+            </button>
+          </li>
         ))}
       </ul>
 
-      <hr />
-      <h2>{editingId ? "Edit Event" : "Add Event"}</h2>
+      <hr className="my-6" />
+
+      <h2 className="text-lg font-semibold mb-2">
+        {editingId ? "Edit Event" : "Add Event"}
+      </h2>
 
       <EventForm
         mode="admin"
@@ -282,40 +307,18 @@ const toggleArchiveEvent = async (event) => {
         }}
       />
 
-      <hr />
-<WeekCalendar
-  title="Pending Events"
-  events={pendingEvents}
-  onEdit={editEvent}
-  onPrimaryAction={approveEvent}
-  onSecondaryAction={(e) => rejectEvent(e.id)}
-  labelPrimary="Approve"
-  labelSecondary="Reject"
-/>
-      <hr />
-<hr />
-<WeekCalendar
-  title="Approved Events"
-  events={approvedEvents}
-  onEdit={editEvent}
-  onPrimaryAction={toggleArchiveEvent}
-  onSecondaryAction={deleteApprovedEvent}
-  labelPrimary="Archive"
-  labelSecondary="Delete"
-/>
+      <hr className="my-6" />
 
-
-<hr />
-<WeekCalendar
-  title="Archived Events"
-  events={archivedEvents}
-  onEdit={editEvent}
-  onPrimaryAction={toggleArchiveEvent}
-  onSecondaryAction={deleteApprovedEvent}
-  labelPrimary="Restore"
-  labelSecondary="Delete"
-/>
-
+      <UnifiedWeekView
+        pendingEvents={pendingEvents}
+        approvedEvents={approvedEvents}
+        archivedEvents={archivedEvents}
+        onEdit={editEvent}
+        approveEvent={approveEvent}
+        rejectEvent={rejectEvent}
+        archiveEvent={toggleArchiveEvent}
+        deleteEvent={deleteApprovedEvent}
+      />
     </div>
   );
 }
