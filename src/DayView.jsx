@@ -41,13 +41,17 @@ const DayView = () => {
       {e.title}
     </div>
     <p className="text-sm italic">{e.venue}</p>
-    <p className="text-sm">
-      {e.start.slice(11, 16)} – {e.end.slice(11, 16)}
- – {new Date(e.end).toLocaleTimeString([], {
-        hour: "2-digit",
-        minute: "2-digit"
-      })}
-    </p>
+<p className="text-sm">
+  {new Date(e.start).toLocaleTimeString([], {
+    hour: "2-digit",
+    minute: "2-digit"
+  })} –{" "}
+  {new Date(e.end).toLocaleTimeString([], {
+    hour: "2-digit",
+    minute: "2-digit"
+  })}
+</p>
+
     <p className="text-sm">{e.genre}</p>
     <p className="mt-1">{e.description}</p>
 

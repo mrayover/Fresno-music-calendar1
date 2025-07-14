@@ -52,8 +52,8 @@ const handleSelectSlot = (slotInfo) => {
       } else {
 const parsed = data.map(event => ({
   ...event,
-  start: event.start,
-  end: event.end
+  start: parseLocalDateTime(event.start),
+  end: parseLocalDateTime(event.end)
 }));
 
 
