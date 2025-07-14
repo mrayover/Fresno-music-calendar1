@@ -282,8 +282,7 @@ const toggleArchiveEvent = async (event) => {
         {pendingEvents.map(e => (
           <li key={e.id}>
             <strong>{e.title}</strong> | {e.venue} | {e.genre} | {parseFloat(e.cover) > 0 ? `$${parseFloat(e.cover).toFixed(2)}` : "Free"}<br />
-            {new Date(e.start).toLocaleString()} – {new Date(e.end).toLocaleTimeString()}<br />
-            {e.description}<br />
+{e.start.slice(0, 10)} {e.start.slice(11, 16)} – {e.end.slice(11, 16)}            {e.description}<br />
             <button onClick={() => approveEvent(e)}>Approve</button>
             <button onClick={() => rejectEvent(e.id)}>Reject</button>
             <button onClick={() => editEvent(e)}>Edit</button>
@@ -297,8 +296,7 @@ const toggleArchiveEvent = async (event) => {
   {approvedEvents.map((e) => (
     <li key={e.id}>
       <strong>{e.title}</strong> | {e.venue} | {e.genre} | {parseFloat(e.cover) > 0 ? `$${parseFloat(e.cover).toFixed(2)}` : "Free"}<br />
-      {new Date(e.start).toLocaleString()} – {new Date(e.end).toLocaleTimeString()}<br />
-      {e.description}<br />
+{e.start.slice(0, 10)} {e.start.slice(11, 16)} – {e.end.slice(11, 16)}      {e.description}<br />
       <button onClick={() => editEvent(e)}>Edit</button>
       <button onClick={() => deleteApprovedEvent(e.id)} style={{ marginLeft: "1rem" }}>Delete</button>
       <button
@@ -317,8 +315,7 @@ const toggleArchiveEvent = async (event) => {
   {archivedEvents.map((e) => (
     <li key={e.id} style={{ opacity: 0.7 }}>
       <strong>{e.title}</strong> | {e.venue} | {e.genre} <em>(archived)</em><br />
-      {new Date(e.start).toLocaleString()} – {new Date(e.end).toLocaleTimeString()}<br />
-      {e.description}<br />
+{e.start.slice(0, 10)} {e.start.slice(11, 16)} – {e.end.slice(11, 16)}      {e.description}<br />
       <button onClick={() => editEvent(e)}>Edit</button>
       <button
         onClick={() => toggleArchiveEvent(e)}

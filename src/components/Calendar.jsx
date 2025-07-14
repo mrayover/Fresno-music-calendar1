@@ -1,6 +1,8 @@
 
 import { Link } from "react-router-dom";
-import { events } from "../eventsData";
+import { useEffect, useState } from "react";
+import { supabase } from "./supabaseClient";
+
 import "./Calendar.css";
 
 function getMonthDates() {
@@ -17,6 +19,20 @@ function getMonthDates() {
 
 export default function Calendar() {
   const dates = getMonthDates();
+const [events, setEvents] = useState([]);
+
+useEffect(() => {
+  const fetchEvents = async () => {
+    const { data, error } = await supabase
+      .from("events")
+      .select("*")
+      .eq("status", "approved");
+
+    if (!error) setEvents(data || []);
+  };
+
+  fetchEvents();
+}, []);
 
   return (
     <div className="calendar">
@@ -29,12 +45,12 @@ export default function Calendar() {
           <div key={i} className="cell">
             {date && (
               <>
-                <div className="date-label">{new Date(date).getDate()}</div>
-                {events.filter((e) => e.start && e.start.slice(0, 10) === date).map(e => (
-                  <div className="event" key={e.id}>
-                    <Link to={`/event/${e.id}`}>{e.title}</Link>
-                  </div>
-                ))}
+    <div className="date-label">{new Date(date).getDate()}</div>
+{events.filter((e) => e.start && e.start.slice(0, 10) === date).map(e => (
+  <div className="event" key={e.id}>
+    <Link to={`/event/${e.id}`}>{e.title}</Link>
+  </div>
+))}
               </>
             )}
           </div>
