@@ -86,12 +86,18 @@ const EventForm = ({ data, setData, onSubmit, mode = "public", editingId = null,
 
 <DatePicker
   selected={data.date ? new Date(data.date) : null}
-  onChange={(date) =>
-    setData((prev) => ({
+onChange={(date) =>
+  setData((prev) => {
+    const year = date.getFullYear();
+    const month = `${date.getMonth() + 1}`.padStart(2, "0");
+    const day = `${date.getDate()}`.padStart(2, "0");
+    return {
       ...prev,
-      date: date.toISOString().slice(0, 10)
-    }))
-  }
+      date: `${year}-${month}-${day}`
+    };
+  })
+}
+
   placeholderText="Select a date"
   dateFormat="yyyy-MM-dd"
   className="bg-white text-black p-2 rounded-md border border-tower-teal focus:outline-none focus:ring-2 focus:ring-tower-pink w-full"
