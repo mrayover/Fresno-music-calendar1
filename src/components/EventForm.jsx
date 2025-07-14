@@ -85,7 +85,16 @@ const EventForm = ({ data, setData, onSubmit, mode = "public", editingId = null,
 />
 
 <DatePicker
-  selected={data.date ? new Date(data.date) : null}
+  selected={
+  data.date
+    ? new Date(
+        Number(data.date.slice(0, 4)),
+        Number(data.date.slice(5, 7)) - 1,
+        Number(data.date.slice(8, 10))
+      )
+    : null
+}
+
 onChange={(date) =>
   setData((prev) => {
     const year = date.getFullYear();
