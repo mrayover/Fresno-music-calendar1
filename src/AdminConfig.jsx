@@ -95,16 +95,14 @@ const localToISO = (dateStr, timeStr) => {
     }
 let flyerUrl = eventData.flyer;
 if (eventData.flyer && typeof eventData.flyer !== "string") {
-  const { data, error } = await supabase.storage
+  const { data: uploadData, error: uploadError } = await supabase.storage
     .from("flyers")
     .upload(`flyers/${Date.now()}-${eventData.flyer.name}`, eventData.flyer, {
       cacheControl: "3600",
       upsert: false
-
     });
-      flyerUrl = publicUrlData.publicUrl;
 
-  if (error) {
+  if (uploadError) {
     alert("Flyer upload failed.");
     return;
   }
@@ -112,10 +110,11 @@ if (eventData.flyer && typeof eventData.flyer !== "string") {
   const { data: publicUrlData } = supabase
     .storage
     .from("flyers")
-    .getPublicUrl(data.path);
+    .getPublicUrl(uploadData.path);
 
   flyerUrl = publicUrlData.publicUrl;
 }
+
 
     const updatedEvent = {
       title: eventData.title,
