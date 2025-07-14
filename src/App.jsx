@@ -20,7 +20,7 @@ export default function App() {
     <Link to="/submit" className="hover:underline hover:text-tower-yellow">Submit Event</Link>
   </nav>
 </header>
-      <main>
+      <main className="pt-24">
         <Routes>
           <Route path="/" element={<CalendarView />} />
           <Route path="/event/:id" element={<EventDetail />} />
