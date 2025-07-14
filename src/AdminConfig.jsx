@@ -77,11 +77,17 @@ const localToISO = (dateStr, timeStr) => {
   const [year, month, day] = dateStr.split("-").map(Number);
   const [hour, minute] = timeStr.split(":").map(Number);
 
-  // Construct a local Date object without forcing UTC
+  // Construct a Date in local time
   const localDate = new Date(year, month - 1, day, hour, minute);
 
-  return localDate.toISOString(); // toISOString still outputs UTC, but now based on local time
+  // Format manually: YYYY-MM-DDTHH:mm:00 (no timezone shift)
+  const pad = (n) => n.toString().padStart(2, "0");
+
+  const localISOString = `${year}-${pad(month)}-${pad(day)}T${pad(hour)}:${pad(minute)}:00`;
+
+  return localISOString;
 };
+
 
 
 
@@ -163,13 +169,13 @@ if (eventData.flyer && typeof eventData.flyer !== "string") {
   };
 
   const editEvent = (event) => {
-    const start = new Date(event.start);
-    const end = new Date(event.end);
+    const start = new Date(event.start);toLocaleDateString()
+    const end = new Date(event.end);toLocaleDateString()
 setEventData({
   title: event.title,
-  date: start.toISOString().slice(0, 10),
-  startTime: start.toISOString().slice(11, 16),
-  endTime: end.toISOString().slice(11, 16),
+  date: start.toLocaleDateString(),
+  startTime: start.toLocaleDateString(),
+  endTime: end.toLocaleDateString(),
   venue: event.venue || "",
   genre: event.genre || "",
   cover: event.cover || "",
