@@ -43,6 +43,32 @@ export default function EventDetail() {
       <p><strong>Genre:</strong> {event.genre}</p>
       <p><strong>Cover:</strong> {parseFloat(event.cover) > 0 ? `$${parseFloat(event.cover).toFixed(2)}` : "Free"}</p>
       <p>{event.description}</p>
+      {event.source && (
+  <p><strong>Source:</strong>{" "}
+    <a href={event.source} target="_blank" rel="noreferrer" style={{ textDecoration: "underline", color: "#337ab7" }}>
+      {event.source}
+    </a>
+  </p>
+)}
+
+{event.submittedBy && (
+  <p><strong>Submitted By:</strong> {event.submittedBy}</p>
+)}
+
+{event.contact && (
+  <p><strong>Contact:</strong> {event.contact}</p>
+)}
+
+{event.flyer && (
+  <div style={{ marginTop: "1rem" }}>
+    <img
+      src={event.flyer}
+      alt={`${event.title} flyer`}
+      style={{ maxWidth: "100%", borderRadius: "6px", boxShadow: "0 2px 6px rgba(0,0,0,0.2)" }}
+    />
+  </div>
+)}
+
       <AddToCalendarButton event={event} />
     </div>
   );
