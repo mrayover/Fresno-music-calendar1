@@ -73,11 +73,14 @@ const [eventData, setEventData] = useState({
     localStorage.setItem("customGenres", JSON.stringify(updated));
   };
 
-  const localToISO = (dateStr, timeStr) => {
-    const [year, month, day] = dateStr.split("-").map(Number);
-    const [hour, minute] = timeStr.split(":").map(Number);
-    return new Date(year, month - 1, day, hour, minute).toISOString();
-  };
+const localToISO = (dateStr, timeStr) => {
+  const [year, month, day] = dateStr.split("-").map(Number);
+  const [hour, minute] = timeStr.split(":").map(Number);
+
+  const utcDate = new Date(Date.UTC(year, month - 1, day, hour, minute));
+  return utcDate.toISOString();
+};
+
 
   const generateEventObject = async (e) => {
     e.preventDefault();
@@ -99,7 +102,7 @@ if (eventData.flyer && typeof eventData.flyer !== "string") {
 
     });
       flyerUrl = publicUrlData.publicUrl;
-      
+
   if (error) {
     alert("Flyer upload failed.");
     return;
