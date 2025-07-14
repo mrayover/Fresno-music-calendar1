@@ -8,6 +8,13 @@ import FilterPanel from "./FilterPanel";
 
 const localizer = momentLocalizer(moment);
 
+function parseLocalDateTime(datetimeStr) {
+  const [datePart, timePart] = datetimeStr.split("T");
+  const [year, month, day] = datePart.split("-").map(Number);
+  const [hour, minute] = timePart.split(":").map(Number);
+  return new Date(year, month - 1, day, hour, minute);
+}
+
 
 
 const CalendarView = () => {
@@ -235,19 +242,8 @@ month: {
     }
   }
 }}
-startAccessor={(event) => {
-  const [date, time] = event.start.split("T");
-  const [year, month, day] = date.split("-").map(Number);
-  const [hour, minute] = time.split(":").map(Number);
-  return new Date(year, month - 1, day, hour, minute);
-}}
-
-endAccessor={(event) => {
-  const [date, time] = event.end.split("T");
-  const [year, month, day] = date.split("-").map(Number);
-  const [hour, minute] = time.split(":").map(Number);
-  return new Date(year, month - 1, day, hour, minute);
-}}
+startAccessor={(event) => parseLocalDateTime(event.start)}
+endAccessor={(event) => parseLocalDateTime(event.end)}
 
           titleAccessor="title"
           view={view}
