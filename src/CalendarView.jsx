@@ -9,9 +9,12 @@ import FilterPanel from "./FilterPanel";
 const localizer = momentLocalizer(moment);
 
 function parseLocalDateTime(datetimeStr) {
-  const [datePart, timePart] = datetimeStr.split("T");
+  if (datetimeStr instanceof Date) return datetimeStr;
+
+  const [datePart, timePart = "00:00"] = datetimeStr.split("T");
   const [year, month, day] = datePart.split("-").map(Number);
   const [hour, minute] = timePart.split(":").map(Number);
+
   return new Date(year, month - 1, day, hour, minute);
 }
 
@@ -105,13 +108,7 @@ const genreColors = {
   Indie: "#D0A73E",
   Other: "#666666"
 };
-function parseLocalDateTime(datetimeStr) {
-  if (datetimeStr instanceof Date) return datetimeStr;
-  const [datePart, timePart] = datetimeStr.split("T");
-  const [year, month, day] = datePart.split("-").map(Number);
-  const [hour, minute] = timePart.split(":").map(Number);
-  return new Date(year, month - 1, day, hour, minute);
-}
+
 
   return (
       <div className="flex flex-col lg:flex-row h-[calc(100vh-120px)] p-4 gap-4">
