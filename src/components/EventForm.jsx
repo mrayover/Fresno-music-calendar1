@@ -208,24 +208,6 @@ className="bg-white text-black p-2 rounded-md border border-tower-teal focus:out
   </div>
 )}
 
-{typeof data.flyer === "string" && (
-  <div className="mt-2">
-    <p className="text-sm text-tower-yellow">Current flyer image:</p>
-    <img
-      src={data.flyer}
-      alt="Current flyer"
-      className="max-w-xs rounded shadow"
-    />
-    <button
-      type="button"
-      className="mt-2 text-red-400 underline"
-      onClick={() => setData((prev) => ({ ...prev, flyer: null }))}
-    >
-      Remove Flyer
-    </button>
-  </div>
-)}
-
 <button
   type="submit"
   className="bg-tower-pink hover:bg-tower-yellow text-black font-semibold py-2 px-4 rounded-md transition-colors duration-200"
