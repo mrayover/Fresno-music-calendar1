@@ -49,9 +49,10 @@ const handleSelectSlot = (slotInfo) => {
       } else {
 const parsed = data.map(event => ({
   ...event,
-  start: parseLocalDateTime(event.start),
-  end: parseLocalDateTime(event.end)
+  start: event.start,
+  end: event.end
 }));
+
 
         setEvents(parsed);
         setSelectedGenres(Array.from(new Set(parsed.map(e => e.genre))).sort());
@@ -104,6 +105,13 @@ const genreColors = {
   Indie: "#D0A73E",
   Other: "#666666"
 };
+function parseLocalDateTime(datetimeStr) {
+  if (datetimeStr instanceof Date) return datetimeStr;
+  const [datePart, timePart] = datetimeStr.split("T");
+  const [year, month, day] = datePart.split("-").map(Number);
+  const [hour, minute] = timePart.split(":").map(Number);
+  return new Date(year, month - 1, day, hour, minute);
+}
 
   return (
       <div className="flex flex-col lg:flex-row h-[calc(100vh-120px)] p-4 gap-4">
