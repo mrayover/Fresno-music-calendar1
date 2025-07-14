@@ -52,7 +52,7 @@ export default function UnifiedWeekView({
                 key={event.id}
                 className={`border p-2 rounded text-xs shadow-sm ${bgColor}`}
               >
-                <div className="font-semibold">{event.title}</div>
+                <div className="font-bold text-black">{event.title}</div>
                 <div className="text-gray-700">
                   {event.start.slice(11, 16)} – {event.end.slice(11, 16)} <br />
                   {event.venue} | {event.genre} <br />
