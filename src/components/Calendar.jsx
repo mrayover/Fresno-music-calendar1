@@ -30,7 +30,7 @@ export default function Calendar() {
             {date && (
               <>
                 <div className="date-label">{new Date(date).getDate()}</div>
-                {events.filter(e => e.date === date).map(e => (
+                {events.filter((e) => e.start && e.start.slice(0, 10) === date).map(e => (
                   <div className="event" key={e.id}>
                     <Link to={`/event/${e.id}`}>{e.title}</Link>
                   </div>

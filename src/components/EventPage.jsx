@@ -30,7 +30,7 @@ export default function EventPage() {
   return (
     <div className="p-6 max-w-3xl mx-auto text-tower-cream">
       <h1 className="text-3xl font-bold text-tower-yellow mb-4">{event.title}</h1>
-      <p><strong>Date:</strong> {new Date(event.start).toLocaleDateString()} at {new Date(event.start).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</p>
+      <p><strong>Date:</strong> {event.start.slice(0, 10)} at {event.start.slice(11, 16)}</p>
       <p><strong>Venue:</strong> {event.venue}</p>
       <p><strong>Genre:</strong> {event.genre}</p>
       <p><strong>Cover:</strong> {parseFloat(event.cover) > 0 ? `$${parseFloat(event.cover).toFixed(2)}` : "Free"}</p>
