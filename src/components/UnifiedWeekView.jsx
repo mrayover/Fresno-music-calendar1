@@ -125,29 +125,30 @@ export default function UnifiedWeekView({
 
   return (
     <div className="mb-12">
-      <div className="flex items-center gap-4 mb-6">
-        <button
-          onClick={handlePrevWeek}
-          className="bg-gray-200 hover:bg-gray-300 text-black px-3 py-1 rounded"
-        >
-          ← Prev
-        </button>
-        <span className="text-sm text-black">
-          Week of <strong>{weekStart.toISOString().slice(0, 10)}</strong>
-        </span>
-        <button
-          onClick={handleNextWeek}
-          className="bg-gray-200 hover:bg-gray-300 text-black px-3 py-1 rounded"
-        >
-          Next →
-        </button>
-        <input
-          type="date"
-          onChange={handleDateChange}
-          value={currentDate.toISOString().slice(0, 10)}
-          className="ml-4 px-2 py-1 border rounded text-black"
-        />
-      </div>
+
+<div className="flex items-center gap-4 mb-6 bg-[#2B182E] sticky top-16 z-40 py-2">
+  <button
+    onClick={handlePrevWeek}
+    className="bg-gray-200 hover:bg-gray-300 text-black px-3 py-1 rounded"
+  >
+    ← Prev
+  </button>
+  <span className="text-sm text-white">
+    Week of <strong>{weekStart.toISOString().slice(0, 10)}</strong>
+  </span>
+  <button
+    onClick={handleNextWeek}
+    className="bg-gray-200 hover:bg-gray-300 text-black px-3 py-1 rounded"
+  >
+    Next →
+  </button>
+  <input
+    type="date"
+    onChange={handleDateChange}
+    value={currentDate.toISOString().slice(0, 10)}
+    className="ml-4 px-2 py-1 border rounded text-black"
+  />
+</div>
 
       {/* PENDING SECTION */}
       <h2 className="text-lg font-bold mb-2">Pending Events</h2>
