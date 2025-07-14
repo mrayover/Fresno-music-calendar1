@@ -24,6 +24,8 @@ export default function EventPage() {
 
   if (!event) return <div className="p-6 text-tower-cream">Loading event...</div>;
 
+  console.log("🔎 Event object:", event);
+  
   return (
     <div className="p-6 max-w-3xl mx-auto text-tower-cream">
       <h1 className="text-3xl font-bold text-tower-yellow mb-4">{event.title}</h1>
