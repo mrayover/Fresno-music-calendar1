@@ -278,14 +278,14 @@ endAccessor={(event) => parseLocalDateTime(event.end)}
           <div className="font-bold">{hoveredEvent.title}</div>
           <div className="text-xs italic">{hoveredEvent.venue}</div>
           <div className="text-xs">
-            {new Date(hoveredEvent.start).toLocaleTimeString([], {
-              hour: "2-digit",
-              minute: "2-digit"
-            })} –{" "}
-            {new Date(hoveredEvent.end).toLocaleTimeString([], {
-              hour: "2-digit",
-              minute: "2-digit"
-            })}
+{parseLocalDateTime(hoveredEvent.start).toLocaleTimeString([], {
+  hour: "2-digit",
+  minute: "2-digit"
+})} –{" "}
+{parseLocalDateTime(hoveredEvent.end).toLocaleTimeString([], {
+  hour: "2-digit",
+  minute: "2-digit"
+})}
           </div>
           <div className="text-xs text-tower-yellow">{hoveredEvent.genre}</div>
           <p className="mt-1">

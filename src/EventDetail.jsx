@@ -29,6 +29,12 @@ export default function EventDetail() {
   if (!event) {
     return <div>Event not found</div>;
   }
+const parseLocalDateTime = (dateTimeStr) => {
+  const [datePart, timePart] = dateTimeStr.split("T");
+  const [year, month, day] = datePart.split("-").map(Number);
+  const [hour, minute] = timePart.split(":").map(Number);
+  return new Date(year, month - 1, day, hour, minute);
+};
 
   return (
     <div style={{ padding: "2rem" }}>
@@ -44,10 +50,12 @@ export default function EventDetail() {
   })
 }</p>
 <p><strong>Time:</strong> {
-  new Date(event.start).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
+  parseLocalDateTime(event.start).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
 } – {
-  new Date(event.end).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
-}</p>      <p><strong>Genre:</strong> {event.genre}</p>
+  parseLocalDateTime(event.end).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
+}</p>
+    
+      <p><strong>Genre:</strong> {event.genre}</p>
       <p><strong>Cover:</strong> {parseFloat(event.cover) > 0 ? `$${parseFloat(event.cover).toFixed(2)}` : "Free"}</p>
       <p>{event.description}</p>
       {event.source && (
