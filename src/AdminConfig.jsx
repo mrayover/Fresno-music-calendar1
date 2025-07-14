@@ -74,8 +74,13 @@ const [eventData, setEventData] = useState({
   };
 
 const localToISO = (dateStr, timeStr) => {
-  return `${dateStr}T${timeStr}:00`;
+  const [year, month, day] = dateStr.split("-").map(Number);
+  const [hour, minute] = timeStr.split(":").map(Number);
+  return new Date(year, month - 1, day, hour, minute)
+    .toISOString()
+    .slice(0, 16); // returns 'YYYY-MM-DDTHH:MM'
 };
+
 
   const generateEventObject = async (e) => {
     e.preventDefault();
