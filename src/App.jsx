@@ -7,6 +7,8 @@ import SubmitEvent from "./SubmitEvent.jsx";
 import AdminConfig from "./AdminConfig";
 import DayView from "./DayView";
 import { useUser } from "./AuthProvider";
+import Login from "./login";
+
 
 function AdminRoute() {
   const { user } = useUser();
