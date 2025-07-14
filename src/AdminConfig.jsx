@@ -107,7 +107,7 @@ if (eventData.flyer && typeof eventData.flyer !== "string") {
     return;
   }
 
-  const { data: publicUrlData } = supabase
+  const { data: publicUrlData } = await supabase
     .storage
     .from("flyers")
     .getPublicUrl(uploadData.path);
