@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { supabase } from "./supabaseClient";
 import EventForm from "./components/EventForm";
+import WeekCalendar from "./components/WeekCalendar";
 
 export default function AdminConfig() {
   const [genres, setGenres] = useState([]);
@@ -282,18 +283,15 @@ const toggleArchiveEvent = async (event) => {
       />
 
       <hr />
-      <h2>Pending Events</h2>
-      <ul>
-        {pendingEvents.map(e => (
-          <li key={e.id}>
-            <strong>{e.title}</strong> | {e.venue} | {e.genre} | {parseFloat(e.cover) > 0 ? `$${parseFloat(e.cover).toFixed(2)}` : "Free"}<br />
-{e.start.slice(0, 10)} {e.start.slice(11, 16)} – {e.end.slice(11, 16)}            {e.description}<br />
-            <button onClick={() => approveEvent(e)}>Approve</button>
-            <button onClick={() => rejectEvent(e.id)}>Reject</button>
-            <button onClick={() => editEvent(e)}>Edit</button>
-          </li>
-        ))}
-      </ul>
+<WeekCalendar
+  title="Pending Events"
+  events={pendingEvents}
+  onEdit={editEvent}
+  onPrimaryAction={approveEvent}
+  onSecondaryAction={(e) => rejectEvent(e.id)}
+  labelPrimary="Approve"
+  labelSecondary="Reject"
+/>
       <hr />
 <hr />
 <h2>Approved Events</h2>
@@ -301,7 +299,7 @@ const toggleArchiveEvent = async (event) => {
   {approvedEvents.map((e) => (
     <li key={e.id}>
       <strong>{e.title}</strong> | {e.venue} | {e.genre} | {parseFloat(e.cover) > 0 ? `$${parseFloat(e.cover).toFixed(2)}` : "Free"}<br />
-{e.start.slice(0, 10)} {e.start.slice(11, 16)} – {e.end.slice(11, 16)}      {e.description}<br />
+      {e.start.slice(0, 10)} {e.start.slice(11, 16)} – {e.end.slice(11, 16)} {e.description}<br />
       <button onClick={() => editEvent(e)}>Edit</button>
       <button onClick={() => deleteApprovedEvent(e.id)} style={{ marginLeft: "1rem" }}>Delete</button>
       <button
@@ -315,22 +313,15 @@ const toggleArchiveEvent = async (event) => {
 </ul>
 
 <hr />
-<h2 style={{ color: "#999" }}>Archived Events</h2>
-<ul>
-  {archivedEvents.map((e) => (
-    <li key={e.id} style={{ opacity: 0.7 }}>
-      <strong>{e.title}</strong> | {e.venue} | {e.genre} <em>(archived)</em><br />
-{e.start.slice(0, 10)} {e.start.slice(11, 16)} – {e.end.slice(11, 16)}      {e.description}<br />
-      <button onClick={() => editEvent(e)}>Edit</button>
-      <button
-        onClick={() => toggleArchiveEvent(e)}
-        style={{ marginLeft: "1rem", backgroundColor: "#aaffaa" }}
-      >
-        Restore
-      </button>
-    </li>
-  ))}
-</ul>
+<WeekCalendar
+  title="Archived Events"
+  events={archivedEvents}
+  onEdit={editEvent}
+  onPrimaryAction={toggleArchiveEvent}
+  onSecondaryAction={deleteApprovedEvent}
+  labelPrimary="Restore"
+  labelSecondary="Delete"
+/>
 
     </div>
   );
