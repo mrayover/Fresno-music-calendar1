@@ -18,11 +18,14 @@ const [formData, setFormData] = useState({
   flyer: null
 });
 
-  const localToISO = (dateStr, timeStr) => {
-    const [year, month, day] = dateStr.split("-").map(Number);
-    const [hour, minute] = timeStr.split(":").map(Number);
-    return new Date(year, month - 1, day, hour, minute);
-  };
+const localToISO = (dateStr, timeStr) => {
+  const [year, month, day] = dateStr.split("-").map(Number);
+  const [hour, minute] = timeStr.split(":").map(Number);
+  const localDate = new Date(year, month - 1, day, hour, minute);
+  const tzOffset = localDate.getTimezoneOffset() * 60000;
+  return new Date(localDate.getTime() - tzOffset).toISOString();
+};
+
 
 const handleSubmit = async (e) => {
   e.preventDefault();
