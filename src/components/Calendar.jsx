@@ -45,7 +45,7 @@ useEffect(() => {
           <div key={i} className="cell">
             {date && (
               <>
-    <div className="date-label">{new Date(date).getDate()}</div>
+    <div className="date-label">{parseInt(date.split("-")[2], 10)}</div>
 {events.filter((e) => e.start && e.start.slice(0, 10) === date).map(e => (
   <div className="event" key={e.id}>
     <Link to={`/event/${e.id}`}>{e.title}</Link>
