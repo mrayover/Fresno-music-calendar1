@@ -74,22 +74,8 @@ const [eventData, setEventData] = useState({
   };
 
 const localToISO = (dateStr, timeStr) => {
-  const [year, month, day] = dateStr.split("-").map(Number);
-  const [hour, minute] = timeStr.split(":").map(Number);
-
-  // Construct a Date in local time
-  const localDate = new Date(year, month - 1, day, hour, minute);
-
-  // Format manually: YYYY-MM-DDTHH:mm:00 (no timezone shift)
-  const pad = (n) => n.toString().padStart(2, "0");
-
-  const localISOString = `${year}-${pad(month)}-${pad(day)}T${pad(hour)}:${pad(minute)}:00`;
-
-  return localISOString;
+  return `${dateStr}T${timeStr}:00`;
 };
-
-
-
 
   const generateEventObject = async (e) => {
     e.preventDefault();
@@ -174,9 +160,9 @@ const editEvent = (event) => {
 
   setEventData({
     title: event.title,
-    date: start.toISOString().slice(0, 10),
-    startTime: start.toTimeString().slice(0, 5),
-    endTime: end.toTimeString().slice(0, 5),
+date: event.start.slice(0, 10),
+startTime: event.start.slice(11, 16),
+endTime: event.end.slice(11, 16),
     venue: event.venue || "",
     genre: event.genre || "",
     cover: event.cover || "",
