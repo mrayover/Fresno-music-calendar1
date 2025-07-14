@@ -9,8 +9,8 @@ import DayView from "./DayView";
 
 export default function App() {
   return (
-    <div className="app-container">
-<header className="bg-tower-brick text-tower-cream px-6 py-4 flex items-center justify-between shadow-md">
+    <div className="app-container bg-[#2B182E] min-h-screen">
+<header className="fixed top-0 left-0 w-full z-50 bg-[#216568] text-tower-cream px-6 py-4 flex items-center justify-between shadow-md">
   <div className="flex items-center space-x-4">
     <img src="/logo.png" alt="Fresno Music Calendar Logo" className="h-12" />
     <h1 className="text-2xl font-extrabold tracking-wide">Fresno Music Calendar</h1>
