@@ -160,17 +160,56 @@ className="bg-white text-black p-2 rounded-md border border-tower-teal focus:out
   className={inputClass}
 />
 
-<input
-  type="file"
-  accept="image/*"
-  onChange={(e) =>
-    setData((prev) => ({
-      ...prev,
-      flyer: e.target.files?.[0] || null
-    }))
-  }
-  className="text-tower-cream"
-/>
+<label className="text-sm text-tower-cream block">
+  Upload New Flyer (optional):
+  <input
+    type="file"
+    accept="image/*"
+    onChange={(e) =>
+      setData((prev) => ({
+        ...prev,
+        flyer: e.target.files?.[0] || null
+      }))
+    }
+    className="text-tower-cream mt-1"
+  />
+</label>
+
+{typeof data.flyer === "string" && (
+  <div className="mt-2">
+    <p className="text-sm text-tower-yellow">Current flyer image:</p>
+    <img
+      src={data.flyer}
+      alt="Current flyer"
+      className="max-w-xs rounded shadow"
+    />
+    <button
+      type="button"
+      className="mt-2 text-red-400 underline"
+      onClick={() => setData((prev) => ({ ...prev, flyer: null }))}
+    >
+      Remove Flyer
+    </button>
+  </div>
+)}
+
+{typeof data.flyer === "string" && (
+  <div className="mt-2">
+    <p className="text-sm text-tower-yellow">Current flyer image:</p>
+    <img
+      src={data.flyer}
+      alt="Current flyer"
+      className="max-w-xs rounded shadow"
+    />
+    <button
+      type="button"
+      className="mt-2 text-red-400 underline"
+      onClick={() => setData((prev) => ({ ...prev, flyer: null }))}
+    >
+      Remove Flyer
+    </button>
+  </div>
+)}
 
 <button
   type="submit"

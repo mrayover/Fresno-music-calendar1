@@ -89,15 +89,17 @@ const [eventData, setEventData] = useState({
       alert("Please enter a valid non-negative cover charge.");
       return;
     }
-let flyerUrl = null;
-if (eventData.flyer && eventData.flyer instanceof File) {
+let flyerUrl = eventData.flyer;
+if (eventData.flyer && typeof eventData.flyer !== "string") {
   const { data, error } = await supabase.storage
     .from("flyers")
     .upload(`flyers/${Date.now()}-${eventData.flyer.name}`, eventData.flyer, {
       cacheControl: "3600",
       upsert: false
-    });
 
+    });
+      flyerUrl = publicUrlData.publicUrl;
+      
   if (error) {
     alert("Flyer upload failed.");
     return;
