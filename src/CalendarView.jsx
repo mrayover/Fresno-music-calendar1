@@ -235,8 +235,20 @@ month: {
     }
   }
 }}
-            startAccessor={(event) => new Date(event.start.replace("T", " "))}
-            endAccessor={(event) => new Date(event.end.replace("T", " "))}
+startAccessor={(event) => {
+  const [date, time] = event.start.split("T");
+  const [year, month, day] = date.split("-").map(Number);
+  const [hour, minute] = time.split(":").map(Number);
+  return new Date(year, month - 1, day, hour, minute);
+}}
+
+endAccessor={(event) => {
+  const [date, time] = event.end.split("T");
+  const [year, month, day] = date.split("-").map(Number);
+  const [hour, minute] = time.split(":").map(Number);
+  return new Date(year, month - 1, day, hour, minute);
+}}
+
           titleAccessor="title"
           view={view}
           onView={setView}
