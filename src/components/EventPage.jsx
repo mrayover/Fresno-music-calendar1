@@ -11,7 +11,7 @@ export default function EventPage() {
     const fetchEvent = async () => {
       const { data, error } = await supabase
         .from("events")
-        .select("*")
+        .select("id, title, start, end, venue, genre, cover, description, source, submittedBy, contact, flyer")
         .eq("id", id)
         .single();
 

@@ -2,7 +2,7 @@
 import React from "react";
 import { Routes, Route, Link } from "react-router-dom";
 import CalendarView from "./CalendarView";
-import EventPage from "./components/EventPage";
+import EventDetail from "./EventDetail";
 import SubmitEvent from "./SubmitEvent.jsx";
 import AdminConfig from "./AdminConfig";
 import DayView from "./DayView";
@@ -23,7 +23,7 @@ export default function App() {
       <main>
         <Routes>
           <Route path="/" element={<CalendarView />} />
-          <Route path="/event/:id" element={<EventPage />} />
+          <Route path="/event/:id" element={<EventDetail />} />
           <Route path="/submit" element={<SubmitEvent />} />
           <Route path="/admin" element={<AdminConfig />} />
           <Route path="/day/:date" element={<DayView />} />
