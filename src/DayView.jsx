@@ -16,7 +16,7 @@ const DayView = () => {
 
       if (!error) {
         const filtered = data.filter((event) => {
-          const eventDate = new Date(event.start).toLocaleDateString("sv-SE"); // YYYY-MM-DD
+         const eventDate = event.start.slice(0, 10); // exact match, no shift
           return eventDate === date;
         });
         setEvents(filtered);
@@ -42,10 +42,8 @@ const DayView = () => {
     </div>
     <p className="text-sm italic">{e.venue}</p>
     <p className="text-sm">
-      {new Date(e.start).toLocaleTimeString([], {
-        hour: "2-digit",
-        minute: "2-digit"
-      })} – {new Date(e.end).toLocaleTimeString([], {
+      {e.start.slice(11, 16)} – {e.end.slice(11, 16)}
+ – {new Date(e.end).toLocaleTimeString([], {
         hour: "2-digit",
         minute: "2-digit"
       })}

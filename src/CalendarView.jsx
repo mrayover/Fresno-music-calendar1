@@ -40,11 +40,12 @@ const handleSelectSlot = (slotInfo) => {
       if (error) {
         console.error("Error fetching events:", error.message);
       } else {
-        const parsed = data.map(event => ({
-          ...event,
-          start: new Date(event.start),
-          end: new Date(event.end)
-        }));
+const parsed = data.map(event => ({
+  ...event,
+  start: event.start,
+  end: event.end
+}));
+
         setEvents(parsed);
         setSelectedGenres(Array.from(new Set(parsed.map(e => e.genre))).sort());
         setSelectedVenues(Array.from(new Set(parsed.map(e => e.venue))).sort());
@@ -234,8 +235,8 @@ month: {
     }
   }
 }}
-          startAccessor="start"
-          endAccessor="end"
+            startAccessor={(event) => new Date(event.start.replace("T", " "))}
+            endAccessor={(event) => new Date(event.end.replace("T", " "))}
           titleAccessor="title"
           view={view}
           onView={setView}
