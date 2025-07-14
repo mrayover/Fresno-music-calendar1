@@ -6,9 +6,19 @@ import EventDetail from "./EventDetail";
 import SubmitEvent from "./SubmitEvent.jsx";
 import AdminConfig from "./AdminConfig";
 import DayView from "./DayView";
+import { useUser } from "./AuthProvider";
+
+function AdminRoute() {
+  const { user } = useUser();
+  const isAdmin = user?.user_metadata?.is_admin;
+
+  return isAdmin ? <AdminConfig /> : <Navigate to="/login" />;
+}
 
 export default function App() {
+  
   return (
+    
     <div className="app-container bg-[#2B182E] min-h-screen">
 <header className="fixed top-0 left-0 w-full z-50 bg-[#216568] text-tower-cream px-6 py-4 flex items-center justify-between shadow-md">
   <div className="flex items-center space-x-4">
@@ -25,7 +35,8 @@ export default function App() {
           <Route path="/" element={<CalendarView />} />
           <Route path="/event/:id" element={<EventDetail />} />
           <Route path="/submit" element={<SubmitEvent />} />
-          <Route path="/admin" element={<AdminConfig />} />
+          <Route path="/admin" element={<AdminRoute />} />
+          <Route path="/login" element={<Login />} />
           <Route path="/day/:date" element={<DayView />} />
         </Routes>
       </main>
