@@ -77,9 +77,12 @@ const localToISO = (dateStr, timeStr) => {
   const [year, month, day] = dateStr.split("-").map(Number);
   const [hour, minute] = timeStr.split(":").map(Number);
 
-  const utcDate = new Date(Date.UTC(year, month - 1, day, hour, minute));
-  return utcDate.toISOString();
+  // Construct a local Date object without forcing UTC
+  const localDate = new Date(year, month - 1, day, hour, minute);
+
+  return localDate.toISOString(); // toISOString still outputs UTC, but now based on local time
 };
+
 
 
   const generateEventObject = async (e) => {
