@@ -15,7 +15,9 @@ const [formData, setFormData] = useState({
   source: "",
   submittedBy: "",
   contact: "",
+  email: "",
   flyer: null
+  
 });
 
 const localToISO = (dateStr, timeStr) => {
@@ -29,6 +31,11 @@ const localToISO = (dateStr, timeStr) => {
 
 const handleSubmit = async (e) => {
   e.preventDefault();
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+if (!formData.email || !emailRegex.test(formData.email)) {
+  alert("Please enter a valid email address.");
+  return;
+}
   const start = localToISO(formData.date, formData.startTime);
   const end = localToISO(formData.date, formData.endTime);
 
@@ -61,7 +68,8 @@ if (formData.flyer) {
     cover: formData.cover,
     description: formData.description,
     source: formData.source,
-    submittedBy: formData.submittedBy,
+  submittedBy: "anon",
+email: formData.email,
     contact: formData.contact,
     flyer: flyerUrl,
     status: "pending"

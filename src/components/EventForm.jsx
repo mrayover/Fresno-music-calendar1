@@ -160,6 +160,15 @@ className="bg-white text-black p-2 rounded-md border border-tower-teal focus:out
   className={inputClass}
 />
 <input
+  name="email"
+  type="email"
+  placeholder="Your Email (required)"
+  value={data.email || ""}
+  onChange={handleChange}
+  required={mode === "public"}
+  className={inputClass}
+/>
+<input
   name="submittedBy"
   placeholder="Submitted By (your name or org)"
   value={data.submittedBy || ""}
