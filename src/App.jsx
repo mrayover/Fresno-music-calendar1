@@ -10,14 +10,6 @@ import { useUser } from "./AuthProvider";
 import Login from "./login";
 import AdminRoute from "./AdminRoute";
 
-
-function AdminRoute() {
-  const { user } = useUser();
-  const isAdmin = user?.user_metadata?.is_admin;
-
-  return isAdmin ? <AdminConfig /> : <Navigate to="/login" />;
-}
-
 export default function App() {
   
   return (
