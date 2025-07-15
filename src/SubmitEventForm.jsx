@@ -41,7 +41,7 @@ if (!formData.email || !emailRegex.test(formData.email)) {
   oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
   const oneWeekAgoISO = oneWeekAgo.toISOString();
 
-  const { data: recentEvents, error: fetchError } = await supabase
+  const { data: emailMatchedEvents, error: fetchError } = await supabase
   .from("events")
   .select("id, created_at")
   .eq("email", formData.email);
@@ -51,7 +51,7 @@ if (fetchError) {
   return;
 }
 
-const eventsInWindow = recentEvents.filter(e => e.created_at >= oneWeekAgoISO);
+const eventsInWindow = emailMatchedEvents.filter(e => e.created_at >= oneWeekAgoISO);
 
 if (eventsInWindow.length >= 3) {
   alert("You've reached the maximum of 3 submissions this week. Please request an account to submit more.");
