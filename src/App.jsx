@@ -8,6 +8,7 @@ import AdminConfig from "./AdminConfig";
 import DayView from "./DayView";
 import { useUser } from "./AuthProvider";
 import Login from "./login";
+import AdminRoute from "./AdminRoute";
 
 
 function AdminRoute() {
@@ -37,7 +38,11 @@ export default function App() {
           <Route path="/" element={<CalendarView />} />
           <Route path="/event/:id" element={<EventDetail />} />
           <Route path="/submit" element={<SubmitEvent />} />
-          <Route path="/admin" element={<AdminRoute />} />
+          <Route path="/admin" element={
+            <AdminRoute>
+              <AdminConfig />
+            </AdminRoute>
+          } />
           <Route path="/login" element={<Login />} />
           <Route path="/day/:date" element={<DayView />} />
         </Routes>
