@@ -7,15 +7,21 @@ export default function Login() {
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
-    const { error } = await supabase.auth.signInWithOtp({ email });
-    if (error) {
-      setError(error.message);
-    } else {
-      alert("Check your email for the login link!");
+const handleLogin = async (e) => {
+  e.preventDefault();
+  const { error } = await supabase.auth.signInWithOtp({
+    email,
+    options: {
+      emailRedirectTo: "https://fresno-music-calendar1.vercel.app/"
     }
-  };
+  });
+  if (error) {
+    setError(error.message);
+  } else {
+    alert("Check your email for the login link!");
+  }
+};
+
 
   return (
     <div className="p-8 max-w-md mx-auto text-white">
