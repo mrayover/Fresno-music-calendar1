@@ -56,31 +56,32 @@ if (existingEvents.length >= 3) {
   alert("You've reached the maximum of 3 submissions this week. Please request an account to submit more.");
   return;
 }
+proceedToSubmitEvent();
+};
 
 
-
+const proceedToSubmitEvent = async () => {
   const start = localToISO(formData.date, formData.startTime);
   const end = localToISO(formData.date, formData.endTime);
 
   let flyerUrl = "";
-if (formData.flyer) {
-  const filePath = `public/${Date.now()}-${formData.flyer.name}`;
-  const { data, error } = await supabase.storage
-    .from("flyers")
-    .upload(filePath, formData.flyer, { upsert: true });
+  if (formData.flyer) {
+    const filePath = `public/${Date.now()}-${formData.flyer.name}`;
+    const { data, error } = await supabase.storage
+      .from("flyers")
+      .upload(filePath, formData.flyer, { upsert: true });
 
-  if (error) {
-    console.error("Upload error:", error); // <-- log real cause
-    alert("Flyer upload failed. Event not submitted.");
-    return;
+    if (error) {
+      console.error("Upload error:", error);
+      alert("Flyer upload failed. Event not submitted.");
+      return;
+    }
+
+    const { data: publicUrl } = supabase.storage
+      .from("flyers")
+      .getPublicUrl(filePath);
+    flyerUrl = publicUrl.publicUrl;
   }
-
-  const { data: publicUrl } = supabase.storage
-    .from("flyers")
-    .getPublicUrl(filePath);
-  flyerUrl = publicUrl.publicUrl;
-}
-
 
   const newEvent = {
     title: formData.title,
@@ -91,8 +92,8 @@ if (formData.flyer) {
     cover: formData.cover,
     description: formData.description,
     source: formData.source,
-  submittedBy: "anon",
-email: formData.email,
+    submittedBy: "anon",
+    email: formData.email,
     contact: formData.contact,
     flyer: flyerUrl,
     status: "pending"
