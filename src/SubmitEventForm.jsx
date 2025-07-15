@@ -36,6 +36,29 @@ if (!formData.email || !emailRegex.test(formData.email)) {
   alert("Please enter a valid email address.");
   return;
 }
+  // Step 1: Rate limit check (3 submissions max in 7 days)
+  const oneWeekAgo = new Date();
+  oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+  const oneWeekAgoISO = oneWeekAgo.toISOString();
+
+  const { data: existingEvents, error: countError } = await supabase
+    .from("events")
+    .select("id", { count: "exact", head: false })
+    .eq("email", formData.email)
+    .gte("created_at", oneWeekAgoISO);
+
+  if (countError) {
+    alert("Unable to verify submission limit. Please try again later.");
+    return;
+  }
+
+  if (existingEvents.length >= 3) {
+    alert("You've reached the maximum of 3 submissions this week. Please request an account to submit more.");
+    // Optionally redirect:
+    // window.location.href = "/request-account";
+    return;
+  }
+
   const start = localToISO(formData.date, formData.startTime);
   const end = localToISO(formData.date, formData.endTime);
 
