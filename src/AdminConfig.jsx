@@ -284,54 +284,56 @@ const [activeTab, setActiveTab] = useState("event");
 return (
   <div className="relative">
     {/* Sticky Header */}
-    <div className="sticky top-0 z-30 bg-[#1c0f1f] border-b border-tower-cream p-4 flex justify-between items-center">
-      <h1 className="text-2xl font-bold text-center text-white w-full">Admin Panel</h1>
-      <button
-        onClick={async () => {
-          await supabase.auth.signOut();
-          window.location.href = "/";
-        }}
-        className="absolute right-4 bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded"
-      >
-        Sign Out
-      </button>
-    </div>
+    {/* Sticky Header + Tabs */}
+<div className="sticky top-0 z-30 bg-[#1c0f1f] border-b border-tower-cream">
+  <div className="p-4 flex justify-between items-center">
+    <h1 className="text-2xl font-bold text-center text-white w-full">Admin Panel</h1>
+    <button
+      onClick={async () => {
+        await supabase.auth.signOut();
+        window.location.href = "/";
+      }}
+      className="absolute right-4 bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded"
+    >
+      Sign Out
+    </button>
+  </div>
 
-    {/* Tab Navigation */}
-    <div className="bg-[#2b1530] px-6 py-2 border-b border-tower-cream flex space-x-4 justify-center">
-      <button
-        className={`px-3 py-1 rounded-md text-sm font-semibold ${
-          activeTab === "event" ? "bg-tower-yellow text-black" : "text-white hover:underline"
-        }`}
-        onClick={() => setActiveTab("event")}
-      >
-        Event Moderation
-      </button>
-      <button
-        className={`px-3 py-1 rounded-md text-sm font-semibold ${
-          activeTab === "user" ? "bg-tower-yellow text-black" : "text-white hover:underline"
-        }`}
-        onClick={() => setActiveTab("user")}
-      >
-        User Moderation
-      </button>
-      <button
-        className={`px-3 py-1 rounded-md text-sm font-semibold ${
-          activeTab === "venue" ? "bg-tower-yellow text-black" : "text-white hover:underline"
-        }`}
-        onClick={() => setActiveTab("venue")}
-      >
-        Venue Moderation
-      </button>
-      <button
-        className={`px-3 py-1 rounded-md text-sm font-semibold ${
-          activeTab === "band" ? "bg-tower-yellow text-black" : "text-white hover:underline"
-        }`}
-        onClick={() => setActiveTab("band")}
-      >
-        Band Moderation
-      </button>
-    </div>
+  <div className="px-6 py-2 border-t border-tower-cream flex space-x-4 justify-center bg-[#2b1530]">
+    <button
+      className={`px-3 py-1 rounded-md text-sm font-semibold ${
+        activeTab === "event" ? "bg-tower-yellow text-black" : "text-white hover:underline"
+      }`}
+      onClick={() => setActiveTab("event")}
+    >
+      Event Moderation
+    </button>
+    <button
+      className={`px-3 py-1 rounded-md text-sm font-semibold ${
+        activeTab === "user" ? "bg-tower-yellow text-black" : "text-white hover:underline"
+      }`}
+      onClick={() => setActiveTab("user")}
+    >
+      User Moderation
+    </button>
+    <button
+      className={`px-3 py-1 rounded-md text-sm font-semibold ${
+        activeTab === "venue" ? "bg-tower-yellow text-black" : "text-white hover:underline"
+      }`}
+      onClick={() => setActiveTab("venue")}
+    >
+      Venue Moderation
+    </button>
+    <button
+      className={`px-3 py-1 rounded-md text-sm font-semibold ${
+        activeTab === "band" ? "bg-tower-yellow text-black" : "text-white hover:underline"
+      }`}
+      onClick={() => setActiveTab("band")}
+    >
+      Band Moderation
+    </button>
+  </div>
+</div>
 
     {/* Main Content Area */}
     <div className="p-8">
