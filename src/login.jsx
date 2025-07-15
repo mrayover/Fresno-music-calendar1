@@ -20,18 +20,23 @@ if (user) {
 
 const handleLogin = async (e) => {
   e.preventDefault();
+try {
   const { error } = await supabase.auth.signInWithOtp({
     email,
     options: {
       emailRedirectTo: "https://fresno-music-calendar1.vercel.app/"
     }
   });
+
   if (error) {
     setError(error.message);
   } else {
     alert("Check your email for the login link!");
   }
-};
+} catch (err) {
+  console.error("Supabase OTP error:", err);
+  setError("Unexpected error. Check console.");
+}
 
 
   return (
