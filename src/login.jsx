@@ -1,43 +1,21 @@
 import { useState } from "react";
 import { supabase } from "./supabaseClient";
-import { useUser } from "./AuthProvider";
-import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
+  const navigate = useNavigate();
 
-
-  const { user, loading } = useUser();
-
-if (loading) {
-  return <div className="text-white p-4">Checking session...</div>;
-}
-
-if (user) {
-  return <Navigate to="/admin" />;
-}
-
-const handleLogin = async (e) => {
-  e.preventDefault();
-try {
-  const { error } = await supabase.auth.signInWithOtp({
-    email,
-    options: {
-      emailRedirectTo: "https://fresno-music-calendar1.vercel.app/"
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    const { error } = await supabase.auth.signInWithOtp({ email });
+    if (error) {
+      setError(error.message);
+    } else {
+      alert("Check your email for the login link!");
     }
-  });
-
-  if (error) {
-    setError(error.message);
-  } else {
-    alert("Check your email for the login link!");
-  }
-} catch (err) {
-  console.error("Supabase OTP error:", err);
-  setError("Unexpected error. Check console.");
-}
-
+  };
 
   return (
     <div className="p-8 max-w-md mx-auto text-white">
@@ -58,4 +36,4 @@ try {
       </form>
     </div>
   );
-}}
+}
