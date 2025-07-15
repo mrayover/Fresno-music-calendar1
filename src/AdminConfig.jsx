@@ -17,6 +17,7 @@ export default function AdminConfig() {
     description: "",
     source: "",
     submittedBy: "",
+    email: "",
     contact: "",
     flyer: null
   });
@@ -125,6 +126,7 @@ export default function AdminConfig() {
       description: eventData.description,
       source: eventData.source,
       submittedBy: eventData.submittedBy,
+      email: eventData.email,
       contact: eventData.contact,
       flyer: flyerUrl,
       status: "approved"
