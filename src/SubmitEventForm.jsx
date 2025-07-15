@@ -43,7 +43,7 @@ if (!formData.email || !emailRegex.test(formData.email)) {
 
 const { data: existingEvents, error: fetchError } = await supabase
   .from("events")
-  .select("id")
+  .select("id, created_at")
   .eq("email", formData.email)
   .gte("created_at", oneWeekAgoISO);
 
@@ -56,6 +56,7 @@ if (existingEvents.length >= 3) {
   alert("You've reached the maximum of 3 submissions this week. Please request an account to submit more.");
   return;
 }
+
 
 
   const start = localToISO(formData.date, formData.startTime);
