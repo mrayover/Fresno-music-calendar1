@@ -285,7 +285,7 @@ return (
   <div className="relative">
     {/* Sticky Header */}
     {/* Sticky Header + Tabs */}
-<div className="sticky top-0 z-30 bg-[#1c0f1f] border-b border-tower-cream">
+<div className="sticky top-24 z-30 bg-[#1c0f1f] border-b border-tower-cream">
   <div className="p-4 flex justify-between items-center">
     <h1 className="text-2xl font-bold text-center text-white w-full">Admin Panel</h1>
     <button
