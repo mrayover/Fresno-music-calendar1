@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { supabase } from "./supabaseClient";
 import EventForm from "./components/EventForm";
+import ReCAPTCHA from "react-google-recaptcha";
+import { useRef } from "react";
 
 const SubmitEventForm = () => {
 const [formData, setFormData] = useState({
@@ -17,8 +19,9 @@ const [formData, setFormData] = useState({
   contact: "",
   email: "",
   flyer: null
-  
+   
 });
+const recaptchaRef = useRef();
 
 const localToISO = (dateStr, timeStr) => {
   const [year, month, day] = dateStr.split("-").map(Number);
@@ -31,6 +34,12 @@ const localToISO = (dateStr, timeStr) => {
 
 const handleSubmit = async (e) => {
   e.preventDefault();
+    const token = await recaptchaRef.current.executeAsync();
+  recaptchaRef.current.reset();
+    if (!token) {
+    alert("CAPTCHA verification failed. Please try again.");
+    return;
+  }
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 if (!formData.email || !emailRegex.test(formData.email)) {
   alert("Please enter a valid email address.");
@@ -111,14 +120,22 @@ const proceedToSubmitEvent = async () => {
   }
 };
 
-  return (
+return (
+  <>
+    <ReCAPTCHA
+      ref={recaptchaRef}
+      sitekey="6LdamYQrAAAAAMajdPUZ1kRClBs-F_EGiKaRv9tt"
+      size="invisible"
+      badge="bottomright"
+    />
     <EventForm
       mode="public"
       data={formData}
       setData={setFormData}
       onSubmit={handleSubmit}
     />
-  );
-};
+  </>
+);
+}
 
 export default SubmitEventForm;
