@@ -142,47 +142,61 @@ export default function AdminConfig() {
     }
   };
 
-  const approveEvent = async (event) => {
-    const { error } = await supabase
-      .from("events")
-      .update({ status: "approved" })
-      .eq("id", event.id);
-    if (!error) {
-      setPendingEvents(p => p.filter(e => e.id !== event.id));
-      alert("Event approved.");
-    }
-  };
+const approveEvent = async (event) => {
+  const {
+    id, title, start, end, venue, genre, cover,
+    description, source, submittedBy, contact, flyer, email
+  } = event;
 
-  const rejectEvent = async (id) => {
-    const { error } = await supabase
-      .from("events")
-      .delete()
-      .eq("id", id)
-      .eq("status", "pending");
-    if (!error) {
-      setPendingEvents(p => p.filter(e => e.id !== id));
-      alert("Event rejected.");
-    }
-  };
+  const { error } = await supabase
+    .from("events")
+    .update({
+      title,
+      start,
+      end,
+      venue,
+      genre,
+      cover,
+      description,
+      source,
+      submittedBy,
+      contact,
+      flyer,
+      email,
+      status: "approved"
+    })
+    .eq("id", id);
+
+  if (error) {
+    console.error("Approval failed:", error.message);
+    alert("Approval failed. Please try again.");
+  } else {
+    setPendingEvents((p) => p.filter((e) => e.id !== id));
+    alert("Event approved.");
+  }
+};
+
 
   const editEvent = (event) => {
     const start = new Date(event.start);
     const end = new Date(event.end);
 
-    setEventData({
-      title: event.title,
-      date: event.start.slice(0, 10),
-      startTime: event.start.slice(11, 16),
-      endTime: event.end.slice(11, 16),
-      venue: event.venue || "",
-      genre: event.genre || "",
-      cover: event.cover || "",
-      description: event.description || "",
-      source: event.source || "",
-      submittedBy: event.submittedBy || "",
-      contact: event.contact || "",
-      flyer: event.flyer || null
-    });
+setEventData({
+  title: event.title,
+  date: event.start.slice(0, 10),
+  startTime: event.start.slice(11, 16),
+  endTime: event.end.slice(11, 16),
+  venue: event.venue || "",
+  genre: event.genre || "",
+  cover: event.cover || "",
+  description: event.description || "",
+  source: event.source || "",
+  submittedBy: event.submittedBy || "admin",
+  email: event.email || "",
+  contact: event.contact || "",
+  flyer: event.flyer || null
+});
+
 
     setEditingId(event.id);
   };
