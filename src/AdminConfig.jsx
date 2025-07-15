@@ -252,6 +252,19 @@ export default function AdminConfig() {
 
   return (
     <div className="p-8">
+      <div className="flex justify-between items-center mb-4">
+  <h1 className="text-2xl font-bold text-white">Admin Panel</h1>
+  <button
+    onClick={async () => {
+      await supabase.auth.signOut();
+      window.location.href = "/";
+    }}
+    className="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded"
+  >
+    Sign Out
+  </button>
+</div>
+
       <h2 className="text-lg font-semibold mb-2">Admin Genre Manager</h2>
       <input
         value={newGenre}
