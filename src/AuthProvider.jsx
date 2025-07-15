@@ -6,13 +6,23 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
 
-  useEffect(() => {
-    supabase.auth.getUser().then(({ data: { user } }) => setUser(user));
-    const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
-      setUser(session?.user || null);
-    });
-    return () => listener.subscription.unsubscribe();
-  }, []);
+useEffect(() => {
+  // Step 1: Try restoring existing session
+  supabase.auth.getSession().then(({ data: { session } }) => {
+    setUser(session?.user || null);
+  });
+
+  // Step 2: Listen for auth changes (e.g., after magic link login)
+  const {
+    data: { subscription },
+  } = supabase.auth.onAuthStateChange((_event, session) => {
+    setUser(session?.user || null);
+  });
+
+  // Step 3: Cleanup
+  return () => subscription.unsubscribe();
+}, []);
+
 
   return <AuthContext.Provider value={{ user }}>{children}</AuthContext.Provider>;
 };
