@@ -41,21 +41,23 @@ if (!formData.email || !emailRegex.test(formData.email)) {
   oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
   const oneWeekAgoISO = oneWeekAgo.toISOString();
 
-const { data: existingEvents, error: fetchError } = await supabase
+  const { data: recentEvents, error: fetchError } = await supabase
   .from("events")
   .select("id, created_at")
-  .eq("email", formData.email)
-  .gte("created_at", oneWeekAgoISO);
+  .eq("email", formData.email);
 
 if (fetchError) {
   alert("Unable to verify submission limit. Please try again later.");
   return;
 }
 
-if (existingEvents.length >= 3) {
+const eventsInWindow = recentEvents.filter(e => e.created_at >= oneWeekAgoISO);
+
+if (eventsInWindow.length >= 3) {
   alert("You've reached the maximum of 3 submissions this week. Please request an account to submit more.");
   return;
 }
+
 proceedToSubmitEvent();
 };
 
