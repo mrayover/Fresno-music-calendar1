@@ -41,23 +41,22 @@ if (!formData.email || !emailRegex.test(formData.email)) {
   oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
   const oneWeekAgoISO = oneWeekAgo.toISOString();
 
-  const { data: existingEvents, error: countError } = await supabase
-    .from("events")
-    .select("id", { count: "exact", head: false })
-    .eq("email", formData.email)
-    .gte("created_at", oneWeekAgoISO);
+const { data: existingEvents, error: fetchError } = await supabase
+  .from("events")
+  .select("id")
+  .eq("email", formData.email)
+  .gte("created_at", oneWeekAgoISO);
 
-  if (countError) {
-    alert("Unable to verify submission limit. Please try again later.");
-    return;
-  }
+if (fetchError) {
+  alert("Unable to verify submission limit. Please try again later.");
+  return;
+}
 
-  if (existingEvents.length >= 3) {
-    alert("You've reached the maximum of 3 submissions this week. Please request an account to submit more.");
-    // Optionally redirect:
-    // window.location.href = "/request-account";
-    return;
-  }
+if (existingEvents.length >= 3) {
+  alert("You've reached the maximum of 3 submissions this week. Please request an account to submit more.");
+  return;
+}
+
 
   const start = localToISO(formData.date, formData.startTime);
   const end = localToISO(formData.date, formData.endTime);
