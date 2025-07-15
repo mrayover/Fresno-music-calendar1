@@ -1,30 +1,23 @@
-import { createContext, useContext, useEffect, useState } from "react";
-import { supabase } from "./supabaseClient";
-
-const AuthContext = createContext();
-
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-useEffect(() => {
-  // Step 1: Try restoring existing session
-  supabase.auth.getSession().then(({ data: { session } }) => {
-    setUser(session?.user || null);
-  });
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setUser(session?.user || null);
+      setLoading(false);
+    });
 
-  // Step 2: Listen for auth changes (e.g., after magic link login)
-  const {
-    data: { subscription },
-  } = supabase.auth.onAuthStateChange((_event, session) => {
-    setUser(session?.user || null);
-  });
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user || null);
+    });
 
-  // Step 3: Cleanup
-  return () => subscription.unsubscribe();
-}, []);
+    return () => subscription.unsubscribe();
+  }, []);
 
-
-  return <AuthContext.Provider value={{ user }}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider value={{ user, loading }}>
+      {children}
+    </AuthContext.Provider>
+  );
 };
-
-export const useUser = () => useContext(AuthContext);

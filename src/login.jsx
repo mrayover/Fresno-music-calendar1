@@ -9,7 +9,11 @@ export default function Login() {
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
-  const { user } = useUser();
+  const { user, loading } = useUser();
+
+if (loading) {
+  return <div className="text-white p-4">Checking session...</div>;
+}
 
 if (user) {
   return <Navigate to="/admin" />;
