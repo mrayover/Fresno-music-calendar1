@@ -143,39 +143,19 @@ export default function AdminConfig() {
   };
 
 const approveEvent = async (event) => {
-  const {
-    id, title, start, end, venue, genre, cover,
-    description, source, submittedBy, contact, flyer, email
-  } = event;
-
   const { error } = await supabase
     .from("events")
-    .update({
-      title,
-      start,
-      end,
-      venue,
-      genre,
-      cover,
-      description,
-      source,
-      submittedBy,
-      contact,
-      flyer,
-      email,
-      status: "approved"
-    })
-    .eq("id", id);
+    .update({ status: "approved" })
+    .eq("id", event.id);
 
   if (error) {
     console.error("Approval failed:", error.message);
     alert("Approval failed. Please try again.");
   } else {
-    setPendingEvents((p) => p.filter((e) => e.id !== id));
+    setPendingEvents((p) => p.filter((e) => e.id !== event.id));
     alert("Event approved.");
   }
 };
-
 
   const editEvent = (event) => {
     const start = new Date(event.start);
