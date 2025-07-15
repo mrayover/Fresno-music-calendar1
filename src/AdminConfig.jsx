@@ -279,89 +279,155 @@ const rejectEvent = async (id) => {
       }));
     }
   };
+const [activeTab, setActiveTab] = useState("event");
 
-  return (
-    <div className="p-8">
-      <div className="flex justify-between items-center mb-4">
-  <h1 className="text-2xl font-bold text-white">Admin Panel</h1>
-  <button
-    onClick={async () => {
-      await supabase.auth.signOut();
-      window.location.href = "/";
-    }}
-    className="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded"
-  >
-    Sign Out
-  </button>
-</div>
-
-      <h2 className="text-lg font-semibold mb-2">Admin Genre Manager</h2>
-      <input
-        value={newGenre}
-        onChange={(e) => setNewGenre(e.target.value)}
-        placeholder="New Genre"
-        className="border px-2 py-1 mr-2 rounded"
-      />
+return (
+  <div className="relative">
+    {/* Sticky Header */}
+    <div className="sticky top-0 z-30 bg-[#1c0f1f] border-b border-tower-cream p-4 flex justify-between items-center">
+      <h1 className="text-2xl font-bold text-center text-white w-full">Admin Panel</h1>
       <button
-        onClick={addGenre}
-        className="bg-blue-100 hover:bg-blue-200 px-2 py-1 rounded"
-      >
-        Add
-      </button>
-      <ul className="mt-2">
-        {genres.map((g) => (
-          <li key={g}>
-            {g}{" "}
-            <button
-              onClick={() => removeGenre(g)}
-              className="text-red-500 hover:underline ml-2"
-            >
-              Remove
-            </button>
-          </li>
-        ))}
-      </ul>
-
-      <hr className="my-6" />
-
-      <h2 className="text-lg font-semibold mb-2">
-        {editingId ? "Edit Event" : "Add Event"}
-      </h2>
-
-      <EventForm
-        mode="admin"
-        data={eventData}
-        setData={setEventData}
-        onSubmit={generateEventObject}
-        handleChange={handleChange}
-        editingId={editingId}
-        cancelEdit={() => {
-          setEditingId(null);
-          setEventData({
-            title: "",
-            date: "",
-            startTime: "18:00",
-            endTime: "19:00",
-            venue: "",
-            genre: "",
-            cover: "",
-            description: ""
-          });
+        onClick={async () => {
+          await supabase.auth.signOut();
+          window.location.href = "/";
         }}
-      />
-
-      <hr className="my-6" />
-
-      <UnifiedWeekView
-        pendingEvents={pendingEvents}
-        approvedEvents={approvedEvents}
-        archivedEvents={archivedEvents}
-        onEdit={editEvent}
-        approveEvent={approveEvent}
-        rejectEvent={rejectEvent}
-        archiveEvent={toggleArchiveEvent}
-        deleteEvent={deleteApprovedEvent}
-      />
+        className="absolute right-4 bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded"
+      >
+        Sign Out
+      </button>
     </div>
-  );
+
+    {/* Tab Navigation */}
+    <div className="bg-[#2b1530] px-6 py-2 border-b border-tower-cream flex space-x-4 justify-center">
+      <button
+        className={`px-3 py-1 rounded-md text-sm font-semibold ${
+          activeTab === "event" ? "bg-tower-yellow text-black" : "text-white hover:underline"
+        }`}
+        onClick={() => setActiveTab("event")}
+      >
+        Event Moderation
+      </button>
+      <button
+        className={`px-3 py-1 rounded-md text-sm font-semibold ${
+          activeTab === "user" ? "bg-tower-yellow text-black" : "text-white hover:underline"
+        }`}
+        onClick={() => setActiveTab("user")}
+      >
+        User Moderation
+      </button>
+      <button
+        className={`px-3 py-1 rounded-md text-sm font-semibold ${
+          activeTab === "venue" ? "bg-tower-yellow text-black" : "text-white hover:underline"
+        }`}
+        onClick={() => setActiveTab("venue")}
+      >
+        Venue Moderation
+      </button>
+      <button
+        className={`px-3 py-1 rounded-md text-sm font-semibold ${
+          activeTab === "band" ? "bg-tower-yellow text-black" : "text-white hover:underline"
+        }`}
+        onClick={() => setActiveTab("band")}
+      >
+        Band Moderation
+      </button>
+    </div>
+
+    {/* Main Content Area */}
+    <div className="p-8">
+      {activeTab === "event" && (
+        <>
+          <h2 className="text-lg font-semibold mb-2">Admin Genre Manager</h2>
+          <input
+            value={newGenre}
+            onChange={(e) => setNewGenre(e.target.value)}
+            placeholder="New Genre"
+            className="border px-2 py-1 mr-2 rounded"
+          />
+          <button
+            onClick={addGenre}
+            className="bg-blue-100 hover:bg-blue-200 px-2 py-1 rounded"
+          >
+            Add
+          </button>
+          <ul className="mt-2">
+            {genres.map((g) => (
+              <li key={g}>
+                {g}{" "}
+                <button
+                  onClick={() => removeGenre(g)}
+                  className="text-red-500 hover:underline ml-2"
+                >
+                  Remove
+                </button>
+              </li>
+            ))}
+          </ul>
+
+          <hr className="my-6" />
+
+          <h2 className="text-lg font-semibold mb-2">
+            {editingId ? "Edit Event" : "Add Event"}
+          </h2>
+
+          <EventForm
+            mode="admin"
+            data={eventData}
+            setData={setEventData}
+            onSubmit={generateEventObject}
+            handleChange={handleChange}
+            editingId={editingId}
+            cancelEdit={() => {
+              setEditingId(null);
+              setEventData({
+                title: "",
+                date: "",
+                startTime: "18:00",
+                endTime: "19:00",
+                venue: "",
+                genre: "",
+                cover: "",
+                description: ""
+              });
+            }}
+          />
+
+          <hr className="my-6" />
+
+          <UnifiedWeekView
+            pendingEvents={pendingEvents}
+            approvedEvents={approvedEvents}
+            archivedEvents={archivedEvents}
+            onEdit={editEvent}
+            approveEvent={approveEvent}
+            rejectEvent={rejectEvent}
+            archiveEvent={toggleArchiveEvent}
+            deleteEvent={deleteApprovedEvent}
+          />
+        </>
+      )}
+
+      {activeTab === "user" && (
+        <div className="text-white text-center mt-10">
+          <h2 className="text-xl font-semibold">User Moderation</h2>
+          <p className="text-sm mt-2">This section will manage account-linked submissions, rate limit exceptions, and flagged users.</p>
+        </div>
+      )}
+
+      {activeTab === "venue" && (
+        <div className="text-white text-center mt-10">
+          <h2 className="text-xl font-semibold">Venue Moderation</h2>
+          <p className="text-sm mt-2">This section is planned for future venue directory moderation.</p>
+        </div>
+      )}
+
+      {activeTab === "band" && (
+        <div className="text-white text-center mt-10">
+          <h2 className="text-xl font-semibold">Band Moderation</h2>
+          <p className="text-sm mt-2">This section will handle artist profiles and public band submissions in a future phase.</p>
+        </div>
+      )}
+    </div>
+  </div>
+);
 }
