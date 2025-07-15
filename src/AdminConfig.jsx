@@ -242,6 +242,19 @@ setEventData({
       alert(isArchived ? "Event restored to calendar." : "Event archived.");
     }
   };
+const rejectEvent = async (id) => {
+  const { error } = await supabase
+    .from("events")
+    .delete()
+    .eq("id", id)
+    .eq("status", "pending");
+  if (!error) {
+    setPendingEvents(p => p.filter(e => e.id !== id));
+    alert("Event rejected.");
+  } else {
+    alert("Error rejecting event.");
+  }
+};
 
   const handleChange = (e) => {
     const { name, value } = e.target;
