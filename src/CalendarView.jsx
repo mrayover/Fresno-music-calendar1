@@ -114,7 +114,8 @@ const genreColors = {
 
 
 return (
-  <>
+  <div className="relative">
+    {/* Login Button */}
     <div className="flex justify-end px-4 pt-4">
       {!user && (
         <a
@@ -127,6 +128,7 @@ return (
     </div>
 
     <div className="flex flex-col lg:flex-row h-[calc(100vh-120px)] p-4 gap-4">
+
 
 
         <div style={{ marginTop: "2rem" }}>
@@ -303,7 +305,7 @@ endAccessor={(event) => parseLocalDateTime(event.end)}
           </p>
         </div>
       )}
-    </>
+    </div>
   );
 };
 
