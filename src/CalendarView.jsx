@@ -5,6 +5,7 @@ import "react-big-calendar/lib/css/react-big-calendar.css";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "./supabaseClient";
 import FilterPanel from "./FilterPanel";
+import { useUser } from "./AuthProvider";
 
 const localizer = momentLocalizer(moment);
 
@@ -29,6 +30,8 @@ const CalendarView = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [hoveredEvent, setHoveredEvent] = useState(null);
   const [hoverPosition, setHoverPosition] = useState({ x: 0, y: 0 });
+  const { user } = useUser();
+  
 
   const navigate = useNavigate();
 
@@ -110,15 +113,21 @@ const genreColors = {
 };
 
 
-  return (
-      <div className="flex flex-col lg:flex-row h-[calc(100vh-120px)] p-4 gap-4">
-      {/* Left column: Filters */}
-      <div style={{ minWidth: "220px", marginRight: "2rem", display: "flex", flexDirection: "column" }}>
-        <FilterPanel
-          genres={Array.from(new Set(events.map(event => event.genre))).sort()}
-          selectedGenres={selectedGenres}
-          onFilterChange={handleGenreChange}
-        />
+return (
+  <>
+    <div className="flex justify-end px-4 pt-4">
+      {!user && (
+        <a
+          href="/login"
+          className="bg-tower-yellow text-black font-bold px-4 py-2 rounded hover:bg-yellow-300 transition"
+        >
+          Login
+        </a>
+      )}
+    </div>
+
+    <div className="flex flex-col lg:flex-row h-[calc(100vh-120px)] p-4 gap-4">
+
 
         <div style={{ marginTop: "2rem" }}>
           <h3>Filter by Venue</h3>
@@ -294,8 +303,7 @@ endAccessor={(event) => parseLocalDateTime(event.end)}
           </p>
         </div>
       )}
-
-    </div> 
+    </>
   );
 };
 
