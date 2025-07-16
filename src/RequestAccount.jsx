@@ -2,7 +2,14 @@ import { useState } from "react";
 import { supabase } from "./supabaseClient";
 import { useNavigate } from "react-router-dom";
 
-const badWords = ["fuck", "shit", "bitch", "cunt", "asshole", "dick", "bastard"]; // light filter
+const avatarOptions = [
+  ...Array.from({ length: 10 }, (_, i) => `/avatars/Bottts-${i + 1}.png`),
+  ...Array.from({ length: 10 }, (_, i) => `/avatars/funemoji-${i + 1}.png`),
+  ...Array.from({ length: 10 }, (_, i) => `/avatars/notionists-${i + 1}.png`),
+  ...Array.from({ length: 10 }, (_, i) => `/avatars/open-peeps-${i + 1}.png`),
+];
+
+const badWords = ["fuck", "shit", "bitch", "cunt", "asshole", "dick", "bastard"]; // basic filter
 
 export default function RequestAccount() {
   const [formData, setFormData] = useState({
@@ -10,19 +17,15 @@ export default function RequestAccount() {
     email: "",
     username: "",
     message: "",
-    avatar: null
+    avatar_url: ""
   });
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
   const handleChange = (e) => {
-    const { name, value, files } = e.target;
-    if (name === "avatar") {
-      setFormData({ ...formData, avatar: files[0] });
-    } else {
-      setFormData({ ...formData, [name]: value });
-    }
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const isProfane = (text) =>
@@ -31,10 +34,10 @@ export default function RequestAccount() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
-    const { name, email, username, message, avatar } = formData;
+    const { name, email, username, message, avatar_url } = formData;
 
-    if (!name || !email || !username) {
-      setError("All fields except 'message' and 'avatar' are required.");
+    if (!name || !email || !username || !avatar_url) {
+      setError("All fields except 'message' are required.");
       return;
     }
 
@@ -45,7 +48,6 @@ export default function RequestAccount() {
 
     setSubmitting(true);
 
-    // 1. Check if username already exists
     const { data: existing, error: usernameCheckError } = await supabase
       .from("account_requests")
       .select("id")
@@ -63,38 +65,13 @@ export default function RequestAccount() {
       return;
     }
 
-    // 2. Upload avatar if provided
-    let avatarUrl = null;
-    if (avatar) {
-const fileName = `${Date.now()}-${avatar.name}`;
-const { data, error: uploadError } = await supabase.storage
-  .from("profile-pics")
-  .upload(fileName, avatar, {
-    cacheControl: "3600",
-    upsert: false
-  });
-
-
-      if (uploadError) {
-        setError("Image upload failed.");
-        setSubmitting(false);
-        return;
-      }
-
-      const { data: publicData } = supabase.storage
-        .from("profile-pics")
-        .getPublicUrl(fileName);
-      avatarUrl = publicData.publicUrl;
-    }
-
-    // 3. Submit to account_requests table
     const { error: submitError } = await supabase.from("account_requests").insert([
       {
         name,
         email,
         username,
         message,
-        avatar_url: avatarUrl,
+        avatar_url,
         status: "pending"
       }
     ]);
@@ -110,7 +87,7 @@ const { data, error: uploadError } = await supabase.storage
   };
 
   return (
-    <div className="max-w-xl mx-auto p-6 bg-black/40 rounded-xl text-white mt-8">
+    <div className="max-w-3xl mx-auto p-6 bg-black/40 rounded-xl text-white mt-8">
       <h2 className="text-2xl font-bold text-tower-yellow mb-4">Request an Account</h2>
       <form onSubmit={handleSubmit} className="space-y-4">
         <input
@@ -145,15 +122,26 @@ const { data, error: uploadError } = await supabase.storage
           value={formData.message}
           onChange={handleChange}
         />
-        <div className="text-sm">
-          <label className="block mb-1">Upload Profile Picture (optional):</label>
-          <input
-            type="file"
-            name="avatar"
-            accept="image/*"
-            onChange={handleChange}
-            className="text-white"
-          />
+
+        <div>
+          <p className="mb-1 font-semibold">Choose an avatar:</p>
+          <div className="grid grid-cols-5 gap-2">
+            {avatarOptions.map((url) => (
+              <img
+                key={url}
+                src={url}
+                alt="avatar"
+                onClick={() =>
+                  setFormData((prev) => ({ ...prev, avatar_url: url }))
+                }
+                className={`w-16 h-16 rounded-full cursor-pointer border-4 transition-all duration-150 ${
+                  formData.avatar_url === url
+                    ? "border-tower-yellow scale-105"
+                    : "border-transparent opacity-70 hover:opacity-100"
+                }`}
+              />
+            ))}
+          </div>
         </div>
 
         {error && <p className="text-red-400">{error}</p>}
