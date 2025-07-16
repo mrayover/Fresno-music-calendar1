@@ -128,9 +128,8 @@ return (
     </div>
 
     <div className="flex flex-col lg:flex-row h-[calc(100vh-120px)] p-4 gap-4">
-
-
-
+      {/* Left: Filters */}
+      <div className="lg:w-1/4 w-full">
         <div style={{ marginTop: "2rem" }}>
           <h3>Filter by Venue</h3>
           <label>
@@ -164,7 +163,7 @@ return (
         </div>
       </div>
 
-      {/* Right column: Calendar */}
+      {/* Right: Calendar */}
       <div className="flex-1 w-full min-w-0">
         <div style={{ marginBottom: "1rem", display: "flex", alignItems: "center", gap: "1rem" }}>
           <div>
@@ -212,101 +211,101 @@ return (
               ))}
           </div>
         )}
-<div className="relative overflow-visible">
-        <Calendar
-          views={["month", "day"]}
-          localizer={localizer}
-          events={events.filter(
-            (event) =>
-              selectedGenres.includes(event.genre) &&
-              selectedVenues.includes(event.venue) &&
-              (event.title.toLowerCase().includes(searchQuery) ||
-               event.description.toLowerCase().includes(searchQuery))
-          )}
-components={{
-month: {
-  event: ({ event }) => {
-    const bg = genreColors[event.genre] || genreColors["Other"];
-    return (
+
+        <div className="relative overflow-visible">
+          <Calendar
+            views={["month", "day"]}
+            localizer={localizer}
+            events={events.filter(
+              (event) =>
+                selectedGenres.includes(event.genre) &&
+                selectedVenues.includes(event.venue) &&
+                (event.title.toLowerCase().includes(searchQuery) ||
+                 event.description.toLowerCase().includes(searchQuery))
+            )}
+            components={{
+              month: {
+                event: ({ event }) => {
+                  const bg = genreColors[event.genre] || genreColors["Other"];
+                  return (
+                    <div
+                      className="relative z-10 cursor-pointer"
+                      onMouseEnter={(e) => handleMouseEnter(event, e)}
+                      onMouseLeave={handleMouseLeave}
+                    >
+                      <div
+                        className="truncate px-2 py-1 rounded-sm text-sm font-medium text-white"
+                        style={{ backgroundColor: bg }}
+                      >
+                        {event.title}
+                      </div>
+                    </div>
+                  );
+                }
+              },
+              day: {
+                event: ({ event }) => {
+                  const bg = genreColors[event.genre] || genreColors["Other"];
+                  return (
+                    <div
+                      className="px-2 py-1 rounded-sm text-sm font-medium text-white"
+                      style={{ backgroundColor: bg }}
+                    >
+                      {event.title}
+                    </div>
+                  );
+                }
+              }
+            }}
+            startAccessor={(event) => parseLocalDateTime(event.start)}
+            endAccessor={(event) => parseLocalDateTime(event.end)}
+            titleAccessor="title"
+            view={view}
+            onView={setView}
+            onSelectEvent={handleSelectEvent}
+            onSelectSlot={handleSelectSlot}
+            selectable
+            popup
+            dayPropGetter={dayHighlight}
+            date={date}
+            onNavigate={(newDate) => setDate(newDate)}
+            className="h-[85vh] w-full"
+          />
+        </div>
+      </div>
+    </div>
+
+    {/* Hover Preview */}
+    {hoveredEvent && (
       <div
-        className="relative z-10 cursor-pointer"
-        onMouseEnter={(e) => handleMouseEnter(event, e)}
-        onMouseLeave={handleMouseLeave}
+        className="absolute z-50 bg-black text-white text-sm p-3 rounded shadow-xl w-64 pointer-events-none"
+        style={{
+          top: hoverPosition.y + 8,
+          left: hoverPosition.x,
+        }}
       >
-        <div
-          className="truncate px-2 py-1 rounded-sm text-sm font-medium text-white"
-          style={{ backgroundColor: bg }}
-        >
-          {event.title}
+        <div className="font-bold">{hoveredEvent.title}</div>
+        <div className="text-xs italic">{hoveredEvent.venue}</div>
+        <div className="text-xs">
+          {parseLocalDateTime(hoveredEvent.start).toLocaleTimeString([], {
+            hour: "2-digit",
+            minute: "2-digit"
+          })} –{" "}
+          {parseLocalDateTime(hoveredEvent.end).toLocaleTimeString([], {
+            hour: "2-digit",
+            minute: "2-digit"
+          })}
         </div>
+        <div className="text-xs text-tower-yellow">{hoveredEvent.genre}</div>
+        <p className="mt-1">
+          {hoveredEvent.description?.slice(0, 120)}
+          {hoveredEvent.description?.length > 120 ? "..." : ""}
+        </p>
       </div>
-    );
-  }
-},
+    )}
+  </div>
+);
 
-  day: {
-    event: ({ event }) => {
-      const bg = genreColors[event.genre] || genreColors["Other"];
-      return (
-        <div
-          className="px-2 py-1 rounded-sm text-sm font-medium text-white"
-          style={{ backgroundColor: bg }}
-        >
-          {event.title}
-        </div>
-      );
-    }
-  }
-}}
-startAccessor={(event) => parseLocalDateTime(event.start)}
-endAccessor={(event) => parseLocalDateTime(event.end)}
-
-          titleAccessor="title"
-          view={view}
-          onView={setView}
-  onSelectEvent={handleSelectEvent}
-  onSelectSlot={handleSelectSlot}
-  selectable
-  popup
-  dayPropGetter={dayHighlight}
-    date={date}
-  onNavigate={(newDate) => setDate(newDate)}
-
-          className="h-[85vh] w-full"
-        />
-      </div>
-      
-    </div>
-    
-      {hoveredEvent && (
-        <div
-          className="absolute z-50 bg-black text-white text-sm p-3 rounded shadow-xl w-64 pointer-events-none"
-          style={{
-            top: hoverPosition.y + 8,
-            left: hoverPosition.x,
-          }}
-        >
-          <div className="font-bold">{hoveredEvent.title}</div>
-          <div className="text-xs italic">{hoveredEvent.venue}</div>
-          <div className="text-xs">
-{parseLocalDateTime(hoveredEvent.start).toLocaleTimeString([], {
-  hour: "2-digit",
-  minute: "2-digit"
-})} –{" "}
-{parseLocalDateTime(hoveredEvent.end).toLocaleTimeString([], {
-  hour: "2-digit",
-  minute: "2-digit"
-})}
-          </div>
-          <div className="text-xs text-tower-yellow">{hoveredEvent.genre}</div>
-          <p className="mt-1">
-            {hoveredEvent.description?.slice(0, 120)}
-            {hoveredEvent.description?.length > 120 ? "..." : ""}
-          </p>
-        </div>
-      )}
-    </div>
-  );
 };
 
 export default CalendarView;
