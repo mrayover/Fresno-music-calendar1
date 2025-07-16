@@ -66,10 +66,14 @@ export default function RequestAccount() {
     // 2. Upload avatar if provided
     let avatarUrl = null;
     if (avatar) {
-      const filePath = `profile_pics/${Date.now()}-${avatar.name}`;
-      const { data, error: uploadError } = await supabase.storage
-        .from("profile-pics")
-        .upload(filePath, avatar, { upsert: false });
+const fileName = `${Date.now()}-${avatar.name}`;
+const { data, error: uploadError } = await supabase.storage
+  .from("profile-pics")
+  .upload(fileName, avatar, {
+    cacheControl: "3600",
+    upsert: false
+  });
+
 
       if (uploadError) {
         setError("Image upload failed.");
@@ -79,7 +83,7 @@ export default function RequestAccount() {
 
       const { data: publicData } = supabase.storage
         .from("profile-pics")
-        .getPublicUrl(filePath);
+        .getPublicUrl(fileName);
       avatarUrl = publicData.publicUrl;
     }
 
