@@ -11,6 +11,8 @@ import Login from "./login";
 import AdminRoute from "./AdminRoute";
 import RequestAccount from "./RequestAccount";
 
+const { user } = useUser();
+
 export default function App() {
   
   return (
@@ -21,10 +23,19 @@ export default function App() {
     <img src="/logo.png" alt="Fresno Music Calendar Logo" className="h-12" />
     <h1 className="text-2xl font-extrabold tracking-wide">Fresno Music Calendar</h1>
   </div>
-<nav className="space-x-4">
+<nav className="space-x-4 flex items-center">
   <Link to="/" className="hover:underline hover:text-tower-yellow">Home</Link>
   <Link to="/submit" className="hover:underline hover:text-tower-yellow">Submit Event</Link>
+  {!user && (
+    <Link
+      to="/login"
+      className="ml-2 bg-tower-yellow text-black font-semibold px-3 py-1 rounded hover:bg-yellow-300"
+    >
+      Login
+    </Link>
+  )}
 </nav>
+
 </header>
       <main className="pt-24">
         <Routes>
