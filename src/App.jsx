@@ -27,14 +27,11 @@ export default function App() {
     <nav className="flex items-center space-x-4 whitespace-nowrap">
       <Link to="/" className="hover:underline hover:text-tower-yellow">Home</Link>
       <Link to="/submit" className="hover:underline hover:text-tower-yellow">Submit Event</Link>
-
-        <Link
-          to="/login"
-          className="bg-tower-yellow text-black font-semibold px-3 py-1 rounded hover:bg-yellow-300"
-        >
+      {!user && (
+        <Link to="/request-account" className="bg-tower-yellow text-black font-semibold px-3 py-1 rounded hover:bg-yellow-300">
           Login
         </Link>
-
+      )}
     </nav>
   </div>
 </header>
@@ -53,6 +50,9 @@ export default function App() {
           <Route path="/request-account" element={<RequestAccount />} />
           <Route path="/day/:date" element={<DayView />} />
         </Routes>
+        <div className="hidden">
+        <span className="bg-tower-yellow hover:bg-yellow-300 text-black font-semibold px-3 py-1 rounded"></span>
+      </div>
       </main>
     </div>
   );
