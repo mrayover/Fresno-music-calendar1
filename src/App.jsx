@@ -11,10 +11,10 @@ import Login from "./login";
 import AdminRoute from "./AdminRoute";
 import RequestAccount from "./RequestAccount";
 
-const { user } = useUser();
+
 
 export default function App() {
-  
+  const { user } = useUser();
   return (
     
     <div className="app-container bg-[#2B182E] min-h-screen">
