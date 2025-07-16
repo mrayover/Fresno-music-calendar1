@@ -9,6 +9,7 @@ import DayView from "./DayView";
 import { useUser } from "./AuthProvider";
 import Login from "./login";
 import AdminRoute from "./AdminRoute";
+import RequestAccount from "./RequestAccount";
 
 export default function App() {
   
@@ -20,10 +21,10 @@ export default function App() {
     <img src="/logo.png" alt="Fresno Music Calendar Logo" className="h-12" />
     <h1 className="text-2xl font-extrabold tracking-wide">Fresno Music Calendar</h1>
   </div>
-  <nav className="space-x-4">
-    <Link to="/" className="hover:underline hover:text-tower-yellow">Home</Link>
-    <Link to="/submit" className="hover:underline hover:text-tower-yellow">Submit Event</Link>
-  </nav>
+<nav className="space-x-4">
+  <Link to="/" className="hover:underline hover:text-tower-yellow">Home</Link>
+  <Link to="/submit" className="hover:underline hover:text-tower-yellow">Submit Event</Link>
+</nav>
 </header>
       <main className="pt-24">
         <Routes>
@@ -36,6 +37,7 @@ export default function App() {
             </AdminRoute>
           } />
           <Route path="/login" element={<Login />} />
+          <Route path="/request-account" element={<RequestAccount />} />
           <Route path="/day/:date" element={<DayView />} />
         </Routes>
       </main>
