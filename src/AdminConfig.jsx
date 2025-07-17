@@ -458,8 +458,11 @@ return (
         {pendingUsers.map((u) => (
           <div key={u.id} className="bg-[#321c38] border border-tower-yellow p-4 rounded shadow">
             <div className="flex items-center gap-4">
-              <img src={u.avatar_url} alt="avatar" className="w-16 h-16 rounded-full border" />
-              <div>
+<img
+  src={u.avatar_url || "/default-avatar.png"}
+  alt="avatar"
+  className="w-16 h-16 rounded-full border object-cover"
+/>              <div>
                 <p className="font-bold">{u.name} ({u.username})</p>
                 <p className="text-sm text-gray-300">{u.email}</p>
                 {u.message && <p className="text-sm mt-2 italic">"{u.message}"</p>}
