@@ -25,19 +25,17 @@ export default async function handler(req, res) {
       email_confirm: true,
     });
 
-    if (createError) {
-      // If user already exists, still update request status
-      if (createError.message.includes("User already registered")) {
-        await supabase
-          .from("account_requests")
-          .update({ status: "approved" })
-          .eq("id", requestId);
-        return res.status(200).json({ success: true, note: "User already existed." });
-      }
-
-      console.error("Error creating user:", createError.message);
-      return res.status(400).json({ error: createError.message });
-    }
+if (createError) {
+  // If user already exists, still mark request as approved
+  if (createError.message.includes("User already registered")) {
+    await supabase
+      .from("account_requests")
+      .update({ status: "approved" })
+      .eq("id", requestId);
+    return res.status(200).json({ success: true, note: "User already existed." });
+  }
+  return res.status(400).json({ error: createError.message });
+}
 
     // Step 2: Send reset link
     const { error: resetError } = await supabase.auth.admin.sendPasswordResetEmail(email);
