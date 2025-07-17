@@ -93,6 +93,23 @@ export default function AdminConfig() {
   alert(`TODO: Create account for ${request.username}`);
   // Future logic: create auth account, move status to 'approved'
 };
+const rejectUser = async (requestId) => {
+  const confirmed = window.confirm("Reject this account request?");
+  if (!confirmed) return;
+
+  const { error } = await supabase
+    .from("account_requests")
+    .delete()
+    .eq("id", requestId);
+
+  if (error) {
+    alert("Failed to reject request.");
+  } else {
+    setPendingUsers(prev => prev.filter(u => u.id !== requestId));
+    alert("Request rejected.");
+  }
+};
+
 
   const localToISO = (dateStr, timeStr) => {
     const [year, month, day] = dateStr.split("-").map(Number);
@@ -448,12 +465,21 @@ return (
                 {u.message && <p className="text-sm mt-2 italic">"{u.message}"</p>}
               </div>
             </div>
-            <button
-              onClick={() => approveUser(u)}
-              className="mt-4 bg-tower-yellow text-black font-bold px-3 py-1 rounded hover:bg-yellow-300"
-            >
-              Approve
-            </button>
+
+            <div className="flex gap-2 mt-4">
+  <button
+    onClick={() => approveUser(u)}
+    className="bg-tower-yellow text-black font-bold px-3 py-1 rounded hover:bg-yellow-300"
+  >
+    Approve
+  </button>
+  <button
+    onClick={() => rejectUser(u.id)}
+    className="bg-red-600 text-white font-bold px-3 py-1 rounded hover:bg-red-700"
+  >
+    Reject
+  </button>
+</div>
           </div>
         ))}
       </div>
