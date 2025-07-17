@@ -17,46 +17,48 @@ export default async function handler(req, res) {
   }
 
   try {
-    // Step 1: Create user with random temp password
-    const tempPassword = Math.random().toString(36).slice(-10) + "!A1";
-    const { data: user, error: createError } = await supabase.auth.admin.createUser({
-      email,
-      password: tempPassword,
-      email_confirm: true,
-    });
+    // Step 1: Check if user already exists
+    const { data: users, error: listError } = await supabase.auth.admin.listUsers();
+    if (listError) throw listError;
 
-if (createError) {
-  // If user already exists, still mark request as approved
-  if (createError.message.includes("User already registered")) {
-    await supabase
-      .from("account_requests")
-      .update({ status: "approved" })
-      .eq("id", requestId);
-    return res.status(200).json({ success: true, note: "User already existed." });
-  }
-  return res.status(400).json({ error: createError.message });
-}
+    const existingUser = users.find((u) => u.email === email);
 
-    // Step 2: Send reset link
-    const { error: resetError } = await supabase.auth.admin.sendPasswordResetEmail(email);
-    if (resetError) {
-      console.error("Error sending reset email:", resetError.message);
+    // Step 2: Create user if they don't exist
+    if (!existingUser) {
+      const tempPassword = Math.random().toString(36).slice(-10) + "!A1";
+      const { error: createError } = await supabase.auth.admin.createUser({
+        email,
+        password: tempPassword,
+        email_confirm: true,
+      });
+
+      if (createError) {
+        console.error("User creation failed:", createError);
+        return res.status(500).json({ error: "Failed to create user." });
+      }
     }
 
-    // Step 3: Update request status
+    // Step 3: Send reset password link
+    const { error: resetError } = await supabase.auth.admin.sendPasswordResetEmail(email);
+    if (resetError) {
+      console.error("Reset email failed:", resetError);
+      return res.status(500).json({ error: "Failed to send reset email." });
+    }
+
+    // Step 4: Update approval status
     const { error: updateError } = await supabase
       .from("account_requests")
       .update({ status: "approved" })
       .eq("id", requestId);
 
     if (updateError) {
-      console.error("Error updating request status:", updateError.message);
-      return res.status(500).json({ error: updateError.message });
+      console.error("Status update failed:", updateError);
+      return res.status(500).json({ error: "Failed to update request status." });
     }
 
     return res.status(200).json({ success: true });
   } catch (err) {
-    console.error("Unhandled error in approve-user:", err);
+    console.error("Unexpected error:", err);
     return res.status(500).json({ error: "Internal Server Error" });
   }
 }
