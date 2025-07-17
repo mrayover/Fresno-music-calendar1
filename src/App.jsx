@@ -11,6 +11,7 @@ import Login from "./login";
 import AdminRoute from "./AdminRoute";
 import RequestAccount from "./RequestAccount";
 import { supabase } from "./supabaseClient";
+import UserLogin from "./UserLogin";
 
 
 
@@ -67,6 +68,7 @@ export default function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/request-account" element={<RequestAccount />} />
           <Route path="/day/:date" element={<DayView />} />
+          <Route path="/user-login" element={<UserLogin />} />
         </Routes>
         <div className="hidden">
         <span className="bg-tower-yellow hover:bg-yellow-300 text-black font-semibold px-3 py-1 rounded"></span>
