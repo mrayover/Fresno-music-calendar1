@@ -26,6 +26,20 @@ export default function AdminConfig() {
   const [pendingEvents, setPendingEvents] = useState([]);
   const [approvedEvents, setApprovedEvents] = useState([]);
   const [archivedEvents, setArchivedEvents] = useState([]);
+  const [pendingUsers, setPendingUsers] = useState([]);
+
+  useEffect(() => {
+  const fetchPendingUsers = async () => {
+    const { data, error } = await supabase
+      .from("account_requests")
+      .select("*")
+      .eq("status", "pending");
+
+    if (!error) setPendingUsers(data);
+  };
+
+  fetchPendingUsers();
+}, []);
 
   useEffect(() => {
     const fetchGenres = () => {
@@ -74,6 +88,11 @@ export default function AdminConfig() {
     setGenres(updated);
     localStorage.setItem("customGenres", JSON.stringify(updated));
   };
+
+  const approveUser = async (request) => {
+  alert(`TODO: Create account for ${request.username}`);
+  // Future logic: create auth account, move status to 'approved'
+};
 
   const localToISO = (dateStr, timeStr) => {
     const [year, month, day] = dateStr.split("-").map(Number);
@@ -314,6 +333,7 @@ return (
       }`}
       onClick={() => setActiveTab("user")}
     >
+    
       User Moderation
     </button>
     <button
@@ -321,7 +341,9 @@ return (
         activeTab === "venue" ? "bg-tower-yellow text-black" : "text-white hover:underline"
       }`}
       onClick={() => setActiveTab("venue")}
+      
     >
+    
       Venue Moderation
     </button>
     <button
@@ -409,12 +431,36 @@ return (
         </>
       )}
 
-      {activeTab === "user" && (
-        <div className="text-white text-center mt-10">
-          <h2 className="text-xl font-semibold">User Moderation</h2>
-          <p className="text-sm mt-2">This section will manage account-linked submissions, rate limit exceptions, and flagged users.</p>
-        </div>
-      )}
+{activeTab === "user" && (
+  <div className="text-white mt-8 px-6">
+    <h2 className="text-xl font-bold mb-4">Pending Account Requests</h2>
+    {pendingUsers.length === 0 ? (
+      <p className="text-sm italic text-tower-yellow">No pending requests.</p>
+    ) : (
+      <div className="space-y-4">
+        {pendingUsers.map((u) => (
+          <div key={u.id} className="bg-[#321c38] border border-tower-yellow p-4 rounded shadow">
+            <div className="flex items-center gap-4">
+              <img src={u.avatar_url} alt="avatar" className="w-16 h-16 rounded-full border" />
+              <div>
+                <p className="font-bold">{u.name} ({u.username})</p>
+                <p className="text-sm text-gray-300">{u.email}</p>
+                {u.message && <p className="text-sm mt-2 italic">"{u.message}"</p>}
+              </div>
+            </div>
+            <button
+              onClick={() => approveUser(u)}
+              className="mt-4 bg-tower-yellow text-black font-bold px-3 py-1 rounded hover:bg-yellow-300"
+            >
+              Approve
+            </button>
+          </div>
+        ))}
+      </div>
+    )}
+  </div>
+)}
+
 
       {activeTab === "venue" && (
         <div className="text-white text-center mt-10">
