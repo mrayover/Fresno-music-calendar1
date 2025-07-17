@@ -1,4 +1,5 @@
-import { createClient } from "@supabase/supabase-js";
+// /api/approve-user.js
+import { createClient } from '@supabase/supabase-js';
 
 const supabase = createClient(
   process.env.SUPABASE_URL,
@@ -6,70 +7,47 @@ const supabase = createClient(
 );
 
 export default async function handler(req, res) {
-  if (req.method !== "POST") {
-    return res.status(405).json({ error: "Method Not Allowed" });
+  if (req.method !== 'POST') {
+    return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const { email, requestId } = req.body;
+  const { email, username, full_name, password } = req.body;
 
-  if (!email || !requestId) {
-    return res.status(400).json({ error: "Missing email or requestId" });
+  if (!email || !username || !full_name || !password) {
+    return res.status(400).json({ error: 'Missing required fields' });
   }
 
   try {
-    console.log("🔍 Checking for existing user:", email);
-
-    // Get list of all users (requires Service Role key)
-    const { data: users, error: listError } = await supabase.auth.admin.listUsers();
-
-    if (listError) {
-      console.error("❌ listUsers error:", listError.message);
-      return res.status(500).json({ error: "Could not list users" });
-    }
-
-    const existingUser = users.find((u) => u.email === email);
-
-    if (!existingUser) {
-      const tempPassword = Math.random().toString(36).slice(-10) + "!A1";
-
-      console.log("📇 Creating new user:", email);
-      const { data, error: createError } = await supabase.auth.admin.createUser({
-        email,
-        password: tempPassword,
-        email_confirm: true,
-      });
-
-      if (createError) {
-        console.error("❌ createUser error:", createError.message);
-        return res.status(500).json({ error: "User creation failed" });
+    // Create the user
+    const { data: user, error: createError } = await supabase.auth.admin.createUser({
+      email,
+      password,
+      email_confirm: true,
+      user_metadata: {
+        full_name,
+        username
       }
-    } else {
-      console.log("✅ User already exists:", email);
+    });
+
+    if (createError) {
+      console.error('Supabase user creation error:', createError);
+      return res.status(500).json({ error: createError.message });
     }
 
-    console.log("📨 Sending password reset email to:", email);
-    const { error: resetError } = await supabase.auth.admin.sendPasswordResetEmail(email);
-
-    if (resetError) {
-      console.error("❌ sendPasswordResetEmail error:", resetError.message);
-      return res.status(500).json({ error: "Could not send reset email" });
-    }
-
-    console.log("📝 Updating account_requests table:", requestId);
+    // Update their role in the public users table if needed
     const { error: updateError } = await supabase
-      .from("account_requests")
-      .update({ status: "approved" })
-      .eq("id", requestId);
+      .from('users')
+      .update({ status: 'approved' })
+      .eq('email', email);
 
     if (updateError) {
-      console.error("❌ Supabase update error:", updateError.message);
-      return res.status(500).json({ error: "Could not update request status" });
+      console.error('Supabase DB update error:', updateError);
+      return res.status(500).json({ error: updateError.message });
     }
 
-    console.log("✅ Approval flow complete for:", email);
-    return res.status(200).json({ success: true });
+    return res.status(200).json({ message: 'User created and approved' });
   } catch (err) {
-    console.error("❗ Unexpected server error:", err.message);
-    return res.status(500).json({ error: "Internal Server Error" });
+    console.error('Unexpected error during approval:', err);
+    return res.status(500).json({ error: 'Internal Server Error' });
   }
 }
