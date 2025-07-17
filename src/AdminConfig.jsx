@@ -89,10 +89,40 @@ export default function AdminConfig() {
     localStorage.setItem("customGenres", JSON.stringify(updated));
   };
 
-  const approveUser = async (request) => {
-  alert(`TODO: Create account for ${request.username}`);
-  // Future logic: create auth account, move status to 'approved'
+const approveUser = async (request) => {
+  const confirmed = window.confirm(`Approve account for ${request.username}?`);
+  if (!confirmed) return;
+
+  // Step 1: Create a random temp password
+  const tempPassword = Math.random().toString(36).slice(-10) + "!A1";
+
+  // Step 2: Create user in Supabase Auth
+  const { data: user, error } = await supabase.auth.admin.createUser({
+    email: request.email,
+    password: tempPassword,
+    email_confirm: true,
+  });
+
+  if (error) {
+    alert("Error creating user: " + error.message);
+    return;
+  }
+
+  // Step 3: Send password reset email
+  await supabase.auth.admin.sendPasswordResetEmail(request.email);
+
+  // Step 4: Mark request as approved or delete it
+  await supabase
+    .from("account_requests")
+    .update({ status: "approved" })
+    .eq("id", request.id);
+
+  // Step 5: Update local state
+  setPendingUsers((prev) => prev.filter((u) => u.id !== request.id));
+
+  alert(`Account approved. Password reset email sent to ${request.email}.`);
 };
+
 const rejectUser = async (requestId) => {
   const confirmed = window.confirm("Reject this account request?");
   if (!confirmed) return;
