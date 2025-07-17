@@ -10,11 +10,18 @@ import { useUser } from "./AuthProvider";
 import Login from "./login";
 import AdminRoute from "./AdminRoute";
 import RequestAccount from "./RequestAccount";
+import { supabase } from "./supabaseClient";
 
 
 
 export default function App() {
   const { user } = useUser();
+  const handleLogout = async () => {
+  const { error } = await supabase.auth.signOut();
+  if (!error) {
+    window.location.href = "/";
+  }
+};
   return (
     
     <div className="app-container bg-[#2B182E] min-h-screen">
@@ -27,11 +34,22 @@ export default function App() {
     <nav className="flex items-center space-x-4 whitespace-nowrap">
       <Link to="/" className="hover:underline hover:text-tower-yellow">Home</Link>
       <Link to="/submit" className="hover:underline hover:text-tower-yellow">Submit Event</Link>
-      {!user && (
-        <Link to="/request-account" className="bg-tower-yellow text-black font-semibold px-3 py-1 rounded hover:bg-yellow-300">
-          Login
-        </Link>
-      )}
+{user ? (
+  <button
+    onClick={handleLogout}
+    className="bg-tower-yellow text-black font-semibold px-3 py-1 rounded hover:bg-yellow-300"
+  >
+    Logout
+  </button>
+) : (
+  <Link
+    to="/request-account"
+    className="bg-tower-yellow text-black font-semibold px-3 py-1 rounded hover:bg-yellow-300"
+  >
+    Login
+  </Link>
+)}
+
     </nav>
   </div>
 </header>
