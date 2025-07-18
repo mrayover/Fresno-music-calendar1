@@ -94,16 +94,18 @@ const approveUser = async (request) => {
   if (!confirmed) return;
 
   try {
-    const res = await fetch("/api/approve-user", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        email: request.email,
-        requestId: request.id,
-      }),
-    });
+const res = await fetch("/api/approve-user", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
+    email: request.email,
+    username: request.username,
+    name: request.name,
+  }),
+});
+
 
     const result = await res.json();
 
