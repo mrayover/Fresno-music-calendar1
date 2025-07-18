@@ -1,7 +1,8 @@
 // /api/approve-user.js
+import crypto from 'crypto';
 import { createClient } from '@supabase/supabase-js';
 
-const supabase = createClient(
+const supabaseAdmin = createClient(
   process.env.SUPABASE_URL,
   process.env.SUPABASE_SERVICE_ROLE_KEY
 );
@@ -11,43 +12,41 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const { email, username, full_name, password } = req.body;
+  const { email, username, full_name } = req.body;
 
-  if (!email || !username || !full_name || !password) {
+  if (!email || !username || !full_name) {
     return res.status(400).json({ error: 'Missing required fields' });
   }
 
   try {
-    // Create the user
-    const { data: user, error: createError } = await supabase.auth.admin.createUser({
+    const password = crypto.randomUUID();
+
+    // Step 1: Create user with random password and metadata
+    const { data: user, error: createError } = await supabaseAdmin.auth.admin.createUser({
       email,
       password,
-      email_confirm: true,
       user_metadata: {
-        full_name,
-        username
+        username,
+        full_name
       }
     });
 
     if (createError) {
-      console.error('Supabase user creation error:', createError);
-      return res.status(500).json({ error: createError.message });
+      console.error('Create user error:', createError.message);
+      return res.status(500).json({ error: 'Error creating user: ' + createError.message });
     }
 
-    // Update their role in the public users table if needed
-    const { error: updateError } = await supabase
-      .from('users')
-      .update({ status: 'approved' })
-      .eq('email', email);
+    // Step 2: Trigger invite email (password setup link)
+    const { error: inviteError } = await supabaseAdmin.auth.admin.inviteUserByEmail(email);
 
-    if (updateError) {
-      console.error('Supabase DB update error:', updateError);
-      return res.status(500).json({ error: updateError.message });
+    if (inviteError) {
+      console.error('Invite user error:', inviteError.message);
+      return res.status(500).json({ error: 'Error sending invite: ' + inviteError.message });
     }
 
-    return res.status(200).json({ message: 'User created and approved' });
+    return res.status(200).json({ success: true, user });
   } catch (err) {
-    console.error('Unexpected error during approval:', err);
+    console.error('Unexpected error:', err);
     return res.status(500).json({ error: 'Internal Server Error' });
   }
 }
