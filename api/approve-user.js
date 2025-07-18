@@ -1,6 +1,4 @@
-// /api/approve-user.js
 import { createClient } from '@supabase/supabase-js';
-import crypto from 'crypto'; // ✅ Required for randomUUID()
 
 const supabaseAdmin = createClient(
   process.env.SUPABASE_URL,
@@ -12,41 +10,53 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const { email, username, full_name } = req.body;
+  const { email, username, name } = req.body;
 
-  if (!email || !username || !full_name) {
+  if (!email || !username || !name) {
     return res.status(400).json({ error: 'Missing required fields' });
   }
 
   try {
-    const password = crypto.randomUUID();
+    // Step 1: Find auth user by email
+    const { data: users, error: fetchError } = await supabaseAdmin.auth.admin.listUsers({ email });
+    if (fetchError || !users || users.length === 0) {
+      return res.status(404).json({ error: 'User not found in auth.users' });
+    }
 
-    // Step 1: Create user with random password and metadata
-    const { data: user, error: createError } = await supabaseAdmin.auth.admin.createUser({
-      email,
-      password,
-      user_metadata: {
-        username,
-        full_name
-      }
+    const user = users[0];
+
+    // Step 2: Update user metadata
+    const { error: metaError } = await supabaseAdmin.auth.admin.updateUserById(user.id, {
+      user_metadata: { username, name }
     });
-
-    if (createError) {
-      console.error('Create user error:', createError.message);
-      return res.status(500).json({ error: 'Error creating user: ' + createError.message });
+    if (metaError) {
+      return res.status(500).json({ error: 'Failed to update user metadata' });
     }
 
-    // Step 2: Trigger invite email (password setup link)
-    const { error: inviteError } = await supabaseAdmin.auth.admin.inviteUserByEmail(email);
+    // Step 3: Insert into custom users table
+    const { error: insertError } = await supabaseAdmin
+      .from('users')
+      .upsert({
+        id: user.id,
+        email,
+        username,
+        name,
+        role: 'user'
+      });
 
-    if (inviteError) {
-      console.error('Invite user error:', inviteError.message);
-      return res.status(500).json({ error: 'Error sending invite: ' + inviteError.message });
+    if (insertError) {
+      return res.status(500).json({ error: 'Failed to update users table' });
     }
+
+    // Step 4: Update account_requests (optional: mark approved)
+    await supabaseAdmin
+      .from('account_requests')
+      .update({ status: 'approved' })
+      .eq('email', email);
 
     return res.status(200).json({ success: true, user });
   } catch (err) {
     console.error('Unexpected error:', err);
-    return res.status(500).json({ error: 'Internal Server Error' });
+    return res.status(500).json({ error: 'Internal server error' });
   }
 }
