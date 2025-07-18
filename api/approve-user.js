@@ -1,12 +1,12 @@
 // /api/approve-user.js
-import { createClient } from '@supabase/supabase-js';
+const { createClient } = require('@supabase/supabase-js');
 
 const supabaseAdmin = createClient(
   process.env.SUPABASE_URL,
   process.env.SUPABASE_SERVICE_ROLE_KEY
 );
 
-export default async function handler(req, res) {
+module.exports = async (req, res) => {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
@@ -18,13 +18,11 @@ export default async function handler(req, res) {
   }
 
   try {
-    // ✅ FIXED: Fetch user by email (not listUsers)
     const { data: user, error: fetchError } = await supabaseAdmin.auth.admin.getUserByEmail(email);
     if (fetchError || !user) {
-      return res.status(404).json({ error: 'User not found in auth.users' });
+      return res.status(404).json({ error: 'User not found' });
     }
 
-    // ✅ Update metadata
     const { error: metaError } = await supabaseAdmin.auth.admin.updateUserById(user.id, {
       user_metadata: { username, name }
     });
@@ -32,7 +30,6 @@ export default async function handler(req, res) {
       return res.status(500).json({ error: 'Failed to update user metadata' });
     }
 
-    // ✅ Insert into 'users' table
     const { error: insertError } = await supabaseAdmin
       .from('users')
       .upsert({
@@ -47,7 +44,6 @@ export default async function handler(req, res) {
       return res.status(500).json({ error: 'Failed to update users table' });
     }
 
-    // ✅ Mark account request as approved
     await supabaseAdmin
       .from('account_requests')
       .update({ status: 'approved' })
@@ -58,4 +54,4 @@ export default async function handler(req, res) {
     console.error('Unexpected error:', err);
     return res.status(500).json({ error: 'Internal server error' });
   }
-}
+};
