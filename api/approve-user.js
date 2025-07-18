@@ -1,3 +1,4 @@
+// /api/approve-user.js
 import { createClient } from '@supabase/supabase-js';
 
 const supabaseAdmin = createClient(
@@ -17,15 +18,13 @@ export default async function handler(req, res) {
   }
 
   try {
-    // Step 1: Find auth user by email
-    const { data: users, error: fetchError } = await supabaseAdmin.auth.admin.listUsers({ email });
-    if (fetchError || !users || users.length === 0) {
+    // ✅ FIXED: Fetch user by email (not listUsers)
+    const { data: user, error: fetchError } = await supabaseAdmin.auth.admin.getUserByEmail(email);
+    if (fetchError || !user) {
       return res.status(404).json({ error: 'User not found in auth.users' });
     }
 
-    const user = users[0];
-
-    // Step 2: Update user metadata
+    // ✅ Update metadata
     const { error: metaError } = await supabaseAdmin.auth.admin.updateUserById(user.id, {
       user_metadata: { username, name }
     });
@@ -33,7 +32,7 @@ export default async function handler(req, res) {
       return res.status(500).json({ error: 'Failed to update user metadata' });
     }
 
-    // Step 3: Insert into custom users table
+    // ✅ Insert into 'users' table
     const { error: insertError } = await supabaseAdmin
       .from('users')
       .upsert({
@@ -48,7 +47,7 @@ export default async function handler(req, res) {
       return res.status(500).json({ error: 'Failed to update users table' });
     }
 
-    // Step 4: Update account_requests (optional: mark approved)
+    // ✅ Mark account request as approved
     await supabaseAdmin
       .from('account_requests')
       .update({ status: 'approved' })
