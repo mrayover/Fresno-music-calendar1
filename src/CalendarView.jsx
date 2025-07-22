@@ -5,7 +5,6 @@ import "react-big-calendar/lib/css/react-big-calendar.css";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "./supabaseClient";
 import FilterPanel from "./FilterPanel";
-import { useUser } from "./AuthProvider";
 
 const localizer = momentLocalizer(moment);
 
@@ -30,7 +29,7 @@ const CalendarView = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [hoveredEvent, setHoveredEvent] = useState(null);
   const [hoverPosition, setHoverPosition] = useState({ x: 0, y: 0 });
-  const { user } = useUser();
+
   
 
   const navigate = useNavigate();

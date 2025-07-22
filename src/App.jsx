@@ -6,23 +6,15 @@ import EventDetail from "./EventDetail";
 import SubmitEvent from "./SubmitEvent.jsx";
 import AdminConfig from "./AdminConfig";
 import DayView from "./DayView";
-import { useUser } from "./AuthProvider";
 import Login from "./login";
 import AdminRoute from "./AdminRoute";
-import RequestAccount from "./RequestAccount";
-import { supabase } from "./supabaseClient";
-import UserLogin from "./UserLogin";
+
+
 
 
 
 export default function App() {
-  const { user } = useUser();
-  const handleLogout = async () => {
-  const { error } = await supabase.auth.signOut();
-  if (!error) {
-    window.location.href = "/";
-  }
-};
+
   return (
     
     <div className="app-container bg-[#2B182E] min-h-screen">
@@ -35,21 +27,7 @@ export default function App() {
     <nav className="flex items-center space-x-4 whitespace-nowrap">
       <Link to="/" className="hover:underline hover:text-tower-yellow">Home</Link>
       <Link to="/submit" className="hover:underline hover:text-tower-yellow">Submit Event</Link>
-{user ? (
-  <button
-    onClick={handleLogout}
-    className="bg-tower-yellow text-black font-semibold px-3 py-1 rounded hover:bg-yellow-300"
-  >
-    Logout
-  </button>
-) : (
-  <Link
-    to="/user-login"
-    className="bg-tower-yellow text-black font-semibold px-3 py-1 rounded hover:bg-yellow-300"
-  >
-    Login
-  </Link>
-)}
+{/* Login removed for public-facing version */}
 
 
     </nav>
@@ -61,15 +39,16 @@ export default function App() {
           <Route path="/" element={<CalendarView />} />
           <Route path="/event/:id" element={<EventDetail />} />
           <Route path="/submit" element={<SubmitEvent />} />
-          <Route path="/admin" element={
-            <AdminRoute>
-              <AdminConfig />
-            </AdminRoute>
-          } />
+          
+<Route path="/admin" element={
+  <AuthProvider>
+    <AdminRoute>
+      <AdminConfig />
+    </AdminRoute>
+  </AuthProvider>
+} />
           <Route path="/login" element={<Login />} />
-          <Route path="/request-account" element={<RequestAccount />} />
           <Route path="/day/:date" element={<DayView />} />
-          <Route path="/user-login" element={<UserLogin />} />
         </Routes>
         <div className="hidden">
         <span className="bg-tower-yellow hover:bg-yellow-300 text-black font-semibold px-3 py-1 rounded"></span>
