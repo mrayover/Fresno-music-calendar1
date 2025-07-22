@@ -32,22 +32,20 @@ export default function App() {
 </header>
 
       <main className="pt-24">
-        <Routes>
-          <Route path="/" element={<CalendarView />} />
-          <Route path="/event/:id" element={<EventDetail />} />
-          <Route path="/submit" element={<SubmitEvent />} />
-          
 <AuthProvider>
-  <Route path="/admin" element={
-    <AdminRoute>
-      <AdminConfig />
-    </AdminRoute>
-  } />
-  <Route path="/login" element={<Login />} />
+  <Routes>
+    <Route path="/" element={<CalendarView />} />
+    <Route path="/event/:id" element={<EventDetail />} />
+    <Route path="/submit" element={<SubmitEvent />} />
+    <Route path="/admin" element={
+      <AdminRoute>
+        <AdminConfig />
+      </AdminRoute>
+    } />
+    <Route path="/login" element={<Login />} />
+    <Route path="/day/:date" element={<DayView />} />
+  </Routes>
 </AuthProvider>
-
-          <Route path="/day/:date" element={<DayView />} />
-        </Routes>
         <div className="hidden">
         <span className="bg-tower-yellow hover:bg-yellow-300 text-black font-semibold px-3 py-1 rounded"></span>
       </div>
