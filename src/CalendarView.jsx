@@ -118,6 +118,12 @@ return (
       {/* Left: Filters */}
       <div className="lg:w-1/4 w-full">
         <div style={{ marginTop: "2rem" }}>
+        <FilterPanel
+  genres={Array.from(new Set(events.map(event => event.genre))).sort()}
+  selectedGenres={selectedGenres}
+  onFilterChange={handleGenreChange}
+/>
+
           <h3>Filter by Venue</h3>
           <label>
             <input
