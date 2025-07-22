@@ -10,9 +10,6 @@ import Login from "./login";
 import AdminRoute from "./AdminRoute";
 import { AuthProvider } from "./AuthProvider";
 
-
-
-
 export default function App() {
 
   return (
@@ -40,14 +37,15 @@ export default function App() {
           <Route path="/event/:id" element={<EventDetail />} />
           <Route path="/submit" element={<SubmitEvent />} />
           
-<Route path="/admin" element={
-  <AuthProvider>
+<AuthProvider>
+  <Route path="/admin" element={
     <AdminRoute>
       <AdminConfig />
     </AdminRoute>
-  </AuthProvider>
-} />
-          <Route path="/login" element={<Login />} />
+  } />
+  <Route path="/login" element={<Login />} />
+</AuthProvider>
+
           <Route path="/day/:date" element={<DayView />} />
         </Routes>
         <div className="hidden">
