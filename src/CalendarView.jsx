@@ -284,7 +284,12 @@ return (
         )
         .map((event) => (
           <li key={event.id} className="border-b border-tower-teal pb-2 pt-2">
-            <p className="font-semibold text-lg">{event.title}</p>
+           <Link
+  to={`/event/${event.id}`}
+  className="font-semibold text-lg text-tower-yellow hover:underline"
+>
+  {event.title}
+</Link>
             <p className="text-sm">
               {new Date(event.start).toLocaleTimeString([], {
                 hour: "numeric",
