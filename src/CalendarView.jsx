@@ -5,6 +5,7 @@ import "react-big-calendar/lib/css/react-big-calendar.css";
 import { useNavigate, Link } from "react-router-dom";
 import { supabase } from "./supabaseClient";
 import FilterPanel from "./FilterPanel";
+const [showGenreFilters, setShowGenreFilters] = useState(false);
 
 const localizer = momentLocalizer(moment);
 
@@ -124,35 +125,52 @@ return (
   onFilterChange={handleGenreChange}
 />
 
-          <h3>Filter by Venue</h3>
-          <label>
-            <input
-              type="checkbox"
-              checked={selectedVenues.length === Array.from(new Set(events.map(e => e.venue))).length}
-              onChange={() => {
-                const allVenues = Array.from(new Set(events.map(e => e.venue))).sort();
-                if (selectedVenues.length === allVenues.length) {
-                  setSelectedVenues([]);
-                } else {
-                  setSelectedVenues(allVenues);
-                }
-              }}
-            />
-            Select All
-          </label>
-          <div style={{ display: "flex", flexDirection: "column", gap: "0.25rem", marginTop: "0.5rem" }}>
-            {Array.from(new Set(events.map(event => event.venue))).sort().map((venue) => (
-              <label key={venue}>
-                <input
-                  type="checkbox"
-                  value={venue}
-                  checked={selectedVenues.includes(venue)}
-                  onChange={() => handleVenueChange(venue)}
-                />
-                {venue}
-              </label>
-            ))}
-          </div>
+<div className="hidden lg:block">
+  <h3>Filter by Venue</h3>
+  <label>
+    <input
+      type="checkbox"
+      checked={
+        selectedVenues.length ===
+        Array.from(new Set(events.map((e) => e.venue))).length
+      }
+      onChange={() => {
+        const allVenues = Array.from(
+          new Set(events.map((e) => e.venue))
+        ).sort();
+        if (selectedVenues.length === allVenues.length) {
+          setSelectedVenues([]);
+        } else {
+          setSelectedVenues(allVenues);
+        }
+      }}
+    />
+    Select All
+  </label>
+  <div
+    style={{
+      display: "flex",
+      flexDirection: "column",
+      gap: "0.25rem",
+      marginTop: "0.5rem",
+    }}
+  >
+    {Array.from(new Set(events.map((event) => event.venue)))
+      .sort()
+      .map((venue) => (
+        <label key={venue}>
+          <input
+            type="checkbox"
+            value={venue}
+            checked={selectedVenues.includes(venue)}
+            onChange={() => handleVenueChange(venue)}
+          />
+          {venue}
+        </label>
+      ))}
+  </div>
+</div>
+
         </div>
       </div>
 
