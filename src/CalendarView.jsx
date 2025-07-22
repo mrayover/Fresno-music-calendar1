@@ -265,6 +265,44 @@ return (
             className="h-[85vh] w-full"
           />
         </div>
+        {view === "month" && events.length > 0 && (
+  <div className="mt-6 bg-black/30 rounded-xl p-4 text-tower-cream shadow-md">
+    <h3 className="text-xl font-bold mb-3 text-tower-yellow">
+      Events on {new Date(date).toLocaleDateString(undefined, {
+        weekday: "long",
+        month: "long",
+        day: "numeric",
+      })}
+    </h3>
+    <ul className="space-y-3">
+      {events
+        .filter(
+          (event) =>
+            event.start.toDateString() === date.toDateString() &&
+            selectedGenres.includes(event.genre) &&
+            selectedVenues.includes(event.venue)
+        )
+        .map((event) => (
+          <li key={event.id} className="border-b border-tower-teal pb-2 pt-2">
+            <p className="font-semibold text-lg">{event.title}</p>
+            <p className="text-sm">
+              {new Date(event.start).toLocaleTimeString([], {
+                hour: "numeric",
+                minute: "2-digit",
+              })}{" "}
+              @ {event.venue}
+            </p>
+            <p className="text-sm italic text-tower-teal">{event.genre}</p>
+            <p className="text-sm">
+              {event.description?.slice(0, 100)}
+              {event.description?.length > 100 ? "..." : ""}
+            </p>
+          </li>
+        ))}
+    </ul>
+  </div>
+)}
+
       </div>
     </div>
 
