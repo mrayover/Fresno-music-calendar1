@@ -120,11 +120,32 @@ return (
       {/* Left: Filters */}
       <div className="lg:w-1/4 w-full">
         <div style={{ marginTop: "2rem" }}>
-        <FilterPanel
-  genres={Array.from(new Set(events.map(event => event.genre))).sort()}
-  selectedGenres={selectedGenres}
-  onFilterChange={handleGenreChange}
-/>
+{/* Mobile toggle for genre filters */}
+<div className="block lg:hidden mb-4">
+  <button
+    className="bg-tower-yellow text-black font-semibold px-4 py-2 rounded w-full"
+    onClick={() => setShowGenreFilters(!showGenreFilters)}
+  >
+    {showGenreFilters ? "Hide Genre Filters" : "Show Genre Filters"}
+  </button>
+  {showGenreFilters && (
+    <FilterPanel
+      genres={Array.from(new Set(events.map(event => event.genre))).sort()}
+      selectedGenres={selectedGenres}
+      onFilterChange={handleGenreChange}
+    />
+  )}
+</div>
+
+{/* Desktop genre filters */}
+<div className="hidden lg:block">
+  <FilterPanel
+    genres={Array.from(new Set(events.map(event => event.genre))).sort()}
+    selectedGenres={selectedGenres}
+    onFilterChange={handleGenreChange}
+  />
+</div>
+
 
 <div className="hidden lg:block">
   <h3>Filter by Venue</h3>
