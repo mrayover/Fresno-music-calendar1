@@ -8,7 +8,7 @@ import AdminConfig from "./AdminConfig";
 import DayView from "./DayView";
 import Login from "./login";
 import AdminRoute from "./AdminRoute";
-
+import { AuthProvider } from "./AuthProvider";
 
 
 
