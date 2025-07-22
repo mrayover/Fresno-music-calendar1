@@ -408,7 +408,13 @@ return (
     <div className="p-8">
       {activeTab === "event" && (
         <>
+        {pendingEvents.length > 0 && (
+  <div className="bg-yellow-300 text-black font-bold px-4 py-2 rounded mb-4 shadow">
+    🚨 You have {pendingEvents.length} pending event{pendingEvents.length > 1 ? "s" : ""} awaiting review
+  </div>
+)}
           <h2 className="text-lg font-semibold mb-2">Admin Genre Manager</h2>
+          
           <input
             value={newGenre}
             onChange={(e) => setNewGenre(e.target.value)}
