@@ -456,6 +456,7 @@ return (
             onSubmit={generateEventObject}
             handleChange={handleChange}
             editingId={editingId}
+            availableGenres={genres}
             cancelEdit={() => {
               setEditingId(null);
               setEventData({
