@@ -31,7 +31,7 @@ const CalendarView = () => {
   const [hoveredEvent, setHoveredEvent] = useState(null);
   const [hoverPosition, setHoverPosition] = useState({ x: 0, y: 0 });
   const [showGenreFilters, setShowGenreFilters] = useState(false);
-
+  const [showVenueFilters, setShowVenueFilters] = useState(false);
   
 
   const navigate = useNavigate();
@@ -130,7 +130,7 @@ return (
   </button>
   {showGenreFilters && (
     <FilterPanel
-      genres={Array.from(new Set(events.map(event => event.genre))).sort()}
+      genres={Array.from(new Set(events.map((event) => event.genre))).sort()}
       selectedGenres={selectedGenres}
       onFilterChange={handleGenreChange}
     />
@@ -147,50 +147,59 @@ return (
 </div>
 
 
+<div className="block lg:hidden mb-4">
+  <button
+    className="bg-tower-yellow text-black font-semibold px-4 py-2 rounded w-full"
+    onClick={() => setShowVenueFilters(!showVenueFilters)}
+  >
+    {showVenueFilters ? "Hide Venue Filters" : "Show Venue Filters"}
+  </button>
+  {showVenueFilters && (
+    <div>
+      <label className="block mb-2">
+        <input
+          type="checkbox"
+          checked={selectedVenues.length === Array.from(new Set(events.map(e => e.venue))).length}
+          onChange={() => {
+            const allVenues = Array.from(new Set(events.map(e => e.venue))).sort();
+            setSelectedVenues(selectedVenues.length === allVenues.length ? [] : allVenues);
+          }}
+        /> Select All
+      </label>
+      {Array.from(new Set(events.map(e => e.venue))).sort().map(venue => (
+        <label key={venue} className="block">
+          <input
+            type="checkbox"
+            checked={selectedVenues.includes(venue)}
+            onChange={() => handleVenueChange(venue)}
+          /> {venue}
+        </label>
+      ))}
+    </div>
+  )}
+</div>
+
 <div className="hidden lg:block">
   <h3>Filter by Venue</h3>
   <label>
     <input
       type="checkbox"
-      checked={
-        selectedVenues.length ===
-        Array.from(new Set(events.map((e) => e.venue))).length
-      }
+      checked={selectedVenues.length === Array.from(new Set(events.map(e => e.venue))).length}
       onChange={() => {
-        const allVenues = Array.from(
-          new Set(events.map((e) => e.venue))
-        ).sort();
-        if (selectedVenues.length === allVenues.length) {
-          setSelectedVenues([]);
-        } else {
-          setSelectedVenues(allVenues);
-        }
+        const allVenues = Array.from(new Set(events.map(e => e.venue))).sort();
+        setSelectedVenues(selectedVenues.length === allVenues.length ? [] : allVenues);
       }}
-    />
-    Select All
+    /> Select All
   </label>
-  <div
-    style={{
-      display: "flex",
-      flexDirection: "column",
-      gap: "0.25rem",
-      marginTop: "0.5rem",
-    }}
-  >
-    {Array.from(new Set(events.map((event) => event.venue)))
-      .sort()
-      .map((venue) => (
-        <label key={venue}>
-          <input
-            type="checkbox"
-            value={venue}
-            checked={selectedVenues.includes(venue)}
-            onChange={() => handleVenueChange(venue)}
-          />
-          {venue}
-        </label>
-      ))}
-  </div>
+  {Array.from(new Set(events.map(e => e.venue))).sort().map(venue => (
+    <label key={venue} className="block">
+      <input
+        type="checkbox"
+        checked={selectedVenues.includes(venue)}
+        onChange={() => handleVenueChange(venue)}
+      /> {venue}
+    </label>
+  ))}
 </div>
 
         </div>
