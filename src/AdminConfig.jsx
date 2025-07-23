@@ -4,7 +4,6 @@ import EventForm from "./components/EventForm";
 import UnifiedWeekView from "./components/UnifiedWeekView";
 
 export default function AdminConfig() {
-  const [genres, setGenres] = useState([]);
   const [newGenre, setNewGenre] = useState("");
   const [eventData, setEventData] = useState({
     title: "",
@@ -28,6 +27,9 @@ export default function AdminConfig() {
   const [archivedEvents, setArchivedEvents] = useState([]);
   const [pendingUsers, setPendingUsers] = useState([]);
 
+  const [genres, setGenres] = useState(
+  JSON.parse(localStorage.getItem("customGenres")) || []
+);
   useEffect(() => {
   const fetchPendingUsers = async () => {
     const { data, error } = await supabase
@@ -480,6 +482,8 @@ return (
             rejectEvent={rejectEvent}
             archiveEvent={toggleArchiveEvent}
             deleteEvent={deleteApprovedEvent}
+              genres={genres} // 👈 ADD THIS
+  setGenres={setGenres}
           />
         </>
       )}

@@ -171,18 +171,78 @@ export default function UnifiedWeekView({
       <h2 className="text-lg font-bold mb-2">Pending Events</h2>
       <div className="grid grid-cols-7 gap-2 mb-8">
         {getEventsForSection(pendingEvents, "bg-yellow-100")}
+        <p className="text-sm mt-2">
+  <strong>Genre:</strong> {event.genre}
+  {!genres.includes(event.genre) && (
+    <>
+      <span className="ml-2 text-red-500 font-semibold">(Unapproved)</span>
+      <button
+        onClick={() => {
+          const updated = [...new Set([...genres, event.genre])];
+          setGenres(updated);
+          localStorage.setItem("customGenres", JSON.stringify(updated));
+          alert(`Genre \"${event.genre}\" added to your approved list.`);
+        }}
+        className="ml-2 bg-tower-yellow text-black text-xs px-2 py-1 rounded"
+      >
+        Approve Genre
+      </button>
+    </>
+  )}
+</p>
+
       </div>
 
       {/* APPROVED SECTION */}
       <h2 className="text-lg font-bold mb-2">Approved Events</h2>
       <div className="grid grid-cols-7 gap-2 mb-8">
         {getEventsForSection(approvedEvents, "bg-rose-200")}
+        <p className="text-sm mt-2">
+  <strong>Genre:</strong> {event.genre}
+  {!genres.includes(event.genre) && (
+    <>
+      <span className="ml-2 text-red-500 font-semibold">(Unapproved)</span>
+      <button
+        onClick={() => {
+          const updated = [...new Set([...genres, event.genre])];
+          setGenres(updated);
+          localStorage.setItem("customGenres", JSON.stringify(updated));
+          alert(`Genre \"${event.genre}\" added to your approved list.`);
+        }}
+        className="ml-2 bg-tower-yellow text-black text-xs px-2 py-1 rounded"
+      >
+        Approve Genre
+      </button>
+    </>
+  )}
+</p>
+
       </div>
 
       {/* ARCHIVED SECTION */}
       <h2 className="text-lg font-bold mb-2 text-gray-600">Archived Events</h2>
       <div className="grid grid-cols-7 gap-2 mb-8">
         {getEventsForSection(archivedEvents, "bg-gray-200")}
+        <p className="text-sm mt-2">
+  <strong>Genre:</strong> {event.genre}
+  {!genres.includes(event.genre) && (
+    <>
+      <span className="ml-2 text-red-500 font-semibold">(Unapproved)</span>
+      <button
+        onClick={() => {
+          const updated = [...new Set([...genres, event.genre])];
+          setGenres(updated);
+          localStorage.setItem("customGenres", JSON.stringify(updated));
+          alert(`Genre \"${event.genre}\" added to your approved list.`);
+        }}
+        className="ml-2 bg-tower-yellow text-black text-xs px-2 py-1 rounded"
+      >
+        Approve Genre
+      </button>
+    </>
+  )}
+</p>
+
       </div>
     </div>
   );
