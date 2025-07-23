@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { supabase } from "./supabaseClient";
 import EventForm from "./components/EventForm";
 import ReCAPTCHA from "react-google-recaptcha";
