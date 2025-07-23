@@ -26,8 +26,17 @@ const isAfterOrEqual = (a, b) => {
   return ah > bh || (ah === bh && am >= bm);
 };
 
-const EventForm = ({ data, setData, onSubmit, mode = "public", editingId = null, cancelEdit = null }) => {
-  const handleChange = (e) => {
+const EventForm = ({
+  data,
+  setData,
+  onSubmit,
+  mode = "public",
+  editingId = null,
+  cancelEdit = null,
+  availableGenres = [],
+  customGenre = "",
+  setCustomGenre = () => {},
+}) => {  const handleChange = (e) => {
   const { name, value } = e.target;
 
   if (name === "startTime") {
@@ -142,7 +151,34 @@ className="bg-white text-black p-2 rounded-md border border-tower-teal focus:out
 
 
         <input name="venue" placeholder="Venue" value={data.venue} onChange={handleChange} required className={inputClass}/>
-        <input name="genre" placeholder="Genre" value={data.genre} onChange={handleChange} className={inputClass}/>
+        <label className="text-sm block">
+  Genre:
+  <select
+    name="genre"
+    value={data.genre}
+    onChange={handleChange}
+    className="w-full p-2 mt-1 text-black rounded"
+  >
+    <option value="">Select a Genre</option>
+    {availableGenres.map((g) => (
+      <option key={g} value={g}>{g}</option>
+    ))}
+    <option value="Other">Other</option>
+  </select>
+</label>
+
+{data.genre === "Other" && (
+  <label className="text-sm block mt-2">
+    Custom Genre:
+    <input
+      type="text"
+      value={customGenre}
+      onChange={(e) => setCustomGenre(e.target.value)}
+      className="w-full p-2 mt-1 text-black rounded"
+    />
+  </label>
+)}
+
         <input name="cover" placeholder="Cover Charge" value={data.cover} onChange={handleChange} className={inputClass}/>
         <textarea
   name="description"

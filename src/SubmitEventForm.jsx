@@ -21,6 +21,15 @@ const [formData, setFormData] = useState({
   flyer: null
    
 });
+const [availableGenres, setAvailableGenres] = useState([]);
+const [customGenre, setCustomGenre] = useState("");
+
+useEffect(() => {
+  const saved = localStorage.getItem("customGenres");
+  if (saved) setAvailableGenres(JSON.parse(saved));
+}, []);
+
+
 const recaptchaRef = useRef();
 
 const localToISO = (dateStr, timeStr) => {
@@ -99,7 +108,7 @@ const proceedToSubmitEvent = async () => {
     start,
     end,
     venue: formData.venue,
-    genre: formData.genre,
+genre: formData.genre === "Other" ? customGenre : formData.genre,
     cover: formData.cover,
     description: formData.description,
     source: formData.source,
@@ -133,6 +142,9 @@ return (
       data={formData}
       setData={setFormData}
       onSubmit={handleSubmit}
+        availableGenres={availableGenres}
+  customGenre={customGenre}
+  setCustomGenre={setCustomGenre}
     />
   </>
 );
