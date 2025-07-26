@@ -50,9 +50,9 @@ const parseLocalDateTime = (dateTimeStr) => {
   })
 }</p>
 <p><strong>Time:</strong> {
-  parseLocalDateTime(event.start).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
+  new Date(event.start).toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", timeZone: "America/Los_Angeles" })
 } – {
-  parseLocalDateTime(event.end).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
+  new Date(event.end).toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", timeZone: "America/Los_Angeles" })
 }</p>
     
       <p><strong>Genre:</strong> {event.genre}</p>
