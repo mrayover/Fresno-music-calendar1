@@ -37,12 +37,18 @@ export default function UnifiedWeekView({
   const handleNextWeek = () => setCurrentDate(addDays(currentDate, 7));
   const handleDateChange = (e) => setCurrentDate(new Date(e.target.value));
 
-  const getEventsForSection = (events, bgColor) =>
-    weekDates.map((date, i) => {
-      const dayStr = date.toLocaleDateString("en-CA");
-const dayEvents = events
-  .filter((e) => new Date(e.start).toLocaleDateString("en-CA") === dayStr)
-  .sort((a, b) => new Date(a.start) - new Date(b.start));
+const toLocalYMD = (d) =>
+  new Date(d).toLocaleDateString("en-CA", {
+    timeZone: "America/Los_Angeles",
+  });
+
+const getEventsForSection = (events, bgColor) =>
+  weekDates.map((date, i) => {
+    const dayStr = toLocalYMD(date);
+
+    const dayEvents = events
+      .filter((e) => toLocalYMD(e.start) === dayStr)
+      .sort((a, b) => new Date(a.start) - new Date(b.start));
 
       return (
         <div key={i} className="border p-2 rounded bg-white">
