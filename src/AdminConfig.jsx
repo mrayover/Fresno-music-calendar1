@@ -143,13 +143,13 @@ const rejectUser = async (requestId) => {
 };
 
 
-  const localToISO = (dateStr, timeStr) => {
-    const [year, month, day] = dateStr.split("-").map(Number);
-    const [hour, minute] = timeStr.split(":").map(Number);
-    const localDate = new Date(year, month - 1, day, hour, minute);
-    const tzOffset = localDate.getTimezoneOffset() * 60000;
-    return new Date(localDate.getTime() - tzOffset).toISOString();
-  };
+const localToISO = (dateStr, timeStr) => {
+  const [year, month, day] = dateStr.split("-").map(Number);
+  const [hour, minute] = timeStr.split(":").map(Number);
+  const localDate = new Date(year, month - 1, day, hour, minute);
+  return localDate.toISOString(); // ← browser will handle UTC conversion correctly
+};
+
 
   const generateEventObject = async (e) => {
     e.preventDefault();
