@@ -53,7 +53,7 @@ export default function UnifiedWeekView({
             {dayEvents.map((event) => (
               <div
                 key={event.id}
-                className={`border p-2 rounded text-xs shadow-sm ${bgColor}`}
+                className={`border p-3 rounded text-sm sm:text-xs shadow-sm ${bgColor}`}
               >
                 <div className="font-bold text-black">{event.title}</div>
                 <div className="text-gray-700">
@@ -69,7 +69,7 @@ export default function UnifiedWeekView({
         localStorage.setItem("customGenres", JSON.stringify(updated));
         alert(`Genre "${event.genre}" added to your approved list.`);
       }}
-      className="ml-2 bg-tower-yellow text-black text-xs px-2 py-1 rounded"
+      className="ml-2 bg-tower-yellow text-black text-xs px-3 py-2 text-sm rounded"
     >
       Approve Genre
     </button>
@@ -83,7 +83,8 @@ export default function UnifiedWeekView({
                 <div className="flex flex-wrap gap-2 mt-2">
                   <button
                     onClick={() => onEdit(event)}
-                    className="bg-blue-100 hover:bg-blue-200 text-blue-800 px-2 py-1 rounded"
+                    className="bg-blue-100 hover:bg-blue-200 text-blue-800 px-3 py-2 text-sm rounded"
+
                   >
                     Edit
                   </button>
@@ -91,13 +92,15 @@ export default function UnifiedWeekView({
                     <>
                       <button
                         onClick={() => approveEvent(event)}
-                        className="bg-green-100 hover:bg-green-200 text-green-800 px-2 py-1 rounded"
+                        className="bg-blue-100 hover:bg-blue-200 text-blue-800 px-3 py-2 text-sm rounded"
+
                       >
                         Approve
                       </button>
                       <button
                         onClick={() => rejectEvent(event.id)}
-                        className="bg-red-100 hover:bg-red-200 text-red-800 px-2 py-1 rounded"
+                        className="bg-blue-100 hover:bg-blue-200 text-blue-800 px-3 py-2 text-sm rounded"
+
                       >
                         Reject
                       </button>
@@ -107,13 +110,15 @@ export default function UnifiedWeekView({
                     <>
                       <button
                         onClick={() => archiveEvent(event)}
-                        className="bg-yellow-100 hover:bg-yellow-200 text-yellow-800 px-2 py-1 rounded"
+                        className="bg-blue-100 hover:bg-blue-200 text-blue-800 px-3 py-2 text-sm rounded"
+
                       >
                         Archive
                       </button>
                       <button
                         onClick={() => deleteEvent(event.id)}
-                        className="bg-red-100 hover:bg-red-200 text-red-800 px-2 py-1 rounded"
+                        className="bg-blue-100 hover:bg-blue-200 text-blue-800 px-3 py-2 text-sm rounded"
+
                       >
                         Delete
                       </button>
@@ -123,13 +128,13 @@ export default function UnifiedWeekView({
                     <>
                       <button
                         onClick={() => archiveEvent(event)}
-                        className="bg-green-100 hover:bg-green-200 text-green-800 px-2 py-1 rounded"
+                        className="bg-green-100 hover:bg-green-200 text-green-800 px-3 py-2 text-sm rounded"
                       >
                         Restore
                       </button>
                       <button
                         onClick={() => deleteEvent(event.id)}
-                        className="bg-red-100 hover:bg-red-200 text-red-800 px-2 py-1 rounded"
+                        className="bg-red-100 hover:bg-red-200 text-red-800 px-3 py-2 text-sm rounded"
                       >
                         Delete
                       </button>
@@ -172,25 +177,33 @@ export default function UnifiedWeekView({
   </div>
 
   {/* Day of Week Labels */}
-  <div className="grid grid-cols-7 text-center text-white font-semibold mt-2 px-2">
+<div className="overflow-x-auto">
+  <div className="grid min-w-[700px] sm:min-w-full grid-cols-7 text-center text-white font-semibold mt-2 px-2">
     {weekDates.map((d, i) => (
       <div key={i}>{d.toLocaleDateString("en-US", { weekday: "short" })}</div>
     ))}
   </div>
+</div>
+
 
   {/* Date Labels */}
-  <div className="grid grid-cols-7 text-center text-white text-sm mb-2 px-2">
+<div className="overflow-x-auto">
+  <div className="grid min-w-[700px] sm:min-w-full grid-cols-7 text-center text-white font-semibold mt-2 px-2">
     {weekDates.map((d, i) => (
       <div key={i}>{d.toLocaleDateString("en-US", { month: "numeric", day: "numeric", year: "2-digit" })}</div>
     ))}
+    </div>
   </div>
 </div>
 
 
       {/* PENDING SECTION */}
       <h2 className="text-lg font-bold mb-2">Pending Events</h2>
-      <div className="grid grid-cols-7 gap-2 mb-8">
+<div className="overflow-x-auto">
+  <div className="grid min-w-[700px] sm:min-w-full grid-cols-7 gap-2 mb-8">
+
         {getEventsForSection(pendingEvents, "bg-yellow-100")}
+        </div>
         <p className="text-sm mt-2">
 </p>
 
@@ -198,8 +211,11 @@ export default function UnifiedWeekView({
 
       {/* APPROVED SECTION */}
       <h2 className="text-lg font-bold mb-2">Approved Events</h2>
-      <div className="grid grid-cols-7 gap-2 mb-8">
+<div className="overflow-x-auto">
+  <div className="grid min-w-[700px] sm:min-w-full grid-cols-7 gap-2 mb-8">
+
         {getEventsForSection(approvedEvents, "bg-rose-200")}
+        </div>
         <p className="text-sm mt-2"></p>
 
 
@@ -208,8 +224,11 @@ export default function UnifiedWeekView({
 
       {/* ARCHIVED SECTION */}
       <h2 className="text-lg font-bold mb-2 text-gray-600">Archived Events</h2>
-      <div className="grid grid-cols-7 gap-2 mb-8">
+     <div className="overflow-x-auto">
+  <div className="grid min-w-[700px] sm:min-w-full grid-cols-7 gap-2 mb-8">
+
         {getEventsForSection(archivedEvents, "bg-gray-200")}
+        </div>
         <p className="text-sm mt-2"></p>
 
 
