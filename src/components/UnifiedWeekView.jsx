@@ -39,10 +39,10 @@ export default function UnifiedWeekView({
 
   const getEventsForSection = (events, bgColor) =>
     weekDates.map((date, i) => {
-      const dayStr = date.toISOString().slice(0, 10);
-      const dayEvents = events
-        .filter((e) => e.start.slice(0, 10) === dayStr)
-        .sort((a, b) => new Date(a.start) - new Date(b.start));
+      const dayStr = date.toLocaleDateString("en-CA");
+const dayEvents = events
+  .filter((e) => new Date(e.start).toLocaleDateString("en-CA") === dayStr)
+  .sort((a, b) => new Date(a.start) - new Date(b.start));
 
       return (
         <div key={i} className="border p-2 rounded bg-white">
