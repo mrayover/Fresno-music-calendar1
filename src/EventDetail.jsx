@@ -45,7 +45,8 @@ const parseLocalDateTime = (dateTimeStr) => {
       <h1>{event.title}</h1>
       <p><strong>Venue:</strong> {event.venue}</p>
      <p><strong>Date:</strong> {
-  new Date(event.start).toLocaleDateString([], {
+  new Date(event.start).toLocaleDateString("en-US", {
+  timeZone: "America/Los_Angeles",
     year: "numeric", month: "2-digit", day: "2-digit"
   })
 }</p>
