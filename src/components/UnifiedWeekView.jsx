@@ -16,28 +16,35 @@ export default function UnifiedWeekView({
   const [currentDate, setCurrentDate] = useState(new Date());
 
   // Helper to robustly parse dates returned from Supabase.
-  // Supabase returns date/time fields as ISO strings. If the
-  // string includes a timezone offset (e.g. '2025-01-01T12:00:00+00:00' or ends with 'Z')
-  // then new Date() will correctly convert it into the user's local timezone.
-  // However, plain ISO strings without an offset (e.g. '2025-01-01T12:00:00')
-  // are ambiguous – JavaScript interprets them as UTC by default.
-  // For date‑only strings (yyyy‑mm‑dd) we explicitly construct a Date
-  // using the year, month and day so that it represents midnight in the
-  // user's local timezone.
+  // Supabase stores timestamps for this app in local Fresno time (Pacific Time),
+  // and we want to display them exactly as entered.  Date‑only strings
+  // (`YYYY‑MM‑DD`) should be treated as midnight in the user's local timezone.
+  // Date/time strings without a timezone offset (e.g. `2025-01-01T12:00:00`)
+  // should also be parsed as local time rather than UTC.  Only when an
+  // explicit offset or trailing `Z` is present do we allow the Date
+  // constructor to adjust from that offset into the local timezone.
   const parseDateFromSupabase = (value) => {
     if (!value) return null;
     if (value instanceof Date) return value;
     if (typeof value === "string") {
-      // Date only (yyyy-mm-dd) – treat as local date.
+      // Match date-only strings: YYYY-MM-DD
       if (/^\d{4}-\d{2}-\d{2}$/.test(value)) {
         const [y, m, d] = value.split("-").map(Number);
         return new Date(y, m - 1, d);
       }
-      // Date with time but without offset – append 'Z' so it's parsed as UTC.
-      if (!/Z|[+-]\d{2}:?\d{2}$/.test(value)) {
-        return new Date(value + "Z");
+      // Match date-time without timezone offset: YYYY-MM-DDTHH:MM(:SS)?
+      if (/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}(?::\d{2}(?:\.\d+)?)?$/.test(value)) {
+        const [datePart, timePart] = value.split("T");
+        const [y, m, d] = datePart.split("-").map(Number);
+        const timeParts = timePart.split(":");
+        const hour = parseInt(timeParts[0], 10) || 0;
+        const minute = parseInt(timeParts[1], 10) || 0;
+        const second = parseInt(timeParts[2], 10) || 0;
+        return new Date(y, m - 1, d, hour, minute, second);
       }
     }
+    // For all other strings (with 'Z' or timezone offset) and Date instances,
+    // rely on the built‑in Date parser to adjust into local time.
     return new Date(value);
   };
 
