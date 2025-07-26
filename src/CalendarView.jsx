@@ -372,13 +372,15 @@ return (
         <div className="font-bold">{hoveredEvent.title}</div>
         <div className="text-xs italic">{hoveredEvent.venue}</div>
         <div className="text-xs">
-          {parseLocalDateTime(hoveredEvent.start).toLocaleTimeString([], {
+          {parseLocalDateTime(hoveredEvent.start).toLocaleTimeString("en-US", {
             hour: "2-digit",
-            minute: "2-digit"
+            minute: "2-digit",
+            timeZone: "America/Los_Angeles"
           })} –{" "}
-          {parseLocalDateTime(hoveredEvent.end).toLocaleTimeString([], {
+          {parseLocalDateTime(hoveredEvent.end).toLocaleTimeString("en-US", {
             hour: "2-digit",
-            minute: "2-digit"
+            minute: "2-digit",
+            timeZone: "America/Los_Angeles"
           })}
         </div>
         <div className="text-xs text-tower-yellow">{hoveredEvent.genre}</div>
