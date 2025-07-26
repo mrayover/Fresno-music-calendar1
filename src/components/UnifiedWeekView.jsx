@@ -15,6 +15,32 @@ export default function UnifiedWeekView({
 
   const [currentDate, setCurrentDate] = useState(new Date());
 
+  // Helper to robustly parse dates returned from Supabase.
+  // Supabase returns date/time fields as ISO strings. If the
+  // string includes a timezone offset (e.g. '2025-01-01T12:00:00+00:00' or ends with 'Z')
+  // then new Date() will correctly convert it into the user's local timezone.
+  // However, plain ISO strings without an offset (e.g. '2025-01-01T12:00:00')
+  // are ambiguous – JavaScript interprets them as UTC by default.
+  // For date‑only strings (yyyy‑mm‑dd) we explicitly construct a Date
+  // using the year, month and day so that it represents midnight in the
+  // user's local timezone.
+  const parseDateFromSupabase = (value) => {
+    if (!value) return null;
+    if (value instanceof Date) return value;
+    if (typeof value === "string") {
+      // Date only (yyyy-mm-dd) – treat as local date.
+      if (/^\d{4}-\d{2}-\d{2}$/.test(value)) {
+        const [y, m, d] = value.split("-").map(Number);
+        return new Date(y, m - 1, d);
+      }
+      // Date with time but without offset – append 'Z' so it's parsed as UTC.
+      if (!/Z|[+-]\d{2}:?\d{2}$/.test(value)) {
+        return new Date(value + "Z");
+      }
+    }
+    return new Date(value);
+  };
+
   const startOfWeek = (date) => {
     const d = new Date(date);
     d.setDate(d.getDate() - d.getDay());
@@ -35,15 +61,39 @@ export default function UnifiedWeekView({
 
   const handlePrevWeek = () => setCurrentDate(addDays(currentDate, -7));
   const handleNextWeek = () => setCurrentDate(addDays(currentDate, 7));
-  const handleDateChange = (e) => setCurrentDate(new Date(e.target.value));
+  // When the user picks a date from the <input type="date"> control
+  // the value comes back as a yyyy-mm-dd string. Passing this directly
+  // into new Date() will create a Date at midnight *UTC*, which can
+  // cause the calendar to shift backwards depending on your timezone.
+  // Instead, parse the year/month/day and construct a Date using the
+  // local timezone.
+  const handleDateChange = (e) => {
+    const val = e.target.value;
+    if (val) {
+      const [year, month, day] = val.split("-").map(Number);
+      setCurrentDate(new Date(year, month - 1, day));
+    }
+  };
 
-const sameDay = (d1, d2) =>
-  new Date(d1).getFullYear() === d2.getFullYear() &&
-  new Date(d1).getMonth() === d2.getMonth() &&
-  new Date(d1).getDate() === d2.getDate();
+const sameDay = (d1, d2) => {
+  const date1 = parseDateFromSupabase(d1);
+  return (
+    date1?.getFullYear() === d2.getFullYear() &&
+    date1?.getMonth() === d2.getMonth() &&
+    date1?.getDate() === d2.getDate()
+  );
+};
 
-const toLocalYMD = (d) =>
-  new Date(d).toLocaleDateString("en-CA");
+// Format a date (string or Date) as yyyy-mm-dd in the user's local timezone.
+// We use parseDateFromSupabase() to normalise strings before formatting.
+const toLocalYMD = (d) => {
+  const dateObj = parseDateFromSupabase(d);
+  if (!dateObj) return "";
+  const year = dateObj.getFullYear();
+  const month = String(dateObj.getMonth() + 1).padStart(2, "0");
+  const day = String(dateObj.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+};
 
 
 const getEventsForSection = (events, bgColor) =>
@@ -52,7 +102,13 @@ const getEventsForSection = (events, bgColor) =>
 
     const dayEvents = events
       .filter((e) => sameDay(e.start, date))
-      .sort((a, b) => new Date(a.start) - new Date(b.start));
+      // Sort using parsed Date values so that events are ordered by their true
+      // start time after timezone normalisation.
+      .sort((a, b) => {
+        const aDate = parseDateFromSupabase(a.start);
+        const bDate = parseDateFromSupabase(b.start);
+        return (aDate?.getTime() || 0) - (bDate?.getTime() || 0);
+      });
 
       return (
         <div key={i} className="border p-2 rounded bg-white">
@@ -67,8 +123,8 @@ const getEventsForSection = (events, bgColor) =>
               >
                 <div className="font-bold text-black">{event.title}</div>
                 <div className="text-gray-700">
-                  {new Date(event.start).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })} –{" "}
-{new Date(event.end).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })} <br />
+                  {parseDateFromSupabase(event.start)?.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })} –{" "}
+{parseDateFromSupabase(event.end)?.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })} <br />
 
                   {event.venue} | <strong>{event.genre}</strong>
 {!genres.includes(event.genre) && (
