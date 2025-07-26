@@ -24,29 +24,10 @@ export default function UnifiedWeekView({
   // explicit offset or trailing `Z` is present do we allow the Date
   // constructor to adjust from that offset into the local timezone.
   const parseDateFromSupabase = (value) => {
-    if (!value) return null;
-    if (value instanceof Date) return value;
-    if (typeof value === "string") {
-      // Match date-only strings: YYYY-MM-DD
-      if (/^\d{4}-\d{2}-\d{2}$/.test(value)) {
-        const [y, m, d] = value.split("-").map(Number);
-        return new Date(y, m - 1, d);
-      }
-      // Match date-time without timezone offset: YYYY-MM-DDTHH:MM(:SS)?
-      if (/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}(?::\d{2}(?:\.\d+)?)?$/.test(value)) {
-        const [datePart, timePart] = value.split("T");
-        const [y, m, d] = datePart.split("-").map(Number);
-        const timeParts = timePart.split(":");
-        const hour = parseInt(timeParts[0], 10) || 0;
-        const minute = parseInt(timeParts[1], 10) || 0;
-        const second = parseInt(timeParts[2], 10) || 0;
-        return new Date(y, m - 1, d, hour, minute, second);
-      }
-    }
-    // For all other strings (with 'Z' or timezone offset) and Date instances,
-    // rely on the built‑in Date parser to adjust into local time.
-    return new Date(value);
-  };
+  if (!value) return null;
+  const d = new Date(value);
+  return isNaN(d.getTime()) ? null : d;
+};
 
   const startOfWeek = (date) => {
     const d = new Date(date);
@@ -108,7 +89,7 @@ const getEventsForSection = (events, bgColor) =>
     const dayStr = toLocalYMD(date);
 
     const dayEvents = events
-      .filter((e) => sameDay(e.start, date))
+      .filter((e) => sameDay(new Date(e.start), date))
       // Sort using parsed Date values so that events are ordered by their true
       // start time after timezone normalisation.
       .sort((a, b) => {
@@ -130,8 +111,8 @@ const getEventsForSection = (events, bgColor) =>
               >
                 <div className="font-bold text-black">{event.title}</div>
                 <div className="text-gray-700">
-                  {parseDateFromSupabase(event.start)?.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })} –{" "}
-{parseDateFromSupabase(event.end)?.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })} <br />
+                  {parseDateFromSupabase(event.start)?.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit", timeZone: "America/Los_Angeles" })} –{" "}
+{parseDateFromSupabase(event.end)?.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit", timeZone: "America/Los_Angeles" })} <br />
 
                   {event.venue} | <strong>{event.genre}</strong>
 {!genres.includes(event.genre) && (
