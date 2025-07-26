@@ -38,9 +38,8 @@ export default function UnifiedWeekView({
   const handleDateChange = (e) => setCurrentDate(new Date(e.target.value));
 
 const toLocalYMD = (d) =>
-  new Date(d).toLocaleDateString("en-CA", {
-    timeZone: "America/Los_Angeles",
-  });
+  new Date(d).toLocaleDateString("en-CA");
+
 
 const getEventsForSection = (events, bgColor) =>
   weekDates.map((date, i) => {
@@ -53,7 +52,7 @@ const getEventsForSection = (events, bgColor) =>
       return (
         <div key={i} className="border p-2 rounded bg-white">
           <div className="text-sm font-semibold mb-2">
-            {date.toDateString().slice(0, 10)}
+            {toLocalYMD(date)}
           </div>
           <div className="flex flex-col gap-2">
             {dayEvents.map((event) => (
@@ -63,7 +62,9 @@ const getEventsForSection = (events, bgColor) =>
               >
                 <div className="font-bold text-black">{event.title}</div>
                 <div className="text-gray-700">
-                  {event.start.slice(11, 16)} – {event.end.slice(11, 16)} <br />
+                  {new Date(event.start).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })} –{" "}
+{new Date(event.end).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })} <br />
+
                   {event.venue} | <strong>{event.genre}</strong>
 {!genres.includes(event.genre) && (
   <>
@@ -166,7 +167,7 @@ const getEventsForSection = (events, bgColor) =>
       ← Prev
     </button>
     <span className="text-sm text-white">
-      Week of <strong>{weekStart.toISOString().slice(0, 10)}</strong>
+      Week of <strong>{toLocalYMD(weekStart)}</strong>
     </span>
     <button
       onClick={handleNextWeek}
@@ -177,7 +178,7 @@ const getEventsForSection = (events, bgColor) =>
     <input
       type="date"
       onChange={handleDateChange}
-      value={currentDate.toISOString().slice(0, 10)}
+      value={toLocalYMD(currentDate)}
       className="ml-4 px-2 py-1 border rounded text-black"
     />
   </div>
