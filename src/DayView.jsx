@@ -44,16 +44,14 @@ const DayView = () => {
     </div>
     <p className="text-sm italic">{e.venue}</p>
 <p className="text-sm">
-{new Date(e.start).toLocaleTimeString("en-US", {
-  hour: "2-digit",
-  minute: "2-digit",
-  timeZone: "America/Los_Angeles"
-})} –{" "}
-{new Date(e.end).toLocaleTimeString("en-US", {
-  hour: "2-digit",
-  minute: "2-digit",
-  timeZone: "America/Los_Angeles"
-})}
+  {new Date(e.start).toLocaleTimeString([], {
+    hour: "2-digit",
+    minute: "2-digit"
+  })} –{" "}
+  {new Date(e.end).toLocaleTimeString([], {
+    hour: "2-digit",
+    minute: "2-digit"
+  })}
 </p>
 
     <p className="text-sm">{e.genre}</p>

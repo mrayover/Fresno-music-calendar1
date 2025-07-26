@@ -46,25 +46,11 @@ useEffect(() => {
             {date && (
               <>
     <div className="date-label">{parseInt(date.split("-")[2], 10)}</div>
-    
-{events
-  .filter((e) => {
-    if (!e.start) return false;
-    const start = new Date(e.start);
-    const [y, m, d] = date.split("-").map(Number);
-    const cellDate = new Date(y, m - 1, d);
-    return (
-      start.getFullYear() === cellDate.getFullYear() &&
-      start.getMonth() === cellDate.getMonth() &&
-      start.getDate() === cellDate.getDate()
-    );
-  })
-  .map((e) => (
-    <div className="event" key={e.id}>
-      <Link to={`/event/${e.id}`}>{e.title}</Link>
-    </div>
-  ))}
-
+{events.filter((e) => e.start && e.start.slice(0, 10) === date).map(e => (
+  <div className="event" key={e.id}>
+    <Link to={`/event/${e.id}`}>{e.title}</Link>
+  </div>
+))}
               </>
             )}
           </div>
