@@ -160,33 +160,43 @@ export default function UnifiedWeekView({
     });
 
   return (
-    <div className="mb-12">
-      <div className="bg-[#2B182E] sticky top-16 z-40 py-2">
-        <div className="flex items-center gap-4 px-4">
-          <button onClick={handlePrevWeek} className="bg-gray-200 hover:bg-gray-300 text-black px-3 py-1 rounded">
-            ← Prev
-          </button>
-          <span className="text-sm text-white">
-            Week of <strong>{toLocalYMD(weekStart)}</strong>
-          </span>
-          <button onClick={handleNextWeek} className="bg-gray-200 hover:bg-gray-300 text-black px-3 py-1 rounded">
-            Next →
-          </button>
-          <input
-            type="date"
-            onChange={handleDateChange}
-            value={toLocalYMD(currentDate)}
-            className="ml-4 px-2 py-1 border rounded text-black"
-          />
-        </div>
-        <div className="overflow-x-auto">
-          <div className="flex gap-4 mt-4">
-            {getEventsForSection(pendingEvents, "bg-yellow-100")}
-            {getEventsForSection(approvedEvents, "bg-rose-200")}
-            {getEventsForSection(archivedEvents, "bg-gray-200")}
-          </div>
-        </div>
+  <div className="mb-12">
+    <div className="bg-[#2B182E] sticky top-16 z-40 py-2">
+      <div className="flex items-center gap-4 px-4">
+        <button onClick={handlePrevWeek} className="bg-gray-200 hover:bg-gray-300 text-black px-3 py-1 rounded">
+          ← Prev
+        </button>
+        <span className="text-sm text-white">
+          Week of <strong>{toLocalYMD(weekStart)}</strong>
+        </span>
+        <button onClick={handleNextWeek} className="bg-gray-200 hover:bg-gray-300 text-black px-3 py-1 rounded">
+          Next →
+        </button>
+        <input
+          type="date"
+          onChange={handleDateChange}
+          value={toLocalYMD(currentDate)}
+          className="ml-4 px-2 py-1 border rounded text-black"
+        />
       </div>
     </div>
-  );
+
+    <div className="mt-6 px-4">
+      <h2 className="text-lg font-bold text-white mb-2">Pending Events</h2>
+      <div className="overflow-x-auto mb-8">
+        <div className="flex gap-4">{getEventsForSection(pendingEvents, "bg-yellow-100")}</div>
+      </div>
+
+      <h2 className="text-lg font-bold text-white mb-2">Approved Events</h2>
+      <div className="overflow-x-auto mb-8">
+        <div className="flex gap-4">{getEventsForSection(approvedEvents, "bg-rose-200")}</div>
+      </div>
+
+      <h2 className="text-lg font-bold text-white mb-2">Archived Events</h2>
+      <div className="overflow-x-auto">
+        <div className="flex gap-4">{getEventsForSection(archivedEvents, "bg-gray-200")}</div>
+      </div>
+    </div>
+  </div>
+);
 }
