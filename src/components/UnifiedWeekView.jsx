@@ -185,17 +185,17 @@ export default function UnifiedWeekView({
 
     <div className="mt-6 px-4">
       <h2 className="text-lg font-bold text-white mb-2">Pending Events</h2>
-      <div className="grid grid-cols-7 gap-2 w-full">
+      <div className="grid grid-cols-7 gap-2 min-w-[840px]">
        <div className="grid grid-cols-7 gap-2 w-full">{getEventsForSection(pendingEvents, "bg-yellow-100")}</div>
       </div>
 
       <h2 className="text-lg font-bold text-white mb-2">Approved Events</h2>
-      <div className="grid grid-cols-7 gap-2 w-full">
+      <div className="grid grid-cols-7 gap-2 min-w-[840px]">
         <div className="grid grid-cols-7 gap-2 w-full">{getEventsForSection(approvedEvents, "bg-rose-200")}</div>
       </div>
 
       <h2 className="text-lg font-bold text-white mb-2">Archived Events</h2>
-      <div className="grid grid-cols-7 gap-2 w-full">
+      <div className="grid grid-cols-7 gap-2 min-w-[840px]">
         <div className="grid grid-cols-7 gap-2 w-full">{getEventsForSection(archivedEvents, "bg-gray-200")}</div>
       </div>
     </div>
