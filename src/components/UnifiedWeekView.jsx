@@ -161,25 +161,27 @@ export default function UnifiedWeekView({
 
   return (
   <div className="mb-12">
-    <div className="bg-[#2B182E] sticky top-16 z-40 py-2">
-      <div className="flex items-center gap-4 px-4">
-        <button onClick={handlePrevWeek} className="bg-gray-200 hover:bg-gray-300 text-black px-3 py-1 rounded">
-          ← Prev
-        </button>
-        <span className="text-sm text-white">
-          Week of <strong>{toLocalYMD(weekStart)}</strong>
-        </span>
-        <button onClick={handleNextWeek} className="bg-gray-200 hover:bg-gray-300 text-black px-3 py-1 rounded">
-          Next →
-        </button>
-        <input
-          type="date"
-          onChange={handleDateChange}
-          value={toLocalYMD(currentDate)}
-          className="ml-4 px-2 py-1 border rounded text-black"
-        />
-      </div>
-    </div>
+<div className="bg-[#2B182E] sticky top-[120px] z-40 py-2">
+  <div className="flex items-center gap-4 px-4">
+    <button onClick={handlePrevWeek} className="bg-gray-200 hover:bg-gray-300 text-black px-3 py-1 rounded">← Prev</button>
+    <span className="text-sm text-white">Week of <strong>{toLocalYMD(weekStart)}</strong></span>
+    <button onClick={handleNextWeek} className="bg-gray-200 hover:bg-gray-300 text-black px-3 py-1 rounded">Next →</button>
+    <input type="date" onChange={handleDateChange} value={toLocalYMD(currentDate)} className="ml-4 px-2 py-1 border rounded text-black" />
+  </div>
+  <div className="flex justify-between text-xs text-white mt-2 px-4">
+    {Array.from({ length: 7 }).map((_, i) => {
+      const day = new Date(weekStart);
+      day.setDate(day.getDate() + i);
+      return (
+        <div key={i} className="w-20 text-center">
+          <div className="font-bold">{day.toLocaleDateString("en-US", { weekday: "short" })}</div>
+          <div>{day.toLocaleDateString("en-US", { month: "2-digit", day: "2-digit" })}</div>
+        </div>
+      );
+    })}
+  </div>
+</div>
+
 
     <div className="mt-6 px-4">
       <h2 className="text-lg font-bold text-white mb-2">Pending Events</h2>
@@ -193,7 +195,7 @@ export default function UnifiedWeekView({
       </div>
 
       <h2 className="text-lg font-bold text-white mb-2">Archived Events</h2>
-      <div className="overflow-x-auto">
+      <div className="overflow-x-auto mb-8">
         <div className="flex gap-4">{getEventsForSection(archivedEvents, "bg-gray-200")}</div>
       </div>
     </div>
