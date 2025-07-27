@@ -65,7 +65,7 @@ export default function UnifiedWeekView({
         .filter((e) => toLocalYMD(e.start) === dayStr)
         .sort((a, b) => parseLocalDateTime(a.start) - parseLocalDateTime(b.start));
       return (
-        <div key={i} className="border p-2 rounded bg-white">
+        <div key={i} className="border p-2 rounded bg-white w-[120px] min-w-[120px] flex-shrink-0">
           <div className="text-sm font-semibold mb-2">{toLocalYMD(date)}</div>
           <div className="flex flex-col gap-2">
             {dayEvents.map((event) => (
@@ -173,7 +173,7 @@ export default function UnifiedWeekView({
       const day = new Date(weekStart);
       day.setDate(day.getDate() + i);
       return (
-        <div key={i} className="w-20 text-center">
+<div key={i} className="w-[120px] min-w-[120px] text-center flex-shrink-0">
           <div className="font-bold">{day.toLocaleDateString("en-US", { weekday: "short" })}</div>
           <div>{day.toLocaleDateString("en-US", { month: "2-digit", day: "2-digit" })}</div>
         </div>
@@ -186,17 +186,17 @@ export default function UnifiedWeekView({
     <div className="mt-6 px-4">
       <h2 className="text-lg font-bold text-white mb-2">Pending Events</h2>
       <div className="overflow-x-auto mb-8">
-        <div className="flex gap-4">{getEventsForSection(pendingEvents, "bg-yellow-100")}</div>
+        <div className="flex gap-2 w-fit">{getEventsForSection(pendingEvents, "bg-yellow-100")}</div>
       </div>
 
       <h2 className="text-lg font-bold text-white mb-2">Approved Events</h2>
       <div className="overflow-x-auto mb-8">
-        <div className="flex gap-4">{getEventsForSection(approvedEvents, "bg-rose-200")}</div>
+        <div className="flex gap-2 w-fit">{getEventsForSection(approvedEvents, "bg-rose-200")}</div>
       </div>
 
       <h2 className="text-lg font-bold text-white mb-2">Archived Events</h2>
       <div className="overflow-x-auto mb-8">
-        <div className="flex gap-4">{getEventsForSection(archivedEvents, "bg-gray-200")}</div>
+        <div className="flex gap-2 w-fit">{getEventsForSection(archivedEvents, "bg-gray-200")}</div>
       </div>
     </div>
   </div>
